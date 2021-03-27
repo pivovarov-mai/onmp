@@ -1,0 +1,14 @@
+.alert {
+	color: red;
+}
+
+.success {
+	color: green;
+}
+
+.ui-listview>.ui-li-static {
+    padding: initial;
+}
+.ui-listview>li h1, .ui-listview>li h2, .ui-listview>li h3, .ui-listview>li h4, .ui-listview>li h5, .ui-listview>li h6 {
+    margin: initial;
+}
