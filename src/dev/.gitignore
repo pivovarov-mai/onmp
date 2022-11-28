@@ -117,4 +117,3 @@ media/
 dont_forget_it.txt
 .vscode
 .env
-dbsetter/requests.py
