@@ -15,13 +15,13 @@ class UserManager(BaseUserManager):
         Create and save a user with the given email, and password.
         '''
         if not email:
-            raise ValueError('The given email must be set')
+            raise ValueError('Почта должна быть установлена')
         if not password:
-            raise ValueError('The password must be set')
+            raise ValueError('Пароль должен быть установлен')
         if not first_name:
-            raise ValueError('The first name must be set')
+            raise ValueError('Имя должно быть установлено')
         if not last_name:
-            raise ValueError('The last name must be set')
+            raise ValueError('Фамилия должна быть установлена')
 
         user = self.model(email=self.normalize_email(email),
                           first_name=first_name,
@@ -43,7 +43,7 @@ class UserManager(BaseUserManager):
 
         if extra_fields.get('is_admin') is not True:
             raise ValueError(
-                'Superuser must have is_admin=True.'
+                'Суперпользователь должен иметь is_admin=True.'
             )
 
         return self._create_user(email, password, first_name,
@@ -95,11 +95,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
         return True
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
         return True
 
     @property
