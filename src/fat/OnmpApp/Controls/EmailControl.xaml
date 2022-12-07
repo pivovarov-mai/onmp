@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Controls.EmailControl"
+             x:Name="EmailControlView"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"     
+             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <VerticalStackLayout>
+        <Label Text="{Binding LabelText, Source={x:Reference EmailControlView}}" Margin="15,0,0,0"/>
+        <Border>
+            <Border.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding InvalidTriger, Source={x:Reference EmailControlView}}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <triggers:WrongValsTriggerAction />
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+            </Border.Triggers>
+
+            <controls:EntryNoUnderline Margin="15,0,15,0" HorizontalOptions="Fill" VerticalOptions="Center" 
+                                                           Text="{Binding EntryText, Source={x:Reference EmailControlView}}" Keyboard="Email">
+                <controls:EntryNoUnderline.Behaviors>
+                    <toolkit:EmailValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                                                         ValidStyle="{StaticResource ValidEntryStyle}"
+                                                                         Flags="ValidateOnValueChanged"/>
+                </controls:EntryNoUnderline.Behaviors>
+            </controls:EntryNoUnderline>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

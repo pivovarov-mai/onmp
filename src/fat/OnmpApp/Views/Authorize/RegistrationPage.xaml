@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Views.Authorize.RegistrationPage"
+             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.Authorize"
+             x:DataType="viewmodel:RegistrationViewModel"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+                            
+             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:OnmpApp.Properties"
+             
+             BackButtonVisible="True"
+             HeaderText="{x:Static properties:Resources.Registration}">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
+
+            <!-- Текст ошибки -->
+            <Label Text="{Binding ErrorText}" HorizontalOptions="Center" 
+                               TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
+                               IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
+
+            <!-- Почтовый адрес -->
+            <controls:EmailControl LabelText="{x:Static properties:Resources.Email}" EntryText="{Binding Email}"
+                                           InvalidTriger="{Binding InvalidEmailOccured}"/>
+
+            <!-- Пароль -->
+            <controls:PasswordControl LabelText="{x:Static properties:Resources.Password}" EntryText="{Binding FirstPassword}"
+                                              InvalidTriger="{Binding InvalidPasswordOccured}"/>
+
+            <!-- Повторение пароля -->
+            <controls:PasswordControl LabelText="{x:Static properties:Resources.RepeatPassword}" EntryText="{Binding SecondPassword}"
+                                              InvalidTriger="{Binding InvalidPasswordOccured}"/>
+
+            <!-- Кнопка регистрации -->
+            <Border HorizontalOptions="Center">
+                <Button Text="{x:Static properties:Resources.Register}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding RegisterCommand}"/>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</controls:MasterContentPage>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Views.Authorize.LoginPage"
+             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.Authorize"
+             x:DataType="viewmodel:LoginViewModel"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+                            
+             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:OnmpApp.Properties"
+             
+             HeaderText="{x:Static properties:Resources.Authorization}"
+             
+             RightButtonVisible="True"
+             RightButtonSource="{AppThemeBinding Light=light_info.png, Dark=dark_info.png}"
+             RightButtonCommand="{Binding NavigateToInformationPageCommand}">
+
+    <ScrollView>
+        <Grid>
+            <!-- Индикатор при запросе к серверу -->
+            <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="{Binding IsLoginingIn}" IsVisible="{Binding IsLoginingIn}"/>
+
+            <Grid RowDefinitions="*, Auto" IsVisible="{Binding IsNotLoginingIn}">
+                <!-- Основное поле -->
+                <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
+
+                    <!-- Текст ошибки -->
+                    <Label Text="{Binding ErrorText}" HorizontalOptions="Center" 
+                           TextColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" 
+                           IsVisible="{Binding InvalidUserDataOccured}" FontSize="12"/>
+
+                    <!-- Почтовый адрес -->
+                    <controls:EmailControl LabelText="{x:Static properties:Resources.Email}" EntryText="{Binding Email}"
+                                           InvalidTriger="{Binding InvalidUserDataOccured}"/>
+
+                    <!-- Пароль -->
+                    <controls:PasswordControl LabelText="{x:Static properties:Resources.Password}" EntryText="{Binding Password}"
+                                              InvalidTriger="{Binding InvalidUserDataOccured}"/>
+
+                    <!-- CheckBox оставаться в системе -->
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <CheckBox IsChecked="{Binding SavePassword}"/>
+                        <Label Text="{x:Static properties:Resources.LogInAutomatically}" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    
+                    <!-- Кнопка входа -->
+                    <Border HorizontalOptions="Center">
+                        <Button Text="{x:Static properties:Resources.LogIn}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding LoginCommand}"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Регистрация -->
+                <Label Grid.Row="1" Text="{x:Static properties:Resources.Registration}" TextDecorations="Underline" HorizontalOptions="Center" Margin="0,0,0,16">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToRegistrationPageCommand}" NumberOfTapsRequired="1"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+        </Grid>
+
+    </ScrollView>
+</controls:MasterContentPage>

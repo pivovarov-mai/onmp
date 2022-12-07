@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Controls.MasterContentPage">
+    <ContentPage.ControlTemplate>
+        <ControlTemplate>
+            <Grid RowDefinitions="Auto, *">
+                <!-- Заголовок -->
+                <VerticalStackLayout Grid.Row="0">
+                    <StackLayout BackgroundColor="{AppThemeBinding Light={StaticResource LightMainHeaderBackgroud}, Dark={StaticResource DarkMainHeaderBackgroud}}"
+                                     Orientation="Horizontal" Padding="5" HeightRequest="48">
+                        <ImageButton Source="{AppThemeBinding Light=light_go_back.png, Dark=dark_go_back.png}" HeightRequest="40" WidthRequest="40"
+                                     VerticalOptions="Center" HorizontalOptions="Start" Command="{TemplateBinding GoBackCommand}" IsVisible="{TemplateBinding BackButtonVisible}"/>
+                        
+                        <Label Text="{TemplateBinding HeaderText}" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+
+                        <ImageButton Source="{TemplateBinding RightButtonSource}" HeightRequest="40" WidthRequest="40" IsVisible="{TemplateBinding RightButtonVisible}"
+                                     VerticalOptions="Center" HorizontalOptions="End" Command="{TemplateBinding RightButtonCommand}"/>
+                    </StackLayout>
+                    
+                    <BoxView HeightRequest="2" HorizontalOptions="Fill"/>
+                </VerticalStackLayout>
+
+                <ContentPresenter Grid.Row="1"/>
+            </Grid>
+        </ControlTemplate>
+    </ContentPage.ControlTemplate>
+</ContentPage>
