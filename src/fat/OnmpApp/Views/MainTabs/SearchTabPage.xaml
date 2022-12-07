@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Views.MainTabs.SearchTabPage"
+             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.MainTabs"
+             x:DataType="viewmodel:SearchTabViewModel"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+             xmlns:local="clr-namespace:OnmpApp"
+                            
+             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:OnmpApp.Properties"
+                            
+             HeaderText="{x:Static local:Settings.Email}"
+             RightButtonVisible="True"
+             RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
+             RightButtonCommand="{Binding NavigateToSettingsPageCommand}"
+             >
+    <ScrollView>
+        <Label Text="123"/>
+    </ScrollView>
+</controls:MasterContentPage>

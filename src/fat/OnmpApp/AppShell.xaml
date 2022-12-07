@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="OnmpApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:OnmpApp"
+    xmlns:authorize="clr-namespace:OnmpApp.Views.Authorize"
+    xmlns:tabs="clr-namespace:OnmpApp.Views.MainTabs"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+
+    <ShellContent Route="LoginPage"
+        ContentTemplate="{DataTemplate authorize:LoginPage}"/>
+    
+    <TabBar Route="TabPage">
+        <!-- Добавить вкладку справочника -->
+
+
+        <Tab Title="Поиск" Icon="black_home.png">
+            <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"
+                          Route="SearchTabPage"/>
+        </Tab>
+        <Tab Title="Карта" Icon="light_info.png">
+            <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"
+                          Route="SearchTabPage1"/>
+        </Tab>
+    </TabBar>
+
+</Shell>
