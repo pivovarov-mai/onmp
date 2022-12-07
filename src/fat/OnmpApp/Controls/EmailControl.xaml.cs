@@ -1,4 +1,4 @@
-namespace OnmpApp.Controls;
+п»їnamespace OnmpApp.Controls;
 
 public partial class EmailControl : ContentView
 {
@@ -7,7 +7,7 @@ public partial class EmailControl : ContentView
 		InitializeComponent();
 	}
 
-    // Название над полем
+    // РќР°Р·РІР°РЅРёРµ РЅР°Рґ РїРѕР»РµРј
     public static readonly BindableProperty LabelTextProperty = BindableProperty.Create(propertyName: nameof(LabelText),
         returnType: typeof(string), declaringType: typeof(EmailControl), defaultValue: "", defaultBindingMode: BindingMode.TwoWay);
 
@@ -17,7 +17,7 @@ public partial class EmailControl : ContentView
         set => SetValue(LabelTextProperty, value);
     }
 
-    // Текст в поле
+    // РўРµРєСЃС‚ РІ РїРѕР»Рµ
     public static readonly BindableProperty EntryTextProperty = BindableProperty.Create(propertyName: nameof(EntryText),
         returnType: typeof(string), declaringType: typeof(EmailControl), defaultValue: "", defaultBindingMode: BindingMode.TwoWay);
 
@@ -27,7 +27,7 @@ public partial class EmailControl : ContentView
         set => SetValue(EntryTextProperty, value);
     }
 
-    // Триггер для действия при ошибке
+    // РўСЂРёРіРіРµСЂ РґР»СЏ РґРµР№СЃС‚РІРёСЏ РїСЂРё РѕС€РёР±РєРµ
     public static readonly BindableProperty InvalidTrigerProperty = BindableProperty.Create(propertyName: nameof(InvalidTriger),
         returnType: typeof(bool), declaringType: typeof(EmailControl), defaultValue: false, defaultBindingMode: BindingMode.TwoWay);
 

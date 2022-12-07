@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+п»їusing CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
 
 namespace OnmpApp.Controls;
@@ -17,7 +17,7 @@ public partial class MasterContentPage : ContentPage, INotifyPropertyChanged
 	}
 
 
-	// Видимость кнопки "Назад"
+	// Р’РёРґРёРјРѕСЃС‚СЊ РєРЅРѕРїРєРё "РќР°Р·Р°Рґ"
 	public static readonly BindableProperty BackButtonVisibleProperty = BindableProperty.Create(propertyName: nameof(BackButtonVisible), 
 		returnType: typeof(bool), declaringType: typeof(MasterContentPage), defaultValue: false);
 
@@ -27,7 +27,7 @@ public partial class MasterContentPage : ContentPage, INotifyPropertyChanged
 		set => SetValue(BackButtonVisibleProperty, value);
 	}
 
-    // Текст заголовка
+    // РўРµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
     public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(propertyName: nameof(HeaderText),
         returnType: typeof(string), declaringType: typeof(MasterContentPage), defaultValue: "");
 
@@ -38,7 +38,7 @@ public partial class MasterContentPage : ContentPage, INotifyPropertyChanged
     }
 
 
-    // Видимость правой кнопки
+    // Р’РёРґРёРјРѕСЃС‚СЊ РїСЂР°РІРѕР№ РєРЅРѕРїРєРё
     public static readonly BindableProperty RightButtonVisibleProperty = BindableProperty.Create(propertyName: nameof(RightButtonVisible),
         returnType: typeof(bool), declaringType: typeof(MasterContentPage), defaultValue: false);
 
@@ -48,7 +48,7 @@ public partial class MasterContentPage : ContentPage, INotifyPropertyChanged
         set => SetValue(RightButtonVisibleProperty, value);
     }
 
-    // Изображение правой кнопки
+    // РР·РѕР±СЂР°Р¶РµРЅРёРµ РїСЂР°РІРѕР№ РєРЅРѕРїРєРё
     public static readonly BindableProperty RightButtonSourceProperty = BindableProperty.Create(propertyName: nameof(RightButtonSource),
         returnType: typeof(object), declaringType: typeof(MasterContentPage), defaultValue: null);
 
@@ -58,7 +58,7 @@ public partial class MasterContentPage : ContentPage, INotifyPropertyChanged
         set => SetValue(RightButtonSourceProperty, value);
     }
 
-    // Действие правой кнопки
+    // Р”РµР№СЃС‚РІРёРµ РїСЂР°РІРѕР№ РєРЅРѕРїРєРё
     public static readonly BindableProperty RightButtonCommandProperty = BindableProperty.Create(propertyName: nameof(RightButtonCommand),
         returnType: typeof(object), declaringType: typeof(MasterContentPage), defaultValue: null);
 
