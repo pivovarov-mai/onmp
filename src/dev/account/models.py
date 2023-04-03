@@ -1,10 +1,28 @@
+import uuid
+
 from django.utils import timezone
 from django.db import models
-
-from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.base_user import (
+    BaseUserManager,
+    AbstractBaseUser,
+)
+from django.core.mail import send_mail
+from django.conf import settings
 
+from .utils import generate_msg
+
+
+def celery_send_mail(theme: str, uuid: str, emails: list[str]):
+    return send_mail(
+        theme,
+        'Сообщение',
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=emails,
+        fail_silently=True,
+        html_message=generate_msg(uuid)
+    )
+    
 
 class UserManager(BaseUserManager):
 
@@ -23,12 +41,27 @@ class UserManager(BaseUserManager):
         if not last_name:
             raise ValueError('Фамилия должна быть установлена')
 
+        extra_fields.setdefault('is_superuser', False)
+        
+        if 'mail_denied' in extra_fields:
+            extra_fields['is_email_confirmed'] = extra_fields['mail_denied']
+            del extra_fields['mail_denied']
+        
         user = self.model(email=self.normalize_email(email),
                           first_name=first_name,
                           last_name=last_name,
                           **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+        
+        if 'mail_denied' not in extra_fields or \
+            extra_fields['mail_denied'] is False:
+            amount = celery_send_mail(
+                'onmp подтверждение аккаунта',
+                str(user.email_id),
+                [user.email])
+            if not amount:
+                raise Exception('mail почты не существует')
         return user
 
     def create_user(self, email, password, first_name,
@@ -40,6 +73,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, first_name='admin',
                          last_name='admin', **extra_fields):
         extra_fields.setdefault('is_admin', True)
+        extra_fields.setdefault('is_email_confirmed', True)
 
         if extra_fields.get('is_admin') is not True:
             raise ValueError(
@@ -51,12 +85,26 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    '''
+    Overriden user model for medical and secure purposes
+    '''
 
     email = models.EmailField(
         'Email почта',
         unique=True,
         max_length=255,
         blank=False,
+    )
+    email_id = models.UUIDField(
+        'Индекс почты для подтверждения',
+        unique=True,
+        blank=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    is_email_confirmed = models.BooleanField(
+        'Подтвержден ли email',
+        default=False,
     )
     first_name = models.CharField(
         'Имя',
@@ -80,7 +128,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(
         'Дата создания аккаунта',
-        default=timezone.now,
+        auto_now_add=True,
         blank=True,
     )
 

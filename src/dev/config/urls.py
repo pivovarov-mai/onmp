@@ -5,6 +5,6 @@ from .views import StartPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls')),
+    path('api/v1/account/', include('account.urls')),
     path('', StartPage.as_view(), name='home'),
 ]

@@ -1,0 +1,5 @@
+docker-compose.prod.yml
+Dockerfile.prod
+.env.prod
+.postgres_data
+collectedstatic/

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: > 
+      bash -c " cd dev &&
+        python manage.py makemigrations &&
+        python manage.py migrate &&
+        python manage.py test"
+    volumes:
+      - ./:/src
+    env_file:
+      - dev/.env
+    ports:
+      - 8000:8000

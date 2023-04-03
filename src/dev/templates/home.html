@@ -1,28 +1,30 @@
-{% load static %}
-
-{% load custom_tags %}
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My lovely site</title>
-    <link rel="stylesheet" href="{% static 'css/test.css' %}">
-</head>
-<body>
-    <h1>
-        {% if request.user.is_authenticated %}
-            Hello, {{ request.user.email }} <br>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a> or try to <a href="{% url 'signup' %}">signup</a>
-        {% endif %}
-        <script src="{% static 'js/test.js' %}"></script>
-        <br>
-    </h1>
-    <h1>{{ request.user.username }}</h1>
-    {% get_context %}
-</body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Control page</title>
+  </head>
+  <body>
+    {% if request.user.is_authenticated %}
+        {{ request.user }} <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+    <p style="color: red;">
+        На данный момент api доступен всем, даже неавторизованным пользователям
+    </p>
+    <a href="{% url 'account_swagger' %}">
+        Account doc
+    </a>
+    <br>
+    Сгенерировать произвольный данные
+    <br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
 </html>
