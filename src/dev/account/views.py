@@ -54,7 +54,7 @@ class UserGetTokenAPI(APIView):
                                 password=request.data.get('password', ''))
         else:
             user = request.user
-            
+
         if user:
             if not user.is_email_confirmed:
                 return Response({'error': 'Подтвердите email'},
@@ -90,13 +90,13 @@ class GetProfileAPI(APIView):
     Get profile data for user by token
     '''
 
-    @swagger_auto_schema(**SW_GET_PROFILE)    
+    @swagger_auto_schema(**SW_GET_PROFILE)
     def get(self, request):
         if 'HTTP_AUTHORIZATION' not in request.META:
             return Response({
                 'error': 'В заголовках надо указать токен авторизации'},
                 status=status.HTTP_418_IM_A_TEAPOT)
-            
+
         token = Token.objects.filter(
             key=request.META['HTTP_AUTHORIZATION'][6:])
         if not token.exists():
@@ -112,13 +112,13 @@ class CheckEmailAPI(APIView):
     '''
     Checks uuid and if it will be found then is_email_confirmed sets to True
     '''
-    
+
     @swagger_auto_schema(
         responses={
             '200': 'Email подтвержден',
             '401': 'Пользователь не существует'
         }
-    )    
+    )
     def get(self, request, id):
         user = get_user_model().objects.filter(email_id=id)
         if user.exists():

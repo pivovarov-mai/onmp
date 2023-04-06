@@ -6,7 +6,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 
-USER_MODEL = get_user_model()        
+USER_MODEL = get_user_model()
 
 
 class AccountTests(TestCase):
@@ -39,7 +39,7 @@ class AccountTests(TestCase):
 
 class UserAPITests(APITestCase):
     password = 'test'
-    
+
     def setUp(self):
         self.user = USER_MODEL.objects.create_user(
             email='test@test.ru',
@@ -48,23 +48,23 @@ class UserAPITests(APITestCase):
             last_name='ivanov',
         )
         self.token = Token.objects.create(user=self.user).key
-        
+
     def test_get_token(self):
         # Check created user
         self.assertEqual(self.user.email,
                          'test@test.ru',
                          'User has not been created')
-        
+
         # Some requried variables for requests
         url = reverse('token')
         data = {'email': self.user.email,
                 'password': self.password}
-        
+
         # Check error while not confirmed email
         response_bad = self.client.post(url, data, format='json')
         self.assertEqual(response_bad.status_code, 401)
         self.assertEqual(response_bad.data['error'], 'Подтвердите email')
-        
+
         # Check error with bad credentials
         response_bad = self.client.post(url,
                                         {'email': self.user.email + 'a',
@@ -73,42 +73,42 @@ class UserAPITests(APITestCase):
         self.assertEqual(response_bad.status_code, 401)
         self.assertEqual(response_bad.data['error'],
                          'Данные пользователя неверны, либо вы не авторизованны')
-        
+
         # Make email confirmed
         self.user.is_email_confirmed = True
         self.user.save()
-                
+
         # Check good request and get normal token
         response_good = self.client.post(url, data, format='json')
         self.assertEqual(response_good.status_code, 200)
-        
+
         # Memory token for future use
         self.assertTrue(Token.objects.get().key, self.token)
 
     def test_get_user_profile(self):
         url = reverse('user_profile')
-        
+
         # Check error without token in header
         response = self.client.get(url)
         self.assertEqual(response.status_code, 418)
         self.assertEqual(response.data['error'],
                          'В заголовках надо указать токен авторизации')
-        
+
         # Check error with wrong token
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + self.token + '1'
-        )        
+        )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 418)
         self.assertEqual(response.data['error'],
                          'Токен неверен или несуществует')
-        
+
         # Check good
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + self.token
-        )        
+        )
         response = self.client.get(url)
-                
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['user']['first_name'],
                          self.user.first_name)
@@ -125,7 +125,7 @@ class UserAPITests(APITestCase):
             'first_name': 'andrey',
             'last_name': 'uvarov',
         }
-        
+
         # Bad email
         response = self.get_response_by_account_create(credentials)
         self.assertEqual(response.status_code, 400)
@@ -135,13 +135,13 @@ class UserAPITests(APITestCase):
         credentials['email'] = 'a@a.ru'
         response = self.get_response_by_account_create(credentials)
         self.assertEqual(response.status_code, 400)
-        
+
         # First name does not exists
         credentials['password'] = 'test123_test'
         del credentials['first_name']
         response = self.get_response_by_account_create(credentials)
         self.assertEqual(response.status_code, 400)
-        
+
         # Last name does not exists
         credentials['first_name'] = 'andrey'
         del credentials['last_name']
@@ -159,7 +159,7 @@ class UserAPITests(APITestCase):
         self.assertTrue(created_user.check_password('test123_test'))
         self.assertEqual(created_user.first_name, 'andrey')
         self.assertEqual(created_user.last_name, 'uvarov')
-        
+
     def test_email_confirmation_api(self):
         # Good
         id = self.user.email_id
@@ -175,3 +175,10 @@ class UserAPITests(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.data['error'], 'Пользователь не существует')
         self.assertEqual(response.status_code, 401)
+
+
+class UserAPIGlobalTests():
+
+    @skipif(, )
+    def setUp(self):
+

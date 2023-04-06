@@ -38,7 +38,7 @@ SW_CREATE_USER = {
                             type=openapi.TYPE_STRING),
     ],
     'responses': {'201': 'Успешно создан новый аккаунт',
-                '4+': 'Ошибка, которая вернется в ответе'}
+                '400': 'Ошибка, которая вернется в ответе'}
 }
 
 SW_GET_PROFILE = {
@@ -59,19 +59,6 @@ SW_GET_PROFILE = {
                 }
             }
         ),
-        '4+': 'Ошибка будет указана в ответе'
+        '400': 'Ошибка будет указана в ответе'
     }
 }
-
-# SW_EMAIL_CONFIRM = {
-#     'responses': {
-#         '200': openapi.Response(
-#             description='Параметры вывода',
-#             examples={
-#                 'application/json': {
-#                     ''
-#                 }
-#             }
-#         )
-#     }
-# }
