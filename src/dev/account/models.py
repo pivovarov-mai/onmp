@@ -1,6 +1,5 @@
 import uuid
 
-from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import (
@@ -9,18 +8,25 @@ from django.contrib.auth.base_user import (
 )
 from django.core.mail import send_mail
 from django.conf import settings
+from celery import shared_task
 
-from .utils import generate_msg
+from .utils import (
+    generate_msg_confirm_account_creation,
+    generate_msg_reset_password,
+    generate_msg_reseted_password,
+)
 
 
-def celery_send_mail(theme: str, uuid: str, emails: list[str]):
+@shared_task()
+def celery_send_mail(theme: str, emails: list[str], msg: str):
+    print('Sending email')
     return send_mail(
         theme,
         'Сообщение',
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=emails,
         fail_silently=True,
-        html_message=generate_msg(uuid)
+        html_message=msg
     )
     
 
@@ -54,14 +60,15 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         
-        if 'mail_denied' not in extra_fields or \
-            extra_fields['mail_denied'] is False:
-            amount = celery_send_mail(
-                'onmp подтверждение аккаунта',
-                str(user.email_id),
-                [user.email])
-            if not amount:
-                raise Exception('mail почты не существует')
+        if settings.EMAIL_HOST_PASSWORD != '' or \
+            extra_fields.get('mail_denied', True) is False:
+            try:
+                celery_send_mail.delay(
+                    'onmp подтверждение аккаунта',
+                    [user.email],
+                    generate_msg_confirm_account_creation(user.email_id))
+            except Exception as e:
+                print(str(e))
         return user
 
     def create_user(self, email, password, first_name,
@@ -147,6 +154,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
+
+    def reset_password_send(self):
+        self.email_id = uuid.uuid4()
+        self.save()
+        celery_send_mail.delay('Сброс пароля', [self.email], generate_msg_reset_password(self.email_id))
+        
+    def reseted_password_send(self, password):
+        celery_send_mail.delay('Новый пароль', [self.email], generate_msg_reseted_password(password))
 
     @property
     def is_staff(self):

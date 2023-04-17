@@ -1,7 +1,9 @@
 import uuid
+from unittest import skipIf
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
@@ -90,18 +92,18 @@ class UserAPITests(APITestCase):
 
         # Check error without token in header
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 418)
-        self.assertEqual(response.data['error'],
-                         'В заголовках надо указать токен авторизации')
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.data['detail'],
+                         'Учетные данные не были предоставлены.')
 
         # Check error with wrong token
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + self.token + '1'
         )
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 418)
-        self.assertEqual(response.data['error'],
-                         'Токен неверен или несуществует')
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.data['detail'],
+                         'Недопустимый токен.')
 
         # Check good
         self.client.credentials(
@@ -175,10 +177,3 @@ class UserAPITests(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.data['error'], 'Пользователь не существует')
         self.assertEqual(response.status_code, 401)
-
-
-class UserAPIGlobalTests():
-
-    @skipif(, )
-    def setUp(self):
-

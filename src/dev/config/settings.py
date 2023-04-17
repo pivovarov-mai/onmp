@@ -2,13 +2,13 @@ import os, environ
 from pathlib import Path
 
 env = environ.Env()
-env.read_env('.env')
+env.read_env('../.env.prod')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env('SECRET')
+SECRET_KEY = env('SECRET', default='django-insecure-ve6j717og63l80j*fz$1krifzkoq7!8ban2l%^*ogj5b)oiyae')
 
-DEBUG = env('DEBUG') == "True"
+DEBUG = env('DEBUG', default='True') == 'True'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(' ') \
     if 'ALLOWED_HOSTS' in env else []
@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'account',
-    
+
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -63,18 +63,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
-    env('SQLITE_SETTINGS'): {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default': {
+        'ENGINE': env('POSTGRES_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': env('POSTGRES_DB', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': env('POSTGRES_USER', default=''),
+        'PASSWORD': env('POSTGRES_PASSWORD', default=''),
+        'HOST': env('POSTGRES_HOST', default='localhost'),
+        'PORT': env('POSTGRES_PORT', default='5432'),
     },
-    env('POSTGRES_SETTINGS'): {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('PSQL_table', default=''),
-        'USER': env('PSQL_user', default=''),
-        'PASSWORD': env('PSQL_password', default=''),
-        'HOST': env('PSQL_host', default=''),
-        'PORT': env('PSQL_port', default=''),
-    }
 }
 
 
@@ -109,6 +105,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = 'collectedmedia/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -124,40 +122,28 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000"
 ]
 
-from rest_framework.renderers import BrowsableAPIRenderer
-if DEBUG:
-    REST_FRAMEWORK = {
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-            'rest_framework.authentication.TokenAuthentication',
-            'rest_framework.authentication.SessionAuthentication',
-        ],
-        'DEFAULT_RENDERER_CLASSES': [
-            'rest_framework.renderers.BrowsableAPIRenderer',
-            'rest_framework.renderers.JSONRenderer',
-        ],
-        'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.AllowAny',
-        ],
-    }
-else:
-    REST_FRAMEWORK = {
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-            'rest_framework.authentication.TokenAuthentication',
-        ],
-        'DEFAULT_RENDERER_CLASSES': [
-            'rest_framework.renderers.JSONRenderer',
-        ],
-        'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        ],
-    }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=465 # or 587 if tls
 EMAIL_HOST_USER='onmp.ru@gmail.com'
-EMAIL_HOST_PASSWORD=env('EMAIL_PASSWORD')
+EMAIL_HOST_PASSWORD=env('EMAIL_PASSWORD', default='')
 # EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
 
 CSRF_TRUSTED_ORIGINS = ['http://188.225.78.148', 'http://*.127.0.0.1']
+
+DOMEN = env('DOMEN', default='http://localhost:8000')
+
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='')

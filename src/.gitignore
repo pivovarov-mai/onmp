@@ -3,3 +3,4 @@ Dockerfile.prod
 .env.prod
 .postgres_data
 collectedstatic/
+nginx/

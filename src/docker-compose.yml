@@ -1,4 +1,4 @@
-version: '3'
+version: '2.6.1'
 
 services:
   web:
@@ -7,10 +7,9 @@ services:
       bash -c " cd dev &&
         python manage.py makemigrations &&
         python manage.py migrate &&
-        python manage.py test"
+        python manage.py test &&
+        python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./:/src
-    env_file:
-      - dev/.env
     ports:
       - 8000:8000

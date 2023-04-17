@@ -3,10 +3,16 @@ from drf_yasg import openapi
 SW_GET_TOKEN = {
     'manual_parameters': [
         openapi.Parameter(
-            'email', in_=openapi.IN_QUERY, type=openapi.TYPE_STRING
+            'email',
+            in_=openapi.IN_QUERY,
+            type=openapi.TYPE_STRING,
+            required=True
         ),
         openapi.Parameter(
-            'password', in_=openapi.IN_QUERY, type=openapi.TYPE_STRING
+            'password',
+            in_=openapi.IN_QUERY,
+            type=openapi.TYPE_STRING,
+            required=True
         ),
     ],
     'responses': {
@@ -18,7 +24,7 @@ SW_GET_TOKEN = {
                 }
             }
         ),
-        '401': 'Не авторизован по параметрам, либо не подтвержден email',
+        '4+': 'Не авторизован по параметрам, либо не подтвержден email',
     },
 }
 
@@ -26,26 +32,31 @@ SW_CREATE_USER = {
     'manual_parameters': [
         openapi.Parameter('email',
                             in_=openapi.IN_QUERY,
-                            type=openapi.TYPE_STRING),
+                            type=openapi.TYPE_STRING,
+                            required=True),
         openapi.Parameter('password',
                             in_=openapi.IN_QUERY,
-                            type=openapi.TYPE_STRING),
+                            type=openapi.TYPE_STRING,
+                            required=True),
         openapi.Parameter('first_name',
                             in_=openapi.IN_QUERY,
-                            type=openapi.TYPE_STRING),
+                            type=openapi.TYPE_STRING,
+                            required=True),
         openapi.Parameter('last_name',
                             in_=openapi.IN_QUERY,
-                            type=openapi.TYPE_STRING),
+                            type=openapi.TYPE_STRING,
+                            required=True),
     ],
     'responses': {'201': 'Успешно создан новый аккаунт',
-                '400': 'Ошибка, которая вернется в ответе'}
+                '4+': 'Ошибка, которая вернется в ответе'}
 }
 
 SW_GET_PROFILE = {
     'manual_parameters': [
         openapi.Parameter('token',
                             in_=openapi.IN_HEADER,
-                            type=openapi.TYPE_STRING),
+                            type=openapi.TYPE_STRING,
+                            required=True),
     ],
     'responses': { # fields = ('email', 'first_name', 'last_name', 'is_email_confirmed')
         '200': openapi.Response(
@@ -59,6 +70,43 @@ SW_GET_PROFILE = {
                 }
             }
         ),
-        '400': 'Ошибка будет указана в ответе'
+        '4+': 'Ошибка будет указана в ответе'
+    }
+}
+
+SW_SET_PASSWORD = {
+    'manual_parameters': [
+        openapi.Parameter('token',
+                            in_=openapi.IN_HEADER,
+                            type=openapi.TYPE_STRING,
+                            required=True),
+        openapi.Parameter('new password',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING,
+                            required=True),
+    ],
+    'responses': { # fields = ('email', 'first_name', 'last_name', 'is_email_confirmed')
+        '200': 'Успех',
+        '4+': 'Ошибка будет указана в ответе'
+    }
+}
+
+SW_RESET_PASSWORD_REQUEST = {
+    'manual_parameters': [
+        openapi.Parameter('email',
+                          in_=openapi.IN_QUERY,
+                          type=openapi.TYPE_STRING,
+                          required=True)
+    ],
+    'responses': {
+        '200': 'Подтверждение выслано на почту',
+        '4+': 'Ошибка в ответе, либо нет такой почты, либо нет вообще параметра'
+    }
+}
+
+SW_RESET_PASSWORD_CONFIRMATION = {
+    'responses': {
+        '401': 'Пользователь не найден',
+        '200': 'Пароль выслан на почту'
     }
 }

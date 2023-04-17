@@ -8,8 +8,10 @@ from django.views import View
 from django.contrib.auth import (
     authenticate,
     login,
+    logout,
     get_user_model,
 )
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -17,6 +19,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.authentication import (
     SessionAuthentication,
+    TokenAuthentication,
     BasicAuthentication,
 )
 from rest_framework.permissions import (
@@ -37,6 +40,9 @@ from .swagger import (
     SW_GET_TOKEN,
     SW_CREATE_USER,
     SW_GET_PROFILE,
+    SW_SET_PASSWORD,
+    SW_RESET_PASSWORD_CONFIRMATION,
+    SW_RESET_PASSWORD_REQUEST,
 )
 
 
@@ -89,23 +95,13 @@ class GetProfileAPI(APIView):
     '''
     Get profile data for user by token
     '''
+    permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(**SW_GET_PROFILE)
+    # @swagger_auto_schema(**SW_GET_PROFILE)
+    @swagger_auto_schema()
     def get(self, request):
-        if 'HTTP_AUTHORIZATION' not in request.META:
-            return Response({
-                'error': 'В заголовках надо указать токен авторизации'},
-                status=status.HTTP_418_IM_A_TEAPOT)
-
-        token = Token.objects.filter(
-            key=request.META['HTTP_AUTHORIZATION'][6:])
-        if not token.exists():
-            return Response({'error': 'Токен неверен или несуществует'},
-                            status=status.HTTP_418_IM_A_TEAPOT)
-
         return Response({'user':
-            UserSerializerMinimum(instance=token.first().user).data},
-                        status=status.HTTP_200_OK)
+            UserSerializerMinimum(instance=request.user).data})
 
 
 class CheckEmailAPI(APIView):
@@ -128,6 +124,77 @@ class CheckEmailAPI(APIView):
             return Response({'success'})
         return Response({'error': 'Пользователь не существует'},
                         status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SetNewPasswordAPI(APIView):
+    '''
+    Sets new password if the old one was been accepted
+    '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(**SW_SET_PASSWORD)
+    def post(self, request):        
+        if not 'new_password' in request.data:
+            return Response({'error': 'Пароль необходим'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        new_pass = request.data['new_password']
+        if request.user.check_password(new_pass):
+            return Response({'error': 'Требуется другой пароль'},
+                            status=status.HTTP_418_IM_A_TEAPOT)
+        try:
+            validate_password(new_pass)
+            request.user.set_password(new_pass)
+            request.user.save()
+            logout(request)
+            return Response({'success'})
+        except:
+            return Response({'error': 'Требуется более сильный пароль'},
+                            status=status.HTTP_418_IM_A_TEAPOT)
+
+
+class ResetPasswordSendMail(APIView):
+    '''
+    Send mail to confirm reset password
+    '''
+    
+    @swagger_auto_schema(**SW_RESET_PASSWORD_REQUEST)
+    def get(self, request):
+        if 'email' not in request.GET:
+            return Response({'error': 'Email необходим'},
+                            status=status.HTTP_418_IM_A_TEAPOT)
+        
+        users = get_user_model().objects.filter(
+            email=request.GET['email']
+        )
+        if not users.exists():
+            return Response({'error': 'Email не существует'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+            
+        users.first().reset_password_send()
+        return Response({'success'})
+
+
+class ResetPasswordConfirmation(APIView):
+    '''
+    Reset password confirmation if email_id is true 
+    generate new password and then send to email
+    '''
+    
+    @swagger_auto_schema(**SW_RESET_PASSWORD_CONFIRMATION)
+    def get(self, request, email_id):
+        users = get_user_model().objects.filter(email_id=id)
+        
+        if not users.exists():
+            return Response({'error': 'email_id не существует'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        
+        user = users.first()
+        password = get_user_model().objects.make_random_password()
+        user.set_password(password)
+        user.reseted_password_send(password)
+        user.save()
+        return Response({'success'})
 
 
 class LoginView(View):
