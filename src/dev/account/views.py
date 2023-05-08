@@ -97,8 +97,7 @@ class GetProfileAPI(APIView):
     '''
     permission_classes = [IsAuthenticated]
 
-    # @swagger_auto_schema(**SW_GET_PROFILE)
-    @swagger_auto_schema()
+    @swagger_auto_schema(**SW_GET_PROFILE)
     def get(self, request):
         return Response({'user':
             UserSerializerMinimum(instance=request.user).data})
@@ -183,13 +182,7 @@ class ResetPasswordConfirmation(APIView):
     
     @swagger_auto_schema(**SW_RESET_PASSWORD_CONFIRMATION)
     def get(self, request, email_id):
-        users = get_user_model().objects.filter(email_id=id)
-        
-        if not users.exists():
-            return Response({'error': 'email_id не существует'},
-                            status=status.HTTP_401_UNAUTHORIZED)
-        
-        user = users.first()
+        user = get_object_or_404(get_user_model(), email_id=email_id)
         password = get_user_model().objects.make_random_password()
         user.set_password(password)
         user.reseted_password_send(password)

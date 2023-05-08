@@ -100,7 +100,7 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = 'collectedstatic/'
+STATIC_ROOT = env('STATIC_ROOT', default='collectedstatic/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]

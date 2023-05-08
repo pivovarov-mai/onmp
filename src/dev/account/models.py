@@ -60,8 +60,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         
-        if settings.EMAIL_HOST_PASSWORD != '' or \
-            extra_fields.get('mail_denied', True) is False:
+        if settings.EMAIL_HOST_PASSWORD != '' and user.is_admin == False:
             try:
                 celery_send_mail.delay(
                     'onmp подтверждение аккаунта',
@@ -69,6 +68,9 @@ class UserManager(BaseUserManager):
                     generate_msg_confirm_account_creation(user.email_id))
             except Exception as e:
                 print(str(e))
+        else:
+            user.email_confirmed = True
+            user.save()
         return user
 
     def create_user(self, email, password, first_name,

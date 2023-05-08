@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="{% static "images/icon.png" %}">
+
+    <title>Executor</title>
+
+    <style>
+        textarea {
+            resize: none;
+            width: 100%;
+            font-size: 25px;
+            padding: 10px;
+        }
+
+        button {
+            margin-top: 5px;
+            font-size: 20px;
+        }
+
+        .left_top {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 870px;
+            height: 500px;
+        }
+
+        .right_top {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            width: 870px;
+            height: 200px;
+        }
+
+        .execute_button {
+            position: absolute;
+            top: 497px;
+            border: 2px solid black;
+            height: 40px;
+            width: 180px;
+            left: 940px;
+        }
+
+        .output {
+            width: 2000px;
+            height: 500px;
+            padding: 10px;
+            position: absolute;
+            top: 560px;
+            left: 20px;
+            max-height: fit-content;
+            overflow-x: auto;
+        }
+
+        .errors {
+            background-color: pink;
+            border-radius: 1%;
+            font-size: 20px;
+            padding: 15px;
+            color: purple;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+        }
+
+        table td {
+            white-space: nowrap;
+            text-overflow:ellipsis;
+            overflow: hidden;
+            max-width: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <div class="left_top">
+            <textarea name="query" placeholder="Query" style="
+                height: 500px;
+                ">{{ query }}</textarea>
+        </div>
+
+        <div class="right_top">
+            <textarea name="params" placeholder="Params" style="
+                height: 500px;
+                ">{{ params }}</textarea>
+        </div>
+
+        <button class="execute_button">
+            Execute
+        </button>
+    </form>
+
+    <div class="output">
+        {% if errors %}
+            <div class="errors">
+                {% for error in errors %}
+                    <p>{{ error }}</p>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        
+        {% if data %}
+            <table>
+                <thead>
+                    <tr>
+                        {% for descr in table_decription %}
+                            <th colspan="1">{{ descr }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data %}
+                        <tr>
+                            {% for element in item %}
+                                <td rowspan="1">{{ element }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>        
+        {% endif %}
+        <div style="height: 200px;"></div>
+    </div>
+</body>
+</html>
