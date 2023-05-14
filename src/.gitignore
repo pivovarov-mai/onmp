@@ -4,3 +4,4 @@ Dockerfile.prod
 .postgres_data
 collectedstatic/
 nginx/
+.postgres_from_docker/
