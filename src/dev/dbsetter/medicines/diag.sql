@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS "diag" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name" TEXT NOT NULL
+  "name_diag" TEXT NOT NULL
 );
 
 COMMENT ON TABLE public."diag" IS 'Таблица Диагнозов(diag)';
 COMMENT ON COLUMN public."diag".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."diag".name IS 'Название диагноза(diag)';
+COMMENT ON COLUMN public."diag".name_diag IS 'Название диагноза(diag)';
 
-INSERT INTO "diag" ("id", "name") VALUES
+INSERT INTO "diag" ("id", "name_diag") VALUES
   ('1', 'Общая дозировка'),
   ('2', 'Сохраненяющаяся крупноволновая фибрилляция желудочков или желудочковая тахикардия без пульса'),
   ('3', 'Устойчивые пароксизмы эктопической тахикардии QRS < 0.12 сек при ХСН'),

@@ -6,18 +6,19 @@
 # Принимает один параметр - тег заболевания
 # Возвращает 10 столбцов - 3 по которым сортим и 7 с данными
 # diseases.id, disease_symptoms.id, form_symptoms.id - id столбцов по которым сортим наши данные
-# diseases.name - название заболевания
-# diseases.description - описание заболевания
+# diseases.name_disease - название заболевания
+# diseases.description_disease - описание заболевания
 # diseases.period - период заболевания
-# disease_symptoms.name - симптомы заболевания
-# form_disease.name - формы заболевания
-# form_disease.description - описание формы заболевания
-# form_symptoms.name - симптомы формы заболевания
+# disease_symptoms.name_disease_symptom - симптомы заболевания
+# form_disease.name_form_disease - формы заболевания
+# form_disease.description_form_disease - описание формы заболевания
+# form_symptoms.name_form_symptom - симптомы формы заболевания
 
 SHOW_DISEASE_BY_ALL_TAG = \
 '''
 SELECT DISTINCT diseases.id, disease_symptoms.id, form_symptoms.id,
-diseases.name, diseases.description, diseases.period, disease_symptoms.name, form_disease.name, form_disease.description, form_symptoms.name
+diseases.name_disease, diseases.description_disease, diseases.period, disease_symptoms.name_disease_symptom,
+form_disease.name_form_disease, form_disease.description_form_disease, form_symptoms.name_form_symptom
 FROM diseases
 LEFT JOIN disease_tags ON diseases.tag_id = disease_tags.id
 LEFT JOIN diseases_disease_symptoms ON diseases.id = diseases_disease_symptoms.diseases_id
@@ -38,18 +39,19 @@ ORDER BY diseases.id ASC, disease_symptoms.id ASC, form_symptoms.id ASC;
 # Возвращает 11 столбцов - 3 по которым сортим и 8 с данными
 # diseases.id, disease_symptoms.id, form_symptoms.id - id столбцов по которым сортим наши данные
 # disease_tags.name_tag - название тега заболевания
-# diseases.name - название заболевания
-# diseases.description - описание заболевания
+# diseases.name_disease - название заболевания
+# diseases.description_disease - описание заболевания
 # diseases.period - период заболевания
-# disease_symptoms.name - симптомы заболевания
-# form_disease.name - формы заболевания
-# form_disease.description - описание формы заболевания
-# form_symptoms.name - симптомы формы заболевания
+# disease_symptoms.name_disease_symptom - симптомы заболевания
+# form_disease.name_form_disease - формы заболевания
+# form_disease.description_form_disease - описание формы заболевания
+# form_symptoms.name_form_symptom - симптомы формы заболевания
 
 SHOW_ALL_DISEASES = \
 '''
 SELECT DISTINCT diseases.id, disease_symptoms.id, form_symptoms.id,
-disease_tags.name_tag, diseases.name, diseases.description, diseases.period, disease_symptoms.name, form_disease.name, form_disease.description, form_symptoms.name
+disease_tags.name_tag, diseases.name_disease, diseases.description_disease, diseases.period, disease_symptoms.name_disease_symptom,
+form_disease.name_form_disease, form_disease.description_form_disease, form_symptoms.name_form_symptom
 FROM diseases
 LEFT JOIN disease_tags ON diseases.tag_id = disease_tags.id
 LEFT JOIN diseases_disease_symptoms ON diseases.id = diseases_disease_symptoms.diseases_id
@@ -67,18 +69,19 @@ ORDER BY diseases.id ASC, disease_symptoms.id ASC, form_symptoms.id ASC;
 # Принимает один параметр - подстрока тега заболевания
 # Возвращает 10 столбцов - 3 по которым сортим и 7 с данными
 # diseases.id, disease_symptoms.id, form_symptoms.id - id столбцов по которым сортим наши данные
-# diseases.name - название заболевания
-# diseases.description - описание заболевания
+# diseases.name_disease - название заболевания
+# diseases.description_disease - описание заболевания
 # diseases.period - период заболевания
-# disease_symptoms.name - симптомы заболевания
-# form_disease.name - формы заболевания
-# form_disease.description - описание формы заболевания
-# form_symptoms.name - симптомы формы заболевания
+# disease_symptoms.name_disease_symptom - симптомы заболевания
+# form_disease.name_form_disease - формы заболевания
+# form_disease.description_form_disease - описание формы заболевания
+# form_symptoms.name_form_symptom - симптомы формы заболевания
 
 SHOW_DIAG_BY_PART_CODE = \
 '''
 SELECT DISTINCT diseases.id, disease_symptoms.id, form_symptoms.id,
-diseases.name, diseases.description, diseases.period, disease_symptoms.name, form_disease.name, form_disease.description, form_symptoms.name
+diseases.name_disease, diseases.description_disease, diseases.period, disease_symptoms.name_disease_symptom,
+form_disease.name_form_disease, form_disease.description_form_disease, form_symptoms.name_form_symptom
 FROM diseases
 LEFT JOIN disease_tags ON diseases.tag_id = disease_tags.id
 LEFT JOIN diseases_disease_symptoms ON diseases.id = diseases_disease_symptoms.diseases_id
