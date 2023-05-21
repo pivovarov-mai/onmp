@@ -16,12 +16,12 @@
 SHOW_DIAG_BY_ALL_CODE = \
 '''
 SELECT DISTINCT mkb.id, diagnosis.id, sub_diagnosis.id, tactics.id, omp.id,
-diagnosis.name_diagnosis, diagnosis.recommendations, tactics.name_tactics, sub_diagnosis.name_sub_diagnosis, sub_diagnosis.recommendations, omp.name_omp
+diagnosis.name_diagnosis AS "Диагноз", sub_diagnosis.name_sub_diagnosis AS "Поддиагноз", omp.name_omp AS "Объем медицинской помощи", tactics.name_tactics AS "Тактика", diagnosis.recommendations AS "Рекомендации диагноза", sub_diagnosis.recommendations AS "Рекомендации поддиагноза"
 FROM diagnosis
-LEFT JOIN mkb_diagnosis ON diagnosis.id = mkb_diagnosis.diagnosis_id
-LEFT JOIN mkb ON mkb.id = mkb_diagnosis.mkb_id
-LEFT JOIN diagnosis_tactics ON diagnosis.id = diagnosis_tactics.diagnosis_id
-LEFT JOIN tactics ON tactics.id = diagnosis_tactics.tactics_id
+JOIN mkb_diagnosis ON diagnosis.id = mkb_diagnosis.diagnosis_id
+JOIN mkb ON mkb.id = mkb_diagnosis.mkb_id
+JOIN diagnosis_tactics ON diagnosis.id = diagnosis_tactics.diagnosis_id
+JOIN tactics ON tactics.id = diagnosis_tactics.tactics_id
 LEFT JOIN sub_diag_diagnosis ON diagnosis.id = sub_diag_diagnosis.diagnosis_id
 LEFT JOIN sub_diagnosis ON sub_diagnosis.id = sub_diag_diagnosis.sub_diagnosis_id
 LEFT JOIN sub_diagnosis_omp ON sub_diagnosis.id = sub_diagnosis_omp.sub_diagnosis_id
@@ -49,12 +49,12 @@ ORDER BY mkb.id ASC, diagnosis.id ASC, sub_diagnosis.id ASC, tactics.id ASC, omp
 SHOW_ALL_DIAG = \
 '''
 SELECT DISTINCT mkb.id, diagnosis.id, sub_diagnosis.id, tactics.id, omp.id,
-mkb.name, diagnosis.name_diagnosis, diagnosis.recommendations, tactics.name_tactics, sub_diagnosis.name_sub_diagnosis, sub_diagnosis.recommendations, omp.name_omp
+mkb.name AS "Код МКБ", diagnosis.name_diagnosis AS "Диагноз", sub_diagnosis.name_sub_diagnosis AS "Поддиагноз", omp.name_omp AS "Объем медицинской помощи", tactics.name_tactics AS "Тактика", diagnosis.recommendations AS "Рекомендации диагноза", sub_diagnosis.recommendations AS "Рекомендации поддиагноза"
 FROM diagnosis
-LEFT JOIN mkb_diagnosis ON diagnosis.id = mkb_diagnosis.diagnosis_id
-LEFT JOIN mkb ON mkb.id = mkb_diagnosis.mkb_id
-LEFT JOIN diagnosis_tactics ON diagnosis.id = diagnosis_tactics.diagnosis_id
-LEFT JOIN tactics ON tactics.id = diagnosis_tactics.tactics_id
+JOIN mkb_diagnosis ON diagnosis.id = mkb_diagnosis.diagnosis_id
+JOIN mkb ON mkb.id = mkb_diagnosis.mkb_id
+JOIN diagnosis_tactics ON diagnosis.id = diagnosis_tactics.diagnosis_id
+JOIN tactics ON tactics.id = diagnosis_tactics.tactics_id
 LEFT JOIN sub_diag_diagnosis ON diagnosis.id = sub_diag_diagnosis.diagnosis_id
 LEFT JOIN sub_diagnosis ON sub_diagnosis.id = sub_diag_diagnosis.sub_diagnosis_id
 LEFT JOIN sub_diagnosis_omp ON sub_diagnosis.id = sub_diagnosis_omp.sub_diagnosis_id
@@ -80,12 +80,12 @@ ORDER BY mkb.id ASC, diagnosis.id ASC, sub_diagnosis.id ASC, tactics.id ASC, omp
 SHOW_DIAG_BY_PART_CODE = \
 '''
 SELECT DISTINCT mkb.id, diagnosis.id, sub_diagnosis.id, tactics.id, omp.id,
-diagnosis.name_diagnosis, diagnosis.recommendations, tactics.name_tactics, sub_diagnosis.name_sub_diagnosis, sub_diagnosis.recommendations, omp.name_omp
+diagnosis.name_diagnosis AS "Диагноз", sub_diagnosis.name_sub_diagnosis AS "Поддиагноз", omp.name_omp AS "Объем медицинской помощи", tactics.name_tactics AS "Тактика", diagnosis.recommendations AS "Рекомендации диагноза", sub_diagnosis.recommendations AS "Рекомендации поддиагноза"
 FROM diagnosis
-LEFT JOIN mkb_diagnosis ON diagnosis.id = mkb_diagnosis.diagnosis_id
-LEFT JOIN mkb ON mkb.id = mkb_diagnosis.mkb_id
-LEFT JOIN diagnosis_tactics ON diagnosis.id = diagnosis_tactics.diagnosis_id
-LEFT JOIN tactics ON tactics.id = diagnosis_tactics.tactics_id
+JOIN mkb_diagnosis ON diagnosis.id = mkb_diagnosis.diagnosis_id
+JOIN mkb ON mkb.id = mkb_diagnosis.mkb_id
+JOIN diagnosis_tactics ON diagnosis.id = diagnosis_tactics.diagnosis_id
+JOIN tactics ON tactics.id = diagnosis_tactics.tactics_id
 LEFT JOIN sub_diag_diagnosis ON diagnosis.id = sub_diag_diagnosis.diagnosis_id
 LEFT JOIN sub_diagnosis ON sub_diagnosis.id = sub_diag_diagnosis.sub_diagnosis_id
 LEFT JOIN sub_diagnosis_omp ON sub_diagnosis.id = sub_diagnosis_omp.sub_diagnosis_id

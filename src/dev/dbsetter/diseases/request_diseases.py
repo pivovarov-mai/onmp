@@ -17,9 +17,9 @@
 SHOW_DISEASE_BY_ALL_TAG = \
 '''
 SELECT DISTINCT diseases.id, disease_symptoms.id, form_symptoms.id,
-diseases.name, diseases.description, diseases.period, disease_symptoms.name, form_disease.name, form_disease.description, form_symptoms.name
+diseases.name AS "Заболевание", diseases.description AS "Описание заболевания", diseases.period AS "Период заболевания", disease_symptoms.name AS "Симптомы заболевания", form_disease.name AS "Формы заболевания", form_disease.description AS "Описание формы заболевания", form_symptoms.name AS "Симптомы формы заболевания"
 FROM diseases
-LEFT JOIN disease_tags ON diseases.tag_id = disease_tags.id
+JOIN disease_tags ON diseases.tag_id = disease_tags.id
 LEFT JOIN diseases_disease_symptoms ON diseases.id = diseases_disease_symptoms.diseases_id
 LEFT JOIN disease_symptoms ON diseases_disease_symptoms.symptom_diseases_id = disease_symptoms.id
 LEFT JOIN diseases_form_disease ON diseases.id = diseases_form_disease.diseases_id
@@ -49,9 +49,9 @@ ORDER BY diseases.id ASC, disease_symptoms.id ASC, form_symptoms.id ASC;
 SHOW_ALL_DISEASES = \
 '''
 SELECT DISTINCT diseases.id, disease_symptoms.id, form_symptoms.id,
-disease_tags.name_tag, diseases.name, diseases.description, diseases.period, disease_symptoms.name, form_disease.name, form_disease.description, form_symptoms.name
+disease_tags.name_tag AS "Тег заболевания", diseases.name AS "Заболевание", diseases.description AS "Описание заболевания", diseases.period AS "Период заболевания", disease_symptoms.name AS "Симптомы заболевания", form_disease.name AS "Формы заболевания", form_disease.description AS "Описание формы заболевания", form_symptoms.name AS "Симптомы формы заболевания"
 FROM diseases
-LEFT JOIN disease_tags ON diseases.tag_id = disease_tags.id
+JOIN disease_tags ON diseases.tag_id = disease_tags.id
 LEFT JOIN diseases_disease_symptoms ON diseases.id = diseases_disease_symptoms.diseases_id
 LEFT JOIN disease_symptoms ON diseases_disease_symptoms.symptom_diseases_id = disease_symptoms.id
 LEFT JOIN diseases_form_disease ON diseases.id = diseases_form_disease.diseases_id
@@ -78,9 +78,9 @@ ORDER BY diseases.id ASC, disease_symptoms.id ASC, form_symptoms.id ASC;
 SHOW_DIAG_BY_PART_CODE = \
 '''
 SELECT DISTINCT diseases.id, disease_symptoms.id, form_symptoms.id,
-diseases.name, diseases.description, diseases.period, disease_symptoms.name, form_disease.name, form_disease.description, form_symptoms.name
+diseases.name AS "Заболевание", diseases.description AS "Описание заболевания", diseases.period AS "Период заболевания", disease_symptoms.name AS "Симптомы заболевания", form_disease.name AS "Формы заболевания", form_disease.description AS "Описание формы заболевания", form_symptoms.name AS "Симптомы формы заболевания"
 FROM diseases
-LEFT JOIN disease_tags ON diseases.tag_id = disease_tags.id
+JOIN disease_tags ON diseases.tag_id = disease_tags.id
 LEFT JOIN diseases_disease_symptoms ON diseases.id = diseases_disease_symptoms.diseases_id
 LEFT JOIN disease_symptoms ON diseases_disease_symptoms.symptom_diseases_id = disease_symptoms.id
 LEFT JOIN diseases_form_disease ON diseases.id = diseases_form_disease.diseases_id

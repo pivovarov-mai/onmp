@@ -1,7 +1,5 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
 
 from .views import (
     LoginView,              # Low level
@@ -16,13 +14,6 @@ from .views import (
     ResetPasswordConfirmation
 )
 
-schema_view = get_schema_view(
-    openapi.Info(
-        title='API для управления аккаунтами',
-        default_version='v1',
-    ),
-    public=True,
-)
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
@@ -43,7 +34,4 @@ urlpatterns = [
     path('set_new_password/',
          SetNewPasswordAPI.as_view(),
          name='set_new_password'),
-
-    path('doc/', schema_view.with_ui('swagger',
-                                     cache_timeout=0), name='account_swagger'),
 ]
