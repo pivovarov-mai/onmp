@@ -1,10 +1,7 @@
-import uuid
-from unittest import skipIf
-
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from django.conf import settings
 from django.urls import reverse
+
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 
@@ -73,8 +70,9 @@ class UserAPITests(APITestCase):
                                          'password': self.password},
                                         format='json')
         self.assertEqual(response_bad.status_code, 401)
-        self.assertEqual(response_bad.data['error'],
-                         'Данные пользователя неверны, либо вы не авторизованны')
+        self.assertEqual(
+            response_bad.data['error'],
+            'Данные пользователя неверны, либо вы не авторизованны')
 
         # Make email confirmed
         self.user.is_email_confirmed = True
@@ -120,7 +118,6 @@ class UserAPITests(APITestCase):
         return self.client.post(url, data=credentials)
 
     def test_create_user_account(self):
-        url = reverse('user_create')
         credentials = {
             'email': 'a@a.r',
             'password': 'test123',

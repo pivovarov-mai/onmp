@@ -6,5 +6,5 @@ from .views import (
 
 
 urlpatterns = [
-    
+    path('get_diff_tables/', GetAllDiags.as_view(), name='get_diags'),
 ]

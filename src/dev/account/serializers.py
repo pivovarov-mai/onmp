@@ -9,7 +9,7 @@ class UserSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password', 'first_name', 'last_name')
-        
+
     def validate(self, attrs):
         try:
             validate_password(attrs['password'])
@@ -22,7 +22,7 @@ class UserSerializerMinimum(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'is_email_confirmed')
-        
+
     def save(self, **kwargs):
         User.objects.create_user(
             email=self.validated_data['email'],

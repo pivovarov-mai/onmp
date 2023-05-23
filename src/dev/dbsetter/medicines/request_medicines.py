@@ -73,3 +73,140 @@ JOIN diag ON adult_dosages.diag_id = diag.id OR child_dosages.diag_id = diag.id
 WHERE medicines.name ILIKE %s
 ORDER BY medicines.name ASC, diag.name ASC;
 '''
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Поиск по полному соответствию названия препарата
+# По названию препарата выводим все данные: название препарата, его противопоказания и взрослую дозировку в зависимости от диагноза
+# Возвращает список строк, которые соответствуют данному препарату
+# Принимает один параметр - название препарата 
+# Возвращает 6 столбцов с данными
+# medicines.name - название препарата
+# medicines.name_genitive - название препарата в родительном падеже
+# medicines.unit - мера препарата
+# diag.name - название диагноза
+# adult_dosages.dosage - взрослая дозировка
+# medicines.contraindications - противопоказания препарата
+
+SHOW_ADULT_MEDICINE_BY_ALL_NAME = \
+'''
+SELECT DISTINCT medicines.name AS "Название препарата Им.п.", medicines.name_genitive AS "Название препарата Р.п.", medicines.unit AS "Мера медикамента", diag.name AS "Название диагноза", adult_dosages.dosage AS "Взрослая дозировка", medicines.contraindications AS "Противопоказания препарата"
+FROM medicines
+JOIN adult_dosages ON medicines.id = adult_dosages.medicines_id
+JOIN diag ON adult_dosages.diag_id = diag.id
+WHERE medicines.name = %s
+ORDER BY medicines.name ASC, diag.name ASC;
+'''
+
+# Поиск подстроки в строке
+# По части названия препарата выводим все данные, которые соответствую введенной подстроке: название препарата, его противопоказания и взрослую дозировку в зависимости от диагноза
+# Возвращает список строк, которые соответствуют данной подстроке названия препарата
+# Принимает один параметр - подстрока названия препарата
+# Возвращает 6 столбцов с данными
+# medicines.name - название препарата
+# medicines.name_genitive - название препарата в родительном падеже
+# medicines.unit - мера препарата
+# diag.name - название диагноза
+# adult_dosages.dosage - взрослая дозировка
+# medicines.contraindications - противопоказания препарата
+
+SHOW_ADULT_MEDICINE_BY_PART_NAME = \
+'''
+SELECT DISTINCT medicines.name AS "Название препарата Им.п.", medicines.name_genitive AS "Название препарата Р.п.", medicines.unit AS "Мера медикамента", diag.name AS "Название диагноза", adult_dosages.dosage AS "Взрослая дозировка", medicines.contraindications AS "Противопоказания препарата"
+FROM medicines
+JOIN adult_dosages ON medicines.id = adult_dosages.medicines_id
+JOIN diag ON adult_dosages.diag_id = diag.id
+WHERE medicines.name ILIKE %s
+ORDER BY medicines.name ASC, diag.name ASC;
+'''
+
+# Вывод всех данных
+# Выводим все данные для всех препаратов: название препарата, его противопоказания и взрослую дозировку в зависимости от диагноза
+# Возвращает список строк, которые соответствуют всем препаратам
+# Ничего не принимает
+# Возвращает 6 столбцов с данными
+# medicines.name - название препарата
+# medicines.name_genitive - название препарата в родительном падеже
+# medicines.unit - мера препарата
+# diag.name - название диагноза
+# adult_dosages.dosage - взрослая дозировка
+# medicines.contraindications - противопоказания препарата
+
+SHOW_ALL_ADULT_MEDICINES = \
+'''
+SELECT DISTINCT medicines.name AS "Название препарата Им.п.", medicines.name_genitive AS "Название препарата Р.п.", medicines.unit AS "Мера медикамента", diag.name AS "Название диагноза", adult_dosages.dosage AS "Взрослая дозировка", medicines.contraindications AS "Противопоказания препарата"
+FROM medicines
+JOIN adult_dosages ON medicines.id = adult_dosages.medicines_id
+JOIN diag ON adult_dosages.diag_id = diag.id
+ORDER BY medicines.name ASC, diag.name ASC;
+'''
+
+
+
+# Поиск по полному соответствию названия препарата
+# По названию препарата выводим все данные: название препарата, его противопоказания и детскую дозировку в зависимости от диагноза
+# Возвращает список строк, которые соответствуют данному препарату
+# Принимает один параметр - название препарата 
+# Возвращает 7 столбцов с данными
+# medicines.name - название препарата
+# medicines.name_genitive - название препарата в родительном падеже
+# medicines.unit - мера препарата
+# diag.name - название диагноза
+# child_dosages.dosage - детская дозировка
+# child_dosages.unit - мера детской дозировки
+# medicines.contraindications - противопоказания препарата
+
+SHOW_CHILD_MEDICINE_BY_ALL_NAME = \
+'''
+SELECT DISTINCT medicines.name AS "Название препарата Им.п.", medicines.name_genitive AS "Название препарата Р.п.", medicines.unit AS "Мера медикамента", diag.name AS "Название диагноза", child_dosages.dosage AS "Детская дозировка", child_dosages.unit AS "Мера детской дозировки", medicines.contraindications AS "Противопоказания препарата"
+FROM medicines
+LEFT JOIN child_dosages ON medicines.id = child_dosages.medicines_id
+JOIN diag ON child_dosages.diag_id = diag.id
+WHERE medicines.name = %s
+ORDER BY medicines.name ASC, diag.name ASC;
+'''
+
+# Поиск подстроки в строке
+# По части названия препарата выводим все данные, которые соответствую введенной подстроке: название препарата, его противопоказания и детскую дозировку в зависимости от диагноза
+# Возвращает список строк, которые соответствуют данной подстроке названия препарата
+# Принимает один параметр - подстрока названия препарата
+# Возвращает 7 столбцов с данными
+# medicines.name - название препарата
+# medicines.name_genitive - название препарата в родительном падеже
+# medicines.unit - мера препарата
+# diag.name - название диагноза
+# child_dosages.dosage - детская дозировка
+# child_dosages.unit - мера детской дозировки
+# medicines.contraindications - противопоказания препарата
+
+SHOW_CHILD_MEDICINE_BY_PART_NAME = \
+'''
+SELECT DISTINCT medicines.name AS "Название препарата Им.п.", medicines.name_genitive AS "Название препарата Р.п.", medicines.unit AS "Мера медикамента", diag.name AS "Название диагноза", child_dosages.dosage AS "Детская дозировка", child_dosages.unit AS "Мера детской дозировки", medicines.contraindications AS "Противопоказания препарата"
+FROM medicines
+LEFT JOIN child_dosages ON medicines.id = child_dosages.medicines_id
+JOIN diag ON child_dosages.diag_id = diag.id
+WHERE medicines.name ILIKE %s
+ORDER BY medicines.name ASC, diag.name ASC;
+'''
+
+# Вывод всех данных
+# Выводим все данные для всех препаратов: название препарата, его противопоказания и детскую дозировку в зависимости от диагноза
+# Возвращает список строк, которые соответствуют всем препаратам
+# Ничего не принимает
+# Возвращает 7 столбцов с данными
+# medicines.name - название препарата
+# medicines.name_genitive - название препарата в родительном падеже
+# medicines.unit - мера препарата
+# diag.name - название диагноза
+# child_dosages.dosage - детская дозировка
+# child_dosages.unit - мера детской дозировки
+# medicines.contraindications - противопоказания препарата
+
+SHOW_ALL_CHILD_MEDICINES = \
+'''
+SELECT DISTINCT medicines.name AS "Название препарата Им.п.", medicines.name_genitive AS "Название препарата Р.п.", medicines.unit AS "Мера медикамента", diag.name AS "Название диагноза", child_dosages.dosage AS "Детская дозировка", child_dosages.unit AS "Мера детской дозировки", medicines.contraindications AS "Противопоказания препарата"
+FROM medicines
+LEFT JOIN child_dosages ON medicines.id = child_dosages.medicines_id
+JOIN diag ON child_dosages.diag_id = diag.id
+ORDER BY medicines.name ASC, diag.name ASC;
+'''

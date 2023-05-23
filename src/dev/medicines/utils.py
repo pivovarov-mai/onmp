@@ -1,11 +1,13 @@
-import json
-
 from config.utils import execute_sql
 
 from dbsetter.medicines.request_medicines import (
     SHOW_ALL_MEDICINES,
     SHOW_MEDICINE_BY_ALL_NAME,
     SHOW_MEDICINE_BY_PART_NAME,
+    SHOW_ALL_ADULT_MEDICINES,
+    SHOW_ADULT_MEDICINE_BY_PART_NAME,
+    SHOW_ALL_CHILD_MEDICINES,
+    SHOW_CHILD_MEDICINE_BY_PART_NAME
 )
 
 
@@ -24,31 +26,30 @@ def get_medicines_by_part_of_name(part_of_name):
     return execute_sql(SHOW_MEDICINE_BY_PART_NAME, [f'%{part_of_name}%'])
 
 
-def peel_medicines(data):
-    descriptions = [descr.name for descr in data[1]]
+# Get all medicines list with description by adult filter
+def get_all_medicines_by_adult_filter():
+    return execute_sql(SHOW_ALL_ADULT_MEDICINES)
 
-    '''
-    "S. Urapidilum 5 mg/ml": {
-        "S. Urapidili 5 mg/ml",
-        "mg",
-        "diagnoses": [
-            "Тиреотоксический криз",
-        ],
-        "adult_dosages": [
-            10.0,
-        ]
-        "child_dosages": [
-            None,
-        ]
-        None,
-        "contraindications": [
-            <peel all>
-        ]
-    }
-    '''
+
+# Get all medicines list with description by child filter
+def get_all_medicines_by_child_filter():
+    return execute_sql(SHOW_ALL_CHILD_MEDICINES)
+
+
+# Get all medicines list with description by child filter by part of name
+def get_all_medicines_by_part_of_name_by_adult_filter(part_name):
+    return execute_sql(SHOW_ADULT_MEDICINE_BY_PART_NAME, [f'%{part_name}%'])
+
+
+# Get all medicines list with description by child filter by part of name
+def get_all_medicines_by_part_of_name_by_child_filter(part_name):
+    return execute_sql(SHOW_CHILD_MEDICINE_BY_PART_NAME, [f'%{part_name}%'])
+
+
+def peel_medicines_by_filters(data_adult, data_child):
     result = {}
 
-    for object in data[0]:
+    for object in data_adult[0]:
         name_of_med = object[0]
         if name_of_med not in result:
             result[name_of_med] = {}
@@ -56,17 +57,26 @@ def peel_medicines(data):
             result[name_of_med]['unit'] = object[2]
             result[name_of_med]['diagnoses'] = {}
             result[name_of_med]['diagnoses'][object[3]] = {
-                'adult_dosages': object[4],
-                'child_dosages': object[5],
+                'adult_dosage': object[4],
+                'child_dosage': None
                 }
-            # result[name_of_med]['adult_dosages'] = {object[4]}
-            # result[name_of_med]['child_dosages'] = {object[5]}
-            result[name_of_med]['child_dosage_unit'] = object[6]
-            result[name_of_med]['contraindications'] = object[7].split(';')
+            result[name_of_med]['contraindications'] = object[5].split(';')
         else:
             result[name_of_med]['diagnoses'][object[3]] = {
-                'adult_dosages': object[4],
-                'child_dosages': object[5],
+                'adult_dosage': object[4],
+                'child_dosage': None
+            }
+
+    for object in data_child[0]:
+        name_of_med = object[0]
+        result[name_of_med]['child_dosage_unit'] = object[5]
+        if object[3] in result[name_of_med]['diagnoses']:
+            result[name_of_med]['diagnoses'][object[3]]['child_dosage'] = \
+                object[4]
+        else:
+            result[name_of_med]['diagnoses'][object[3]] = {
+                'adult_dosage': None,
+                'child_dosage': object[4],
             }
 
     print(len(result))

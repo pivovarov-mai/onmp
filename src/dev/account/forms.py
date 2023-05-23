@@ -9,7 +9,8 @@ class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password"""
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Подтверждение пароля',
+                                widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -69,9 +70,9 @@ class UserRegisterForm(forms.Form):
     first_name = forms.CharField(label='Имя')
     last_name = forms.CharField(label='Фамилия')
     password1 = forms.CharField(label='Пароль',
-                               widget=forms.PasswordInput)
+                                widget=forms.PasswordInput)
     password2 = forms.CharField(label='Подтверждение пароля',
-                               widget=forms.PasswordInput)
+                                widget=forms.PasswordInput)
 
     def is_valid(self):
         valid = super().is_valid()

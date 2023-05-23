@@ -6,14 +6,10 @@ from rest_framework import status
 
 from drf_yasg.utils import swagger_auto_schema
 
-from config.utils import (
-    parse_data_to_client,
-)
-
 from .utils import (
-    get_all_diseases,
-    get_diseases_by_tag,
     get_diseases_by_part_of_tag,
+    peel_diseases_names,
+    cache_all_diseases,
 )
 
 from .swagger import (
@@ -25,22 +21,22 @@ from .swagger import (
 
 class GetDiseases(APIView):
     '''
-    View to get diseases. Data is caching, so each next attempts will be faster than first one
+    View to get all diseases.
+    Data is caching, so each next attempts will be faster than first one
     '''
 
     @swagger_auto_schema(**SW_GET_DISEASES)
     def get(self, request):
-        current_cache_name = 'diseases_all'
-        result = cache.get(current_cache_name)
+        result = cache.get('diseases_all')
         if result is None:
-            result = parse_data_to_client(get_all_diseases(), 3)
-            cache.set(current_cache_name, result, None)
+            return Response(cache_all_diseases())
         return Response(result)
 
 
 class GetDiseasesByTag(APIView):
     '''
-    View to get diseases by tag. Data is caching, so each next attempts will be faster than first one
+    View to get all diseases by tag.
+    Data is caching, so each next attempts will be faster than first one
     '''
 
     @swagger_auto_schema(**SW_GET_DISEASES_BY_TAG)
@@ -51,18 +47,17 @@ class GetDiseasesByTag(APIView):
                             status=status.HTTP_418_IM_A_TEAPOT)
 
         tag_wout_space = tag.replace(' ', '_')
-        current_cache_name = f'diagnoses_by_code_{tag_wout_space}'
+        current_cache_name = f'diseases_by_tag_{tag_wout_space}'
         result = cache.get(current_cache_name)
         if result is None:
-            result = parse_data_to_client(get_diseases_by_tag(tag), 3)
-            if result != []:
-                cache.set(current_cache_name, result, None)
+            cache_all_diseases()
+            result = cache.get(current_cache_name)
         return Response(result)
 
 
 class GetDiseasesByPartOfTag(APIView):
     '''
-    View to get diseases by part of tag. Data is caching, so each next attempts will be faster than first one
+    View to get all diseases by part of tag.
     '''
 
     @swagger_auto_schema(**SW_GET_DISEASES_BY_PART_OF_TAG)
@@ -72,12 +67,15 @@ class GetDiseasesByPartOfTag(APIView):
             return Response({'error': 'Часть тэга не была введена'},
                             status=status.HTTP_418_IM_A_TEAPOT)
 
-        part_of_tag_w_space = part_of_tag.replace(' ', '_')
-        current_cache_name = f'diseases_by_part_of_tag_{part_of_tag_w_space}'
-        result = cache.get(current_cache_name)
-        if result is None:
-            result = parse_data_to_client(get_diseases_by_part_of_tag(
-                part_of_tag), 3)
-            if result != []:
-                cache.set(current_cache_name, result, 36000)  # 10h
+        names = peel_diseases_names(
+            get_diseases_by_part_of_tag(part_of_tag), 3)
+
+        get_all = cache.get('diseases_all')
+        if get_all is None:
+            get_all = cache_all_diseases()
+
+        result = {}
+        for name in names:
+            result[name] = get_all[name]
+
         return Response(result)

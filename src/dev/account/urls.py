@@ -3,7 +3,7 @@ from django.contrib.auth.views import LogoutView
 
 from .views import (
     LoginView,              # Low level
-    RegisterView,           # Low level
+    # RegisterView,           # Low level
 
     UserGetTokenAPI,
     UserCreateAPI,

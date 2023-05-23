@@ -11,5 +11,5 @@ COMMENT ON COLUMN public."mkb".tag_id IS 'Внешний ключ к табли�
 
 INSERT INTO "mkb" ("id", "name", "tag_id") VALUES
   ('1', 'I10-I15.2', '2'),
-  ('2', 'М10-M19', '1'),
+  ('2', 'M10-M19', '1'),
   ('3', 'G90', '3');

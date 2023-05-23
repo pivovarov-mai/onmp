@@ -12,30 +12,28 @@ from django.contrib.auth import (
     get_user_model,
 )
 from django.contrib.auth.password_validation import validate_password
+
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.authentication import (
-    SessionAuthentication,
     TokenAuthentication,
-    BasicAuthentication,
 )
 from rest_framework.permissions import (
     IsAuthenticated,
-    IsAdminUser,
     AllowAny,
 )
+
 from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 from .forms import UserLoginForm, UserRegisterForm
+
 from .serializers import (
-    UserSerializerDetail,
     UserSerializerMinimum,
     UserSerializerCreate,
 )
+
 from .swagger import (
     SW_GET_TOKEN,
     SW_CREATE_USER,
@@ -65,8 +63,8 @@ class UserGetTokenAPI(APIView):
             if not user.is_email_confirmed:
                 return Response({'error': 'Подтвердите email'},
                                 status=status.HTTP_401_UNAUTHORIZED)
-            return Response({'token':
-                Token.objects.get_or_create(user=user)[0].key})
+            return Response({
+                'token': Token.objects.get_or_create(user=user)[0].key})
         return Response({
             'error': 'Данные пользователя неверны, либо вы не авторизованны'},
                         status=status.HTTP_401_UNAUTHORIZED)
@@ -99,8 +97,8 @@ class GetProfileAPI(APIView):
 
     @swagger_auto_schema(**SW_GET_PROFILE)
     def get(self, request):
-        return Response({'user':
-            UserSerializerMinimum(instance=request.user).data})
+        return Response({
+            'user': UserSerializerMinimum(instance=request.user).data})
 
 
 class CheckEmailAPI(APIView):
@@ -133,8 +131,8 @@ class SetNewPasswordAPI(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(**SW_SET_PASSWORD)
-    def post(self, request):        
-        if not 'new_password' in request.data:
+    def post(self, request):
+        if 'new_password' not in request.data:
             return Response({'error': 'Пароль необходим'},
                             status=status.HTTP_401_UNAUTHORIZED)
         new_pass = request.data['new_password']
@@ -147,7 +145,7 @@ class SetNewPasswordAPI(APIView):
             request.user.save()
             logout(request)
             return Response({'success'})
-        except:
+        except Exception:
             return Response({'error': 'Требуется более сильный пароль'},
                             status=status.HTTP_418_IM_A_TEAPOT)
 
@@ -156,30 +154,30 @@ class ResetPasswordSendMail(APIView):
     '''
     Send mail to confirm reset password
     '''
-    
+
     @swagger_auto_schema(**SW_RESET_PASSWORD_REQUEST)
     def get(self, request):
         if 'email' not in request.GET:
             return Response({'error': 'Email необходим'},
                             status=status.HTTP_418_IM_A_TEAPOT)
-        
+
         users = get_user_model().objects.filter(
             email=request.GET['email']
         )
         if not users.exists():
             return Response({'error': 'Email не существует'},
                             status=status.HTTP_401_UNAUTHORIZED)
-            
+
         users.first().reset_password_send()
         return Response({'success'})
 
 
 class ResetPasswordConfirmation(APIView):
     '''
-    Reset password confirmation if email_id is true 
+    Reset password confirmation if email_id is true
     generate new password and then send to email
     '''
-    
+
     @swagger_auto_schema(**SW_RESET_PASSWORD_CONFIRMATION)
     def get(self, request, email_id):
         user = get_object_or_404(get_user_model(), email_id=email_id)

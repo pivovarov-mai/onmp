@@ -28,13 +28,15 @@ def celery_send_mail(theme: str, emails: list[str], msg: str):
         fail_silently=True,
         html_message=msg
     )
-    
+
 
 class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
-    def _create_user(self, email, password, first_name, last_name, **extra_fields):
+    def _create_user(self, email,
+                     password, first_name,
+                     last_name, **extra_fields):
         '''
         Create and save a user with the given email, and password.
         '''
@@ -48,19 +50,19 @@ class UserManager(BaseUserManager):
             raise ValueError('Фамилия должна быть установлена')
 
         extra_fields.setdefault('is_superuser', False)
-        
+
         if 'mail_denied' in extra_fields:
             extra_fields['is_email_confirmed'] = extra_fields['mail_denied']
             del extra_fields['mail_denied']
-        
+
         user = self.model(email=self.normalize_email(email),
                           first_name=first_name,
                           last_name=last_name,
                           **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
-        
-        if settings.EMAIL_HOST_PASSWORD != '' and user.is_admin == False:
+
+        if settings.EMAIL_HOST_PASSWORD != '' and user.is_admin is False:
             try:
                 celery_send_mail.delay(
                     'onmp подтверждение аккаунта',
@@ -160,10 +162,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def reset_password_send(self):
         self.email_id = uuid.uuid4()
         self.save()
-        celery_send_mail.delay('Сброс пароля', [self.email], generate_msg_reset_password(self.email_id))
-        
+        celery_send_mail.delay('Сброс пароля', [self.email],
+                               generate_msg_reset_password(self.email_id))
+
     def reseted_password_send(self, password):
-        celery_send_mail.delay('Новый пароль', [self.email], generate_msg_reseted_password(password))
+        celery_send_mail.delay('Новый пароль', [self.email],
+                               generate_msg_reseted_password(password))
 
     @property
     def is_staff(self):
