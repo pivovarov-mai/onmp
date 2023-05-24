@@ -1,0 +1,59 @@
+\documentclass{diploma}
+
+\student{Харьков Павел Александрович}
+\group{М8О-406Б-19}
+\theme{Программа заполнения медицинской карты отделения неотложной медицинской помощи}
+
+\supervisor{Пивоваров Дмитрий Евгеньевич}
+\firstConsultant{}
+\secondConsultant{}
+\reviewer{}
+
+\faculty{№ 8 <<Компьютерные науки и прикладная математика>>}
+\department{806}
+\speciality{01.03.02 <<Прикладная математика и информатика>>}
+\profile{Информатика}
+
+\departmentFullName{№ 806}
+\headOfDepartment{Крылов Сергей Сергеевич}
+
+% Дата. Оставляем пустое место для дня
+\date{\uline{\hspace{24pt}} мая \the\year\ года}
+
+\input{contents/glossary}
+\input{contents/terms}
+
+\addbibresource{main.bib}
+
+% Иллюстрации всегда по центру
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
+
+\begin{document}
+    \maketitle
+
+    % \includepdf[pages=-]{extra/task} % Задание
+    \setcounter{page}{2} % Устанавливает счётчик страниц
+
+    \include{contents/0-abstract} % Реферат
+
+    \tableofcontents % Содержание 
+    \termsanddefenitions % Термины и определения
+    \listofabbreviations % Перечень сокращений и обозначений
+ 
+    \include{contents/0-introduction} % Введение
+
+    \include{contents/1-theory} % Теоретическая часть
+    
+    \include{contents/2-realization} % Практическая часть
+    
+    \include{contents/3-conclusion} % Заключение
+
+    \printbibliography % Список литературы
+
+    \appendix % Приложения
+
+    \include{contents/4-appendix-a}
+    \include{contents/4-appendix-b}
+\end{document}
