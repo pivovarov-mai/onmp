@@ -1,0 +1,47 @@
+\section{ИСПОЛЬЗОВАНИЕ РИСУНКОВ}
+
+Вставляются рисунки как обычно --- через 
+\texttt{\textbackslash includegraphics} и окружение 
+\texttt{figure}. 
+Пожалуйста, не используйте \texttt{[H]} --- 
+в этом шаблоне уже настроена среда картинок так, 
+что она вставится как можно ближе к тексту по возможности. 
+Использование \texttt{[H]} приводит к большим и некрасивым 
+разрывам текста. Это же касается и таблиц.
+
+\textbf{Важно:} правильный порядок внутри \texttt{figure} --- содержимое (изображение, код, etc.), подпись (\texttt{\textbackslash caption}), метка (\texttt{\textbackslash label}). Нарушение порядка ломает либо положение подписи, либо нумерацию при ссылке.
+
+На рисунке~\ref{fig:fig01} показан логотип МАИ. 
+Также тут видно, что ссылка на рисунок работает.
+
+\begin{figure}
+  \includegraphics[scale=0.6]{inc/mai}
+  \caption{Логотип МАИ}
+  \label{fig:fig01}
+\end{figure}
+
+Также можно использовать \texttt{subfigure}. Для нумерации (а), б), ...) оставляйте пустую подпись. На рисунке~\ref{fig:fig02} показано много логотипов МАИ.
+
+\begin{figure}
+  \begin{subfigure}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[scale=0.6]{inc/mai}
+    \caption{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[scale=0.6]{inc/mai}
+    \caption{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[scale=0.6]{inc/mai}
+    \caption{}
+  \end{subfigure}
+  \caption{Логотипы МАИ: а) Логотип МАИ; б) Еще один логотип МАИ; в) Снова логотип МАИ}
+  \label{fig:fig02}
+\end{figure}
+
+Цитирование источника 7 \cite{Wikipedia7}.
