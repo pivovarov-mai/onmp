@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS "contraindications" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name_contraindication" TEXT NOT NULL
+  "name" TEXT NOT NULL
 );
 
 COMMENT ON TABLE public."contraindications" IS 'Таблица противопоказаний';
 COMMENT ON COLUMN public."contraindications".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."contraindications".name_contraindication IS 'Название противопоказания';
+COMMENT ON COLUMN public."contraindications".name IS 'Название противопоказания';
 
-INSERT INTO "contraindications" ("id", "name_contraindication") VALUES
+INSERT INTO "contraindications" ("id", "name") VALUES
   ('1', 'Повышенная чувствительность'),
   ('2', 'Закрытоугольная глаукома или предрасположенность к ней'),
   ('3', 'Тахиаритмии, тяжелая хроническая застойная СН, ИБС, митральный стеноз'),

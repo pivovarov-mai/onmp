@@ -2,18 +2,18 @@ CREATE TYPE enum_medicines AS ENUM ('ml', 'mg', 'blob', 'ME');
 
 CREATE TABLE IF NOT EXISTS "medicines" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name_medicine" VARCHAR(50) NOT NULL,
-  "name_medicine_genitive" VARCHAR(50) NOT NULL,
-  "unit_medicine" enum_medicines NOT NULL
+  "name" VARCHAR(50) NOT NULL,
+  "name_genitive" VARCHAR(50) NOT NULL,
+  "unit" enum_medicines NOT NULL
 );
 
 COMMENT ON TABLE public."medicines" IS 'Лекартсвенные препараты (медикаменты)';
 COMMENT ON COLUMN public."medicines".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."medicines".name_medicine IS 'Название препарата';
-COMMENT ON COLUMN public."medicines".name_medicine_genitive IS 'Название препарата в родительном падеже';
-COMMENT ON COLUMN public."medicines".unit_medicine IS 'Единица измерения дозировки препарата';
+COMMENT ON COLUMN public."medicines".name IS 'Название препарата';
+COMMENT ON COLUMN public."medicines".name IS 'Название препарата в родительном падеже';
+COMMENT ON COLUMN public."medicines".unit IS 'Единица измерения дозировки препарата';
 
-INSERT INTO "medicines" ("id", "name_medicine", "name_medicine_genitive", "unit_medicine") VALUES
+INSERT INTO "medicines" ("id", "name", "name_genitive", "unit") VALUES
   ('1', 'S. Atropinum 1 mg/ml', 'S. Atropini 1 mg/ml', 'mg'),
   ('2', 'S. Ketorolacum 30 mg/ml', 'S. Ketorolaci 30 mg/ml', 'mg'),
   ('3', 'S. Drotaverinum 20 mg/ml', 'S. Drotaverini 20 mg/ml', 'mg'),

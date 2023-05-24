@@ -1,16 +1,16 @@
 -- Формы --
 CREATE TABLE IF NOT EXISTS "form_disease" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name_form_disease" TEXT NOT NULL,
-  "description_form_disease" TEXT
+  "name" TEXT NOT NULL,
+  "description" TEXT
 );
 
 COMMENT ON TABLE public."form_disease" IS 'Формы заболевания';
 COMMENT ON COLUMN public."form_disease".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."form_disease".name_form_disease IS 'Название формы заболевания';
-COMMENT ON COLUMN public."form_disease".description_form_disease IS 'Описание формы заболевания';
+COMMENT ON COLUMN public."form_disease".name IS 'Название формы';
+COMMENT ON COLUMN public."form_disease".description IS 'Описание';
 
-INSERT INTO "form_disease" ("id", "name_form_disease", "description_form_disease") VALUES
+INSERT INTO "form_disease" ("id", "name", "description") VALUES
   ('1', 'Типичная форма', NULL),
   ('2', 'Паралитическая форма («тихое бешенство»)', 'Медленное прогрессирование параличей. Без мозжечковых нарушений, возбуждения, водобоязни.'),
   ('3', 'Среднетяжелая форма', NULL),

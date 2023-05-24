@@ -2,20 +2,20 @@ CREATE TYPE enum_child_dosages AS ENUM ('age', 'weight', 'mg', 'blob');
 
 CREATE TABLE IF NOT EXISTS "child_dosages" (
   "id" SERIAL PRIMARY KEY,
-  "child_dosage" VARCHAR(255) NOT NULL,
-  "unit_child_dosage" enum_child_dosages NOT NULL,
+  "dosage" VARCHAR(255) NOT NULL,
+  "unit" enum_child_dosages NOT NULL,
   "medicines_id" INTEGER REFERENCES medicines(id) NOT NULL,
   "diag_id" INTEGER REFERENCES diag(id) NOT NULL
 );
 
 COMMENT ON TABLE public."child_dosages" IS 'Таблица дозировок для детей';
 COMMENT ON COLUMN public."child_dosages".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."child_dosages".child_dosage IS 'Детская дозировка';
-COMMENT ON COLUMN public."child_dosages".unit_child_dosage IS 'Параметр возраста или веса';
+COMMENT ON COLUMN public."child_dosages".dosage IS 'Дозировка';
+COMMENT ON COLUMN public."child_dosages".unit IS 'Параметр возраста или веса';
 COMMENT ON COLUMN public."child_dosages".medicines_id IS 'Внешний ключ к таблице Препаратов';
 COMMENT ON COLUMN public."child_dosages".diag_id IS 'Внешний ключ к таблице Дагнозов(diag)';
 
-INSERT INTO "child_dosages" ("child_dosage", "unit_child_dosage", "medicines_id", "diag_id") VALUES
+INSERT INTO "child_dosages" ("dosage", "unit", "medicines_id", "diag_id") VALUES
   ('0.01-0.02 мг/кг', 'weight', '1', '1'),
   ('30 мг', 'mg', '2', '67'),
   ('0.1 мл/год', 'age', '3', '1'),

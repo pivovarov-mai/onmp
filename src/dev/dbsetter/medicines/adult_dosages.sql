@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS "adult_dosages" (
   "id" SERIAL PRIMARY KEY NOT NULL,
-  "adult_dosage" VARCHAR(255) NOT NULL,
+  "dosage" VARCHAR(255) NOT NULL,
   "medicines_id" INTEGER REFERENCES medicines(id) NOT NULL,
   "diag_id" INTEGER REFERENCES diag(id) NOT NULL
 );
 
 COMMENT ON TABLE public."adult_dosages" IS 'Таблица дозировок для взрослых';
 COMMENT ON COLUMN public."adult_dosages".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."adult_dosages".adult_dosage IS 'Взрослая дозировка';
+COMMENT ON COLUMN public."adult_dosages".dosage IS 'Дозировка';
 COMMENT ON COLUMN public."adult_dosages".medicines_id IS 'Внешний ключ к таблице препаратов';
 COMMENT ON COLUMN public."adult_dosages".diag_id IS 'Внешний ключ к таблице диагнозов(diag)';
 
-INSERT INTO "adult_dosages" ("adult_dosage", "medicines_id", "diag_id") VALUES
+INSERT INTO "adult_dosages" ("dosage", "medicines_id", "diag_id") VALUES
   ('0.5-1 мг', '1', '1'),
   ('30 мг', '2', '1'),
   ('40 мг', '3', '1'),

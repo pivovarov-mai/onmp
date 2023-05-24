@@ -1,20 +1,20 @@
 -- Заболевание --
 CREATE TABLE IF NOT EXISTS "diseases" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name_disease" TEXT NOT NULL,
-  "description_disease" TEXT,
+  "name" TEXT NOT NULL,
+  "description" TEXT,
   "period" TEXT,
   "tag_id" INTEGER REFERENCES disease_tags(id) NOT NULL
 );
 
 COMMENT ON TABLE public."diseases" IS 'Заболевания';
 COMMENT ON COLUMN public."diseases".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."diseases".name_disease IS 'Название заболевания';
-COMMENT ON COLUMN public."diseases".description_disease IS 'Описание заболевания';
+COMMENT ON COLUMN public."diseases".name IS 'Название заболевания';
+COMMENT ON COLUMN public."diseases".description IS 'Описание';
 COMMENT ON COLUMN public."diseases".period IS 'Период заболевания';
 COMMENT ON COLUMN public."diseases".tag_id IS 'Внешний ключ к таблице Теги заболеваний';
 
-INSERT INTO "diseases" ("id", "name_disease", "description_disease", "period", "tag_id") VALUES
+INSERT INTO "diseases" ("id", "name", "description", "period", "tag_id") VALUES
   ('1', 'Ангина', 'Ангина (angina pharyngis; синоним: острый тонзиллит, острый амигдалит) — это общее острое инфекционное заболевание, при котором воспалительные явления выражены главным образом в лимфаденоидной ткани глотки (чаще — миндалин).Острое воспаление лимфатического глоточного кольца, чаще небных миндалин, вызвано стрептококками, стафилококками или другими микроорганизмами.', NULL, '2'),
   ('2', 'Бешенство', 'Бешенство — это абсолютно смертельное заболевание, вызывает рабдовирус; передается через укусы или ослюнение больными животными, поражает ЦНС; проявляется возбуждением, судорогами дыхательной и глотательной мускулатуры и развитием параличей. Вирус может содержаться в слюне, слезах, моче. Длительность болезни - 4-7 дней - 2 нед.', 'Инкубационный период: от 10-90 дней и более года.', '2'),
   ('3', 'Ботулизм', 'Ботулизм — наиболее тяжелое заболевание из группы пищевых токсикоинфекций, характеризующееся развитием тяжелых поражении нервной системы - парезом аккомодации, парезом и параличами глазодвигательных, глотательных и дыхательных мышц.', 'Инкубационный период: от 3-12-24 ч до 2-5-14 дней.', '2'),

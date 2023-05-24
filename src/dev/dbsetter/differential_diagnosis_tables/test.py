@@ -346,7 +346,7 @@ COMA_SCALE_MOTOR_REACTIONS_SQL = \
 '''
   SELECT DISTINCT sign AS "Признак", points AS "Баллы"
   FROM coma_scale_motor_reactions
-  ORDER BY coma_scale_motor_reactions.point DESC;
+  ORDER BY coma_scale_motor_reactions.points DESC;
 '''
 
 # 45 - Шкала комы FOUR

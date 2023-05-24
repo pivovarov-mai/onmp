@@ -1,14 +1,14 @@
 -- Симптомы заболевания --
 CREATE TABLE IF NOT EXISTS "disease_symptoms" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name_disease_symptom" TEXT NOT NULL
+  "name" TEXT NOT NULL
 );
 
 COMMENT ON TABLE public."disease_symptoms" IS 'Симптомы заболевания';
 COMMENT ON COLUMN public."disease_symptoms".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."disease_symptoms".name_disease_symptom IS 'Название симптома заболевания';
+COMMENT ON COLUMN public."disease_symptoms".name IS 'Название симптома';
 
-INSERT INTO "disease_symptoms" ("id", "name_disease_symptom") VALUES
+INSERT INTO "disease_symptoms" ("id", "name") VALUES
   ('1', 'Т 38-39°С, озноб, потливость.'),
   ('2', 'Слабость.'),
   ('3', 'Боль в горле при глотании.'),

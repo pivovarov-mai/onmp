@@ -1,14 +1,14 @@
 -- Симптомы формы --
 CREATE TABLE IF NOT EXISTS "form_symptoms" (
   "id" INTEGER PRIMARY KEY NOT NULL,
-  "name_form_symptom" TEXT NOT NULL
+  "name" TEXT NOT NULL
 );
 
 COMMENT ON TABLE public."form_symptoms" IS 'Симптомы заболевания';
 COMMENT ON COLUMN public."form_symptoms".id IS 'Уникальный идентификатор';
-COMMENT ON COLUMN public."form_symptoms".name_form_symptom IS 'Название симптома формы';
+COMMENT ON COLUMN public."form_symptoms".name IS 'Название симптома';
 
-INSERT INTO "form_symptoms" ("id", "name_form_symptom") VALUES
+INSERT INTO "form_symptoms" ("id", "name") VALUES
   ('1', 'Начальный (продромальный) период - 1-3 дня. В месте укуса отечность, гиперемия, зуд, боли по ходу нервов. Недомогание, повышение температуры.'),
   ('2', 'Период разгара (стадия возбуждения) - 2-3 дня. Приступы гидрофобии (водобоязни). Судороги мышц глотки, гортани. Судорожная реакция на шум, свет и др. Психомоторное возбуждение, агрессия, галлюцинации, гипергидроз. Зрачки широкие, ЧСС >80 уд./мин, АД >120/80 мм рт.ст.'),
   ('3', 'Паралитический период - 1-3 дня. Тревожно-тоскливое состояние. Приступы водобоязни. Параличи конечностей, черепно-мозговых нервов. Т>39-40°С. Остановка сердца. Паралич дыхательного центра.'),
