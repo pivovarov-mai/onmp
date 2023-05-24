@@ -1,12 +1,12 @@
 \documentclass{diploma}
 
-\student{}
+\student{Кондратьев Егор Алексеевич}
 \group{М8О-406Б-19}
-\theme{}
+\theme{Программная диагностика и выявление острых патологий по снимку ЭКГ}
 
-\supervisor{}
-\firstConsultant{}
-\secondConsultant{}
+\supervisor{Пивоваров Дмитрий Евгеньевич}
+\firstConsultant{---}
+\secondConsultant{---}
 \reviewer{---}
 
 \faculty{№ 8 <<Компьютерные науки и прикладная математика>>}
@@ -31,8 +31,9 @@
 \makeatother
 
 \begin{document}
-    \maketitle
 
+    \maketitle
+    
     % \includepdf[pages=-]{extra/task} % Задание
     \setcounter{page}{2} % Устанавливает счётчик страниц
 
@@ -44,27 +45,17 @@
  
     \include{contents/1-introduction} % Введение
 
-    \include{contents/2-00-compilation} % Основная часть
-    \include{contents/2-01-titlepage}
-    \include{contents/2-02-techtask}
-    \include{contents/2-03-abstract}
-    \include{contents/2-04-glossary}
-    \include{contents/2-05-figures}
-    \include{contents/2-06-citations}
-    \include{contents/2-07-tables}
-    \include{contents/2-08-enums}
-    \include{contents/2-09-formulas}
-    \include{contents/2-10-math}
-    \include{contents/2-11-algorithms}
-    \include{contents/2-12-listings}
+    \include{contents/2-theoretical-part} % Теоретическая часть
     
-    \include{contents/3-conclusion} % Заключение
+    \include{contents/3-practical-part} % Практическая часть
 
+
+    \include{contents/4-conclusion} % Заключение
     \printbibliography % Список литературы
 
-    \appendix % Приложения
-    \include{contents/4-appendix-a}
-    \include{contents/4-appendix-b}
-    \include{contents/4-appendix-c}
-    \include{contents/4-appendix-d}
+    % \appendix % Приложения
+    % \include{contents/4-appendix-a}
+    % \include{contents/4-appendix-b}
+    % \include{contents/4-appendix-c}
+    % \include{contents/4-appendix-d}
 \end{document}

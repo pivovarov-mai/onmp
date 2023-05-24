@@ -9,10 +9,11 @@
 применяют следующие термины с соответствующими определениями:}
 \def\abbreviationsLine{В настоящей выпускной квалификационной работе бакалавра
 применяют следующие сокращения и обозначения:}
-\def\termsAndAbbreviationsLine{В настоящей выпускной квалификационной работе бакалавра
-применяют следующие определения, обозначения и сокращения:}
 
+\RequirePackage[T2A]{fontenc}
+\RequirePackage[utf8]{inputenc}
 \RequirePackage[russian]{babel}
+\RequirePackage{hyphsubst}
 
 \RequirePackage{01-base}
 \RequirePackage{02-construction}
