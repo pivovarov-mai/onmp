@@ -1,0 +1,58 @@
+\documentclass{diploma}
+
+\student{Сергеев Владислав Алексеевич}
+\group{М8О-411Б-19}
+\theme{Разработка клиентской части web-приложения onmp.ru на React}
+
+\supervisor{Пивоваров Дмитрий Евгеньевич}
+\firstConsultant{---}
+\secondConsultant{---}
+\reviewer{---}
+
+\faculty{№ 8 <<Компьютерные науки и прикладная математика>>}
+\department{806}
+\speciality{02.03.02 <<Фундаментальная информатика и информационные технологии>>}
+\profile{Физика}
+
+\departmentFullName{№ 806}
+\headOfDepartment{Крылов Сергей Сергеевич}
+
+% Дата. Оставляем пустое место для дня
+\date{\uline{\hspace{24pt}} мая \the\year\ года}
+
+\input{contents/glossary}
+\input{contents/terms}
+
+\addbibresource{main.bib}
+
+% Иллюстрации всегда по центру
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
+
+\begin{document}
+    \maketitle
+
+    % \includepdf[pages=-]{extra/task} % Задание
+    \setcounter{page}{2} % Устанавливает счётчик страниц
+
+    \include{contents/0-abstract} % Реферат
+
+    \tableofcontents % Содержание
+    \termsanddefenitions % Термины и определения
+    \listofabbreviations % Перечень сокращений и обозначений
+ 
+    \include{contents/1-introduction} % Введение
+
+    \include{contents/2-DevelopNeed}
+    \include{contents/3-RequirementsAnalysis}
+    \include{contents/4-DevelopDesigning}
+    \include{contents/5-Development}
+    
+    \include{contents/7-Conclusion} % Заключение
+
+    \printbibliography % Список литературы
+
+    \appendix % Приложения
+    \include{contents/8-appendix-a}
+\end{document}
