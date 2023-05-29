@@ -86,3 +86,11 @@ def cache_all_diseases():
     result = peel_diseases(get_all_diseases(), 3)
     cache.set('diseases_all', result, None)
     return result
+
+
+# Returns cached diseases otherwise gets all diseases then cache it and return
+def get_cached_diseases():
+    get_all = cache.get('diseases_all')
+    if get_all is None:
+        get_all = cache_all_diseases()
+    return get_all

@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from config.utils import execute_sql
 
 from dbsetter.medicines.request_medicines import (
@@ -79,5 +81,17 @@ def peel_medicines_by_filters(data_adult, data_child):
                 'child_dosage': object[4],
             }
 
-    print(len(result))
+    # print(len(result))
     return result
+
+
+def get_cached():
+    cache_take = cache.get('medicines_all')
+    if cache_take is None:
+        result = peel_medicines_by_filters(
+            get_all_medicines_by_adult_filter(),
+            get_all_medicines_by_child_filter()
+        )
+        cache.set('medicines_all', result, None)
+        cache_take = cache.get('medicines_all')
+    return cache_take

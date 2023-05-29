@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "newborn_apgar_criteria_reaction_to_irritation" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(55) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,7 +9,7 @@ COMMENT ON COLUMN public."newborn_apgar_criteria_reaction_to_irritation".id IS '
 COMMENT ON COLUMN public."newborn_apgar_criteria_reaction_to_irritation".description IS 'Описание';
 COMMENT ON COLUMN public."newborn_apgar_criteria_reaction_to_irritation".point IS 'Балл';
 
-INSERT INTO "newborn_apgar_criteria_reaction_to_irritation" ("description", "point") VALUES
-  ('Реакция отсутствует', '0'),
-  ('Гримаса', '1'),
-  ('Хорошо выражена (крик, кашель, чихание, громкий плач)', '2');
+INSERT INTO "newborn_apgar_criteria_reaction_to_irritation" ("id", "description", "point") VALUES
+  ('1', 'Реакция отсутствует', '0'),
+  ('2', 'Гримаса', '1'),
+  ('3', 'Хорошо выражена (крик, кашель, чихание, громкий плач)', '2');

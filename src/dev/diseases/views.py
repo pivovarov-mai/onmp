@@ -2,6 +2,9 @@ from django.core.cache import cache
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import (
+    IsAdminUser
+)
 from rest_framework import status
 
 from drf_yasg.utils import swagger_auto_schema
@@ -10,12 +13,14 @@ from .utils import (
     get_diseases_by_part_of_tag,
     peel_diseases_names,
     cache_all_diseases,
+    get_cached_diseases,
 )
 
 from .swagger import (
     SW_GET_DISEASES,
     SW_GET_DISEASES_BY_TAG,
     SW_GET_DISEASES_BY_PART_OF_TAG,
+    SW_SHOW_ALL_DISEASES,
 )
 
 
@@ -27,10 +32,7 @@ class GetDiseases(APIView):
 
     @swagger_auto_schema(**SW_GET_DISEASES)
     def get(self, request):
-        result = cache.get('diseases_all')
-        if result is None:
-            return Response(cache_all_diseases())
-        return Response(result)
+        return Response(get_cached_diseases())
 
 
 class GetDiseasesByTag(APIView):
@@ -70,12 +72,33 @@ class GetDiseasesByPartOfTag(APIView):
         names = peel_diseases_names(
             get_diseases_by_part_of_tag(part_of_tag), 3)
 
-        get_all = cache.get('diseases_all')
-        if get_all is None:
-            get_all = cache_all_diseases()
+        get_all = get_cached_diseases()
 
         result = {}
         for name in names:
             result[name] = get_all[name]
 
         return Response(result)
+
+
+# class AddDisease(APIView):
+#     '''
+#     View to add new disease to db.
+#     Cleares cache.
+#     Required admin permissions.
+#     '''
+#     permission_classes = [IsAdminUser]
+
+#     def post(self, request):
+#         return Response('А оно нам надо? Может мы не будем забивать новые данные в СТАТИЧЕСКИЕ таблицы?')
+
+
+class ShowAllDiseases(APIView):
+    '''
+    View to return simple json diseases, just disease's names in a list.
+    Doesn't caching. Doesn't required admin permissions.
+    '''
+
+    @swagger_auto_schema(**SW_SHOW_ALL_DISEASES)
+    def get(self, request):
+        return Response(sorted({name for name in get_cached_diseases()}))

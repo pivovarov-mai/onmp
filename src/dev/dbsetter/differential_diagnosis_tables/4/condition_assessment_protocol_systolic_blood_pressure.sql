@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "condition_assessment_protocol_systolic_blood_pressure" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "parameter" VARCHAR(10) NOT NULL,
   "points" INTEGER NOT NULL
 );
@@ -9,9 +9,9 @@ COMMENT ON COLUMN public."condition_assessment_protocol_systolic_blood_pressure"
 COMMENT ON COLUMN public."condition_assessment_protocol_systolic_blood_pressure".parameter IS 'Параметр';
 COMMENT ON COLUMN public."condition_assessment_protocol_systolic_blood_pressure".points IS 'Расшифровка баллов';
 
-INSERT INTO "condition_assessment_protocol_systolic_blood_pressure" ("parameter", "points") VALUES
-  ('<= 90', '3'),
-  ('91-100', '2'),
-  ('101-110', '1'),
-  ('111-219', '0'),
-  ('>= 220', '3');
+INSERT INTO "condition_assessment_protocol_systolic_blood_pressure" ("id", "parameter", "points") VALUES
+  ('1', '<= 90', '3'),
+  ('2', '91-100', '2'),
+  ('3', '101-110', '1'),
+  ('4', '111-219', '0'),
+  ('5', '>= 220', '3');

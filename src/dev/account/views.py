@@ -34,6 +34,13 @@ from .serializers import (
     UserSerializerCreate,
 )
 
+from .models import (
+    async_or_sync_sending_message,
+    User,
+)
+
+from .utils import generate_msg_confirm_account_creation
+
 from .swagger import (
     SW_GET_TOKEN,
     SW_CREATE_USER,
@@ -41,6 +48,7 @@ from .swagger import (
     SW_SET_PASSWORD,
     SW_RESET_PASSWORD_CONFIRMATION,
     SW_RESET_PASSWORD_REQUEST,
+    SW_RESEND_MAIL,
 )
 
 
@@ -121,6 +129,30 @@ class CheckEmailAPI(APIView):
             return Response({'success'})
         return Response({'error': 'Пользователь не существует'},
                         status=status.HTTP_401_UNAUTHORIZED)
+
+
+class RetrySendMail(APIView):
+    '''
+    View to sending mail again for any purposes
+    '''
+
+    @swagger_auto_schema(**SW_RESEND_MAIL)
+    def post(self, request):
+        if 'email' not in request.data:
+            return Response({'error': 'Введенные данные не верны'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+        email = request.data['email']
+        user = User.objects.filter(email=email)
+        if not user.exists():
+            return Response({'error': 'Пользователь не существует'},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        async_or_sync_sending_message(
+            'onmp подтверждение аккаунта',
+            [email],
+            generate_msg_confirm_account_creation(user[0].email_id))
+        return Response('Повторное сообщение отправлено, придет в ближайшее время')
 
 
 class SetNewPasswordAPI(APIView):

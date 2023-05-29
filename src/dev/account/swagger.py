@@ -110,3 +110,15 @@ SW_RESET_PASSWORD_CONFIRMATION = {
         '200': 'Пароль выслан на почту'
     }
 }
+
+
+SW_RESEND_MAIL = {
+    'manual_parameters': [
+        openapi.Parameter('email',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING,
+                            required=True),
+    ],
+    'responses': {'201': 'Отправлено сообщение',
+                '4+': 'Ошибка, которая вернется в ответе'}
+}

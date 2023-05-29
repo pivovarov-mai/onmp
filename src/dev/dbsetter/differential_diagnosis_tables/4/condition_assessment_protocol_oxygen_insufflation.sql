@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "condition_assessment_protocol_oxygen_insufflation" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "parameter" VARCHAR(10) NOT NULL,
   "points" INTEGER NOT NULL
 );
@@ -9,6 +9,6 @@ COMMENT ON COLUMN public."condition_assessment_protocol_oxygen_insufflation".id 
 COMMENT ON COLUMN public."condition_assessment_protocol_oxygen_insufflation".parameter IS 'Параметр';
 COMMENT ON COLUMN public."condition_assessment_protocol_oxygen_insufflation".points IS 'Расшифровка баллов';
 
-INSERT INTO "condition_assessment_protocol_oxygen_insufflation" ("parameter", "points") VALUES
-  ('Да', '1'),
-  ('Нет', '0');
+INSERT INTO "condition_assessment_protocol_oxygen_insufflation" ("id", "parameter", "points") VALUES
+  ('1', 'Да', '1'),
+  ('2', 'Нет', '0');

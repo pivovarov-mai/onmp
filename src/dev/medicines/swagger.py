@@ -39,3 +39,12 @@ SW_GET_MEDICINES = {
         ),
     },
 }
+
+
+SW_SHOW_ALL_MEDICINES = {
+    'responses': {
+        '200': openapi.Response(
+            description='Выводит препараты списком',
+        ),
+    },
+}

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "status_rating_scale_wheezing" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(30) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,8 +9,8 @@ COMMENT ON COLUMN public."status_rating_scale_wheezing".id IS 'Уникальн�
 COMMENT ON COLUMN public."status_rating_scale_wheezing".description IS 'Описание';
 COMMENT ON COLUMN public."status_rating_scale_wheezing".point IS 'Балл';
 
-INSERT INTO "status_rating_scale_wheezing" ("description", "point") VALUES
-  ('Нет', '0'),
-  ('Нижние отделы (до 1/3)', '1'),
-  ('До лопаток (до 2/3)', '2'),
-  ('Над всей поверхностью легких', '3');
+INSERT INTO "status_rating_scale_wheezing" ("id", "description", "point") VALUES
+  ('1', 'Нет', '0'),
+  ('2', 'Нижние отделы (до 1/3)', '1'),
+  ('3', 'До лопаток (до 2/3)', '2'),
+  ('4', 'Над всей поверхностью легких', '3');

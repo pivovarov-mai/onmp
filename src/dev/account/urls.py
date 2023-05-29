@@ -11,7 +11,8 @@ from .views import (
     CheckEmailAPI,
     SetNewPasswordAPI,
     ResetPasswordSendMail,
-    ResetPasswordConfirmation
+    ResetPasswordConfirmation,
+    RetrySendMail,
 )
 
 
@@ -21,6 +22,7 @@ urlpatterns = [
 
     path('token/', UserGetTokenAPI.as_view(), name='token'),
     path('user_create/', UserCreateAPI.as_view(), name='user_create'),
+    path('resend_mail/', RetrySendMail.as_view(), name='resend_mail'),
     path('user_profile/', GetProfileAPI.as_view(), name='user_profile'),
     path('email_confirm/<uuid:id>',
          CheckEmailAPI.as_view(),

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "status_rating_scale_level_sad" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(10) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,7 +9,7 @@ COMMENT ON COLUMN public."status_rating_scale_level_sad".id IS 'Уникальн
 COMMENT ON COLUMN public."status_rating_scale_level_sad".description IS 'Описание';
 COMMENT ON COLUMN public."status_rating_scale_level_sad".point IS 'Балл';
 
-INSERT INTO "status_rating_scale_level_sad" ("description", "point") VALUES
-  ('> 120', '0'),
-  ('100-120', '1'),
-  ('< 100', '2');
+INSERT INTO "status_rating_scale_level_sad" ("id", "description", "point") VALUES
+  ('1', '> 120', '0'),
+  ('2', '100-120', '1'),
+  ('3', '< 100', '2');

@@ -5,6 +5,7 @@ from .views import (
     GetDiagnoses,
     GetDiagnosesByCode,
     GetDiagnosesByPartOfCode,
+    ShowAllDiagnoses,
 )
 
 
@@ -18,4 +19,7 @@ urlpatterns = [
     path('get_diagnoses_by_part_of_code/',
          GetDiagnosesByPartOfCode.as_view(),
          name='get_diagnoses_by_part_of_code'),
+    path('show_all_diagnoses/',
+         ShowAllDiagnoses.as_view(),
+         name='show_diagnoses/'),
 ]

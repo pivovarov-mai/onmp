@@ -19,7 +19,6 @@ from .utils import (
 
 @shared_task()
 def celery_send_mail(theme: str, emails: list[str], msg: str):
-    print('Sending email')
     return send_mail(
         theme,
         'Сообщение',
@@ -28,6 +27,13 @@ def celery_send_mail(theme: str, emails: list[str], msg: str):
         fail_silently=True,
         html_message=msg
     )
+
+
+def async_or_sync_sending_message(theme: str, emails: list[str], msg: str):
+    try:
+        celery_send_mail.delay(theme, emails, msg)
+    except Exception:
+        celery_send_mail(theme, emails, msg)
 
 
 class UserManager(BaseUserManager):
@@ -63,13 +69,10 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         if settings.EMAIL_HOST_PASSWORD != '' and user.is_admin is False:
-            try:
-                celery_send_mail.delay(
-                    'onmp подтверждение аккаунта',
-                    [user.email],
-                    generate_msg_confirm_account_creation(user.email_id))
-            except Exception as e:
-                print(str(e))
+            async_or_sync_sending_message(
+                'onmp подтверждение аккаунта',
+                [user.email],
+                generate_msg_confirm_account_creation(user.email_id))
         else:
             user.email_confirmed = True
             user.save()

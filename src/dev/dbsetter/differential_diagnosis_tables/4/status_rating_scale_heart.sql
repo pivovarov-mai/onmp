@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "status_rating_scale_heart" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(15) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,6 +9,6 @@ COMMENT ON COLUMN public."status_rating_scale_heart".id IS 'Уникальный
 COMMENT ON COLUMN public."status_rating_scale_heart".description IS 'Описание';
 COMMENT ON COLUMN public."status_rating_scale_heart".point IS 'Балл';
 
-INSERT INTO "status_rating_scale_heart" ("description", "point") VALUES
-  ('Нет', '0'),
-  ('Есть', '1');
+INSERT INTO "status_rating_scale_heart" ("id", "description", "point") VALUES
+  ('1', 'Нет', '0'),
+  ('2', 'Есть', '1');

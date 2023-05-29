@@ -143,3 +143,12 @@ SW_GET_DISEASES_BY_PART_OF_TAG = {
         '418': 'part_of_code параметр не обнаружен',
     },
 }
+
+
+SW_SHOW_ALL_DISEASES = {
+    'responses': {
+        '200': openapi.Response(
+            description='Выводит заболевание списком',
+        ),
+    },
+}

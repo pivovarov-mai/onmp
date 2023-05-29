@@ -134,3 +134,12 @@ SW_GET_DIAGNOSES_BY_PART_OF_CODE = {
         '418': 'part_of_code параметр не обнаружен',
     },
 }
+
+
+SW_SHOW_ALL_DIAGNOSES = {
+    'responses': {
+        '200': openapi.Response(
+            description='Выводит диагнозы списком',
+        ),
+    },
+}

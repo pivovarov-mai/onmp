@@ -76,9 +76,9 @@ def peel_diagnoses(diags, subdiags):
     return result
 
 
-# Make cache full diagnoses or part if part code exitsts
+# Make cache full diagnoses or part if part code exists
 def cache_diagnoses():
-    result = peel_diagnoses(get_all_separated_diagnoses())
+    result = peel_diagnoses(*get_all_separated_diagnoses())
     cache.set('diagnoses_all', result, None)
 
     return result
@@ -86,3 +86,11 @@ def cache_diagnoses():
 
 def part_code(diags, subdiags):
     return peel_diagnoses(diags, subdiags)
+
+
+# Get cached diagnoses or execute it all then cache
+def show_all_diagnoses():
+    result = cache.get('diagnoses_all')
+    if result is None:
+        return cache_diagnoses()
+    return result

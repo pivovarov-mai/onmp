@@ -1,11 +1,9 @@
 CREATE TABLE IF NOT EXISTS "condition_assessment_protocol_interpretation" (
-  "id" SERIAL PRIMARY KEY,
-  "point" INTEGER,
+  "point" INTEGER PRIMARY KEY NOT NULL,
   "action" VARCHAR(130) NOT NULL
 );
 
 COMMENT ON TABLE public."condition_assessment_protocol_interpretation" IS 'Проктокол оценки тяжести состояния пациента (NEWS) - Интерпретация';
-COMMENT ON COLUMN public."condition_assessment_protocol_interpretation".id IS 'Уникальный идентификатор';
 COMMENT ON COLUMN public."condition_assessment_protocol_interpretation".point IS 'Балл';
 COMMENT ON COLUMN public."condition_assessment_protocol_interpretation".action IS 'Действие';
 
