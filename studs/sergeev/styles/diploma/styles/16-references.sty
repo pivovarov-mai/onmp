@@ -14,7 +14,6 @@
     bibstyle=gost-numeric,
     citestyle=numeric,
     sorting=none,
-    % sorting=ntvy,
 ]{biblatex}
 
 \defbibheading{bibliography}[СПИСОК~ИСПОЛЬЗОВАННЫХ~ИСТОЧНИКОВ]{\structure{#1}}
@@ -37,10 +36,6 @@
         \printfield{labelprefix}%
         \printfield{labelnumber}}%
         \addspace}
-
-% Никакого курсива в авторе и моноширинного шрифта в ссылках
-\renewcommand*{\mkbibhdnamefamily}[1]{#1}
-\DeclareFieldFormat{url}{\renewcommand\UrlFont{\rmfamily}URL\addcolon\space\url{#1}}
 
 % Формат даты обращения -- (дата обращения dd.mm.yyyy)
 \DeclareFieldFormat{urldate}{(дата обращения #1)}
