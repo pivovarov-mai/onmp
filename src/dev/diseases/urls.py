@@ -7,6 +7,7 @@ from .views import (
     # AddDisease,
     ShowAllDiseases,
     GetDiseasesByName,
+    GetSimpleDiseases,
 )
 
 
@@ -29,4 +30,7 @@ urlpatterns = [
     path('get_diseases_by_name/',
          GetDiseasesByName.as_view(),
          name='get_diseases_by_name/'),
+    path('get_simple_diseases/',
+         GetSimpleDiseases.as_view(),
+         name='get_simple_diseases/'),
 ]

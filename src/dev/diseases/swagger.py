@@ -170,3 +170,12 @@ SW_GET_ALL_DISEASES_BY_NAME = {
         '418': 'name параметр не обнаружен',
     },
 }
+
+
+SW_GET_ALL_SIMPLE_DISEASE = {
+    'responses': {
+        '200': openapi.Response(
+            description='Выводит заболевание списком с тэгом',
+        ),
+    },
+}

@@ -24,6 +24,7 @@ from .swagger import (
     SW_GET_DISEASES_BY_PART_OF_TAG,
     SW_SHOW_ALL_DISEASES,
     SW_GET_ALL_DISEASES_BY_NAME,
+    SW_GET_ALL_SIMPLE_DISEASE,
 )
 
 
@@ -100,6 +101,21 @@ class GetDiseasesByName(APIView):
         names = peel_diseases(
             get_diseases_by_name(name), 3)
         return Response(names)
+
+
+class GetSimpleDiseases(APIView):
+    '''
+    View to get all diseases with only one attribute - tag.
+    Doesn't caching. Doesn't required admin permissions.
+    '''
+
+    @swagger_auto_schema(**SW_GET_ALL_SIMPLE_DISEASE)
+    def get(self, request):
+        result = {}
+        diseases_all = get_cached_diseases()
+        for item in diseases_all:
+            result[item] = diseases_all[item]['tag']
+        return Response(result)
 
 
 class ShowAllDiseases(APIView):
