@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "user_profile" (
   "date_of_birth" DATE,
   "phone_number" VARCHAR(20),
   "passport" VARCHAR(50),
-  "account_user_id" INTEGER REFERENCES account_user(id) NOT NULL
+  "account_user_id" INTEGER UNIQUE REFERENCES account_user(id) NOT NULL
 );
 
 COMMENT ON TABLE public."user_profile" IS 'Пользователи (врачи)';

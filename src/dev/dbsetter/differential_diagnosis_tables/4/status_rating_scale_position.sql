@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "status_rating_scale_position" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(70) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,8 +9,8 @@ COMMENT ON COLUMN public."status_rating_scale_position".id IS 'Уникальн�
 COMMENT ON COLUMN public."status_rating_scale_position".description IS 'Описание';
 COMMENT ON COLUMN public."status_rating_scale_position".point IS 'Балл';
 
-INSERT INTO "status_rating_scale_position" ("description", "point") VALUES
-  ('Горизонтальное', '0'),
-  ('С приподнятым головным концом (2+ подушки)', '1'),
-  ('С приподнятым головным концом (2+ подушки) плюс просыпается от удушья', '2'),
-  ('Сидя', '3');
+INSERT INTO "status_rating_scale_position" ("id", "description", "point") VALUES
+  ('1', 'Горизонтальное', '0'),
+  ('2', 'С приподнятым головным концом (2+ подушки)', '1'),
+  ('3', 'С приподнятым головным концом (2+ подушки) плюс просыпается от удушья', '2'),
+  ('4', 'Сидя', '3');

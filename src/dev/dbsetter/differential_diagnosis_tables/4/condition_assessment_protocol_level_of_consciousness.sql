@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "condition_assessment_protocol_level_of_consciousness" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "parameter" VARCHAR(5) NOT NULL,
   "points" INTEGER NOT NULL
 );
@@ -9,6 +9,6 @@ COMMENT ON COLUMN public."condition_assessment_protocol_level_of_consciousness".
 COMMENT ON COLUMN public."condition_assessment_protocol_level_of_consciousness".parameter IS 'Параметр';
 COMMENT ON COLUMN public."condition_assessment_protocol_level_of_consciousness".points IS 'Расшифровка баллов';
 
-INSERT INTO "condition_assessment_protocol_level_of_consciousness" ("parameter", "points") VALUES
-  ('Нет', '0'),
-  ('Есть', '3');
+INSERT INTO "condition_assessment_protocol_level_of_consciousness" ("id", "parameter", "points") VALUES
+  ('1', 'Нет', '0'),
+  ('2', 'Есть', '3');

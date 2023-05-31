@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "newborn_apgar_criteria_heart_rate" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(20) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,7 +9,7 @@ COMMENT ON COLUMN public."newborn_apgar_criteria_heart_rate".id IS 'Уникал
 COMMENT ON COLUMN public."newborn_apgar_criteria_heart_rate".description IS 'Описание';
 COMMENT ON COLUMN public."newborn_apgar_criteria_heart_rate".point IS 'Балл';
 
-INSERT INTO "newborn_apgar_criteria_heart_rate" ("description", "point") VALUES
-  ('0', '0'),
-  ('Меньше 100 в минуту', '1'),
-  ('Больше 100 в минуту', '2');
+INSERT INTO "newborn_apgar_criteria_heart_rate" ("id", "description", "point") VALUES
+  ('1', '0', '0'),
+  ('2', 'Меньше 100 в минуту', '1'),
+  ('3', 'Больше 100 в минуту', '2');

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "status_rating_scale_weight" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(10) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,6 +9,6 @@ COMMENT ON COLUMN public."status_rating_scale_weight".id IS 'Уникальны�
 COMMENT ON COLUMN public."status_rating_scale_weight".description IS 'Описание';
 COMMENT ON COLUMN public."status_rating_scale_weight".point IS 'Балл';
 
-INSERT INTO "status_rating_scale_weight" ("description", "point") VALUES
-  ('Нет', '0'),
-  ('Увеличился', '1');
+INSERT INTO "status_rating_scale_weight" ("id", "description", "point") VALUES
+  ('1', 'Нет', '0'),
+  ('2', 'Увеличился', '1');

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "coma_scale_motor_reactions" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "sign" VARCHAR(65) NOT NULL,
   "points" INTEGER NOT NULL
 );
@@ -9,8 +9,8 @@ COMMENT ON COLUMN public."coma_scale_motor_reactions".id IS 'Уникальны�
 COMMENT ON COLUMN public."coma_scale_motor_reactions".sign IS 'Признак';
 COMMENT ON COLUMN public."coma_scale_motor_reactions".points IS 'Баллы';
 
-INSERT INTO "coma_scale_motor_reactions" ("sign", "points") VALUES
-  ('Выполняет команды (знак отлично, кулак, знак мира)', '3'),
-  ('Локализует боль', '2'),
-  ('Сгибательный ответ на боль', '1'),
-  ('Нет ответа на боль или генерализованный миоклонический эпистатус', '0');
+INSERT INTO "coma_scale_motor_reactions" ("id", "sign", "points") VALUES
+  ('1', 'Выполняет команды (знак отлично, кулак, знак мира)', '3'),
+  ('2', 'Локализует боль', '2'),
+  ('3', 'Сгибательный ответ на боль', '1'),
+  ('4', 'Нет ответа на боль или генерализованный миоклонический эпистатус', '0');

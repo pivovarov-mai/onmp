@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "condition_assessment_protocol_covid" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "parameter" VARCHAR(30) NOT NULL,
   "points" INTEGER NOT NULL
 );
@@ -9,8 +9,8 @@ COMMENT ON COLUMN public."condition_assessment_protocol_covid".id IS 'Уника
 COMMENT ON COLUMN public."condition_assessment_protocol_covid".parameter IS 'Параметр';
 COMMENT ON COLUMN public."condition_assessment_protocol_covid".points IS 'Расшифровка баллов';
 
-INSERT INTO "condition_assessment_protocol_covid" ("parameter", "points") VALUES
-  ('Подтверждено позитивный', '0'),
-  ('Подозрительный', '0'),
-  ('Маловероятно', '0'),
-  ('Подтверждено отрицательный', '0');
+INSERT INTO "condition_assessment_protocol_covid" ("id", "parameter", "points") VALUES
+  ('1', 'Подтверждено позитивный', '0'),
+  ('2', 'Подозрительный', '0'),
+  ('3', 'Маловероятно', '0'),
+  ('4', 'Подтверждено отрицательный', '0');

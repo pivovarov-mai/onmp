@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "medicines" (
 COMMENT ON TABLE public."medicines" IS 'Лекартсвенные препараты (медикаменты)';
 COMMENT ON COLUMN public."medicines".id IS 'Уникальный идентификатор';
 COMMENT ON COLUMN public."medicines".name IS 'Название препарата';
-COMMENT ON COLUMN public."medicines".name IS 'Название препарата в родительном падеже';
+COMMENT ON COLUMN public."medicines".name_genitive IS 'Название препарата в родительном падеже';
 COMMENT ON COLUMN public."medicines".unit IS 'Единица измерения дозировки препарата';
 
 INSERT INTO "medicines" ("id", "name", "name_genitive", "unit") VALUES

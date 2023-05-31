@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "status_rating_scale_neck_veins" (
-  "id" SERIAL PRIMARY KEY,
+  "id" INTEGER PRIMARY KEY NOT NULL,
   "description" VARCHAR(15) NOT NULL,
   "point" INTEGER NOT NULL
 );
@@ -9,7 +9,7 @@ COMMENT ON COLUMN public."status_rating_scale_neck_veins".id IS 'Уникаль�
 COMMENT ON COLUMN public."status_rating_scale_neck_veins".description IS 'Описание';
 COMMENT ON COLUMN public."status_rating_scale_neck_veins".point IS 'Балл';
 
-INSERT INTO "status_rating_scale_neck_veins" ("description", "point") VALUES
-  ('Нет', '0'),
-  ('Лежа', '1'),
-  ('Стоя', '2');
+INSERT INTO "status_rating_scale_neck_veins" ("id", "description", "point") VALUES
+  ('1', 'Нет', '0'),
+  ('2', 'Лежа', '1'),
+  ('3', 'Стоя', '2');
