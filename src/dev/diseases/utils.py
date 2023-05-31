@@ -4,8 +4,11 @@ from config.utils import execute_sql
 
 from dbsetter.diseases.request_diseases import (
     SHOW_ALL_DISEASES,
-    SHOW_DISEASE_BY_ALL_TAG,
-    SHOW_DIAG_BY_PART_CODE
+    SHOW_DISEASES_BY_ALL_TAG,
+    SHOW_DISEASES_BY_PART_CODE,
+    
+    SHOW_DISEASES_BY_PART_NAME,
+    SHOW_DISEASES_BY_ALL_NAME,
 )
 
 
@@ -16,12 +19,22 @@ def get_all_diseases():
 
 # Get all diseases list with description by tag
 def get_diseases_by_tag(tag):
-    return execute_sql(SHOW_DISEASE_BY_ALL_TAG, [tag])
+    return execute_sql(SHOW_DISEASES_BY_ALL_TAG, [tag])
 
 
-# Get all diagnoses list with description by part of code
+# Get all diseases list with description by part of code
 def get_diseases_by_part_of_tag(part_of_tag):
-    return execute_sql(SHOW_DIAG_BY_PART_CODE, [f'%{part_of_tag}%'])
+    return execute_sql(SHOW_DISEASES_BY_PART_CODE, [f'%{part_of_tag}%'])
+
+
+# Get all diseases list with description by name
+def get_diseases_by_name(name):
+    return execute_sql(SHOW_DISEASES_BY_ALL_NAME, [name])
+
+
+# Get all diseases list with description by part of name
+def get_diseases_by_part_of_name(part_of_name):
+    return execute_sql(SHOW_DISEASES_BY_PART_NAME, [f'%{part_of_name}%'])
 
 
 # Peel result of functions above

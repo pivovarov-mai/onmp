@@ -152,3 +152,21 @@ SW_SHOW_ALL_DISEASES = {
         ),
     },
 }
+
+
+SW_GET_ALL_DISEASES_BY_NAME = {
+    'manual_parameters': [
+        openapi.Parameter(
+            'name',
+            in_=openapi.IN_QUERY,
+            type=openapi.TYPE_STRING,
+            required=True
+        ),
+    ],
+    'responses': {
+        '200': openapi.Response(
+            description='Выводит заболевание списком',
+        ),
+        '418': 'name параметр не обнаружен',
+    },
+}

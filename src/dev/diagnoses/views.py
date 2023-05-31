@@ -83,9 +83,6 @@ class ShowAllDiagnoses(APIView):
 
     @swagger_auto_schema(**SW_SHOW_ALL_DIAGNOSES)
     def get(self, request):
-        need_to_parse = show_all_diagnoses()
-        result = set()
-        for item in need_to_parse:
-            for diagnose in need_to_parse[item]:
-                result.add(diagnose)
-        return Response(sorted(result))
+        return Response(sorted({
+            diagnose for diagnose in show_all_diagnoses()
+            }))

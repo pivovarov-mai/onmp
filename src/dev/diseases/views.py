@@ -3,7 +3,7 @@ from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import (
-    IsAdminUser
+    IsAdminUser,
 )
 from rest_framework import status
 
@@ -11,9 +11,11 @@ from drf_yasg.utils import swagger_auto_schema
 
 from .utils import (
     get_diseases_by_part_of_tag,
+    get_diseases_by_name,
     peel_diseases_names,
     cache_all_diseases,
     get_cached_diseases,
+    peel_diseases,
 )
 
 from .swagger import (
@@ -21,6 +23,7 @@ from .swagger import (
     SW_GET_DISEASES_BY_TAG,
     SW_GET_DISEASES_BY_PART_OF_TAG,
     SW_SHOW_ALL_DISEASES,
+    SW_GET_ALL_DISEASES_BY_NAME,
 )
 
 
@@ -81,16 +84,22 @@ class GetDiseasesByPartOfTag(APIView):
         return Response(result)
 
 
-# class AddDisease(APIView):
-#     '''
-#     View to add new disease to db.
-#     Cleares cache.
-#     Required admin permissions.
-#     '''
-#     permission_classes = [IsAdminUser]
+class GetDiseasesByName(APIView):
+    '''
+    View to get all diseases by full name.
+    Doesn't caching. Doesn't required admin permissions.
+    '''
 
-#     def post(self, request):
-#         return Response('А оно нам надо? Может мы не будем забивать новые данные в СТАТИЧЕСКИЕ таблицы?')
+    @swagger_auto_schema(**SW_GET_ALL_DISEASES_BY_NAME)
+    def get(self, request):
+        name = request.GET.get('name', False)
+        if name is False:
+            return Response({'error': 'Название не было введено'},
+                            status=status.HTTP_418_IM_A_TEAPOT)
+
+        names = peel_diseases(
+            get_diseases_by_name(name), 3)
+        return Response(names)
 
 
 class ShowAllDiseases(APIView):

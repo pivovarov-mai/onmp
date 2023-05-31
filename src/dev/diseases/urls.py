@@ -6,6 +6,7 @@ from .views import (
     GetDiseasesByPartOfTag,
     # AddDisease,
     ShowAllDiseases,
+    GetDiseasesByName,
 )
 
 
@@ -25,4 +26,7 @@ urlpatterns = [
     path('show_all_diseases/',
          ShowAllDiseases.as_view(),
          name='show_disease/'),
+    path('get_diseases_by_name/',
+         GetDiseasesByName.as_view(),
+         name='get_diseases_by_name/'),
 ]
