@@ -1,0 +1,98 @@
+{    
+    "account_user_id":1
+    "template_name":Шаблон1
+    "complaints":На момент осмотра беспокоит боль в грудной клетке, в межлопаточной области больше слева, усиливается при движении, поворотах туловища, также дискомфорт в левом плечевом суставе.
+    "anamnesis":Вышеперечисленные жалобы беспокоят с 04:00 13.08.2022г., однако боли в грудном отделе позвоночника беспокоят периодически, последнее ухудшение около недели связывает с остеохондрозом, по поводу которого неднократно лечился у невролога, а также неоднократно вызывал бригады СМП, ОНМП. Данный вызов повторный. В анамнезе: со слов страдает гипертонической болезнью 1 степени, остеохондрозом, дегенеративными изменениями в позвоночнике. Травмы, операции отрицает. Контакт с COVID 19 и другими крантинными инфекциями отрицает, за пределы Москвы не выезжает, сезонная вакцинация не проводилась. Аллергию отрицает. ЕМИАС, МГФОМС - не информативен.
+    "general_state":Средней тяжести
+    "consciousness":Ясное
+    "position":Активное
+    "position_text":NULL
+    "skin":Бледные
+    "skin_text":обычныой влажности
+    "rash":Нет
+    "zev":Чистый
+    "tonsils":Не увеличены
+    "lymph_nodes":Не увеличены
+    "bedsores":Нет
+    "edema":Нет
+    "temperature":36.6
+    "respiratory_rate":18
+    "dyspnea":NULL
+    "pathological_breathing":Нет
+    "auscultatory":Везикулярное
+    "auscultatory_text":по всем полям
+    "wheezing":NULL
+    "wheezing_text":Нет
+    "wet":NULL
+    "wet_text":Нет
+    "crepitus":Нет
+    "percussion_sound":Легочный
+    "percussion_sound_text":по всем полям
+    "cough":Отсутствует
+    "sputum":Нет
+    "pulse":58
+    "rhythmic_arrhythmic":Ритмичный
+    "filling":Удовлетворительное
+    "heart_rate":58
+    "pulse_deficit":0
+    "arterial_pressure":130/80
+    "habitual":120/80
+    "maximum":150/90
+    "heart_sounds":Звучные
+    "noise_systolic_diasystolic":NULL
+    "noise_on":Нет
+    "held":Нет
+    "accent":II
+    "tone":Аорте
+    "tongue":Влажный
+    "tongue_text":чистый, расположен по средней линии
+    "belly_shape":Правильная
+    "tense":Не напряжен доступен глубокой пальпации
+    "painful":Безболезненный
+    "painful_text":во всех отделах
+    "positive_symptoms":Отрицательные
+    "peristalsis":Выслушивается
+    "liver":Не увеличена
+    "spleen":Не пальпируется
+    "vomit":Нет
+    "feces":Регулярный - 1 раз в день, оформлен, коричневый
+    "behavior":Спокойное
+    "contact":Контактен
+    "sensitivity":Сохранена, D = S
+    "speech":Внятная
+    "speech_text":NULL
+    "pupils":Обычные
+    "photoreaction":Живая
+    "nystagmus":Нет
+    "facial_asymmetry":Нет
+    "meningeal_symptoms":NULL
+    "meningeal_symptoms_text":Нет
+    "focal_symptoms":Нет
+    "coordinator_samples":Не выполнялась по тяжести состояния
+    "genitourinary_system":Дизурических расстройств не выявлено, моча желтого цвета
+    "tapping_symptom":Отрицательный с обеих сторон
+    "status_localis":Вес = 97 кг, Рост = 173 см, ИМТ = 32
+    "instrumental_research":SpO2 99%; ЭКГ(13.08.2022г. 05:28) синусовая брадикардия с ЧСС 58 в мин., ЭОС отклонена влево, ST - изолиния, неспецифические нарушения внутрижелудочкового приведения. ЭКГ для анализа динамики не предоставлено.
+    "assistance":Расспрос, изучение мед. документов и еще куча всего.
+    "recommendations":NULL
+    "signal_card":Не требуется
+    "alcohol_wipes":10
+    "shoe_covers":1
+    "gloves":1
+    "mask":1
+    "hat":1
+    "case":1
+    "syringe2":0
+    "syringe5":2
+    "syringe10":0
+    "syringe20":0
+    "catheter":1
+    "patch":1
+    "scarif":0
+    "test_strip":0
+    "package":1
+    "nebulizer_mask":0
+    "date":13.08.2022
+    "order_number":208788714
+    "checked":Васильев Д.С.
+}
