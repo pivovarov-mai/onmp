@@ -34,7 +34,6 @@ def cache_diags():
                 if item == "Шкала Глазго (Glasgow Coma Scale)" and \
                         sub_name != 'Интерпретация результата':
                     current_data[sub_name] = {}
-                    print(execution_result[0][0])
                     for record in execution_result[0]:
                         action = record[0]
                         if action not in current_data[sub_name]:

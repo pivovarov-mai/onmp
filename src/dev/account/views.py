@@ -112,7 +112,7 @@ class UserCreateAPI(APIView):
             slog('Создан профиль с id: ' + str(
                     user_profile_create({
                         'account_user_id': created_user.pk,
-                        **request.data.dict()
+                        **request.data
                     })[0]['id']
                 )
             )
