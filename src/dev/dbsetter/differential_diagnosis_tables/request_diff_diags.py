@@ -202,16 +202,16 @@ CONDITION_ASSESSMENT_PROTOCOL_LEVEL_CONSCIOUSNESS_SQL = \
 CONDITION_ASSESSMENT_PROTOCOL_COVID_SQL = \
 '''
   SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
-  FROM condition_assessment_protocol_covid;
+  FROM condition_assessment_protocol_covid
   ORDER BY condition_assessment_protocol_covid.id ASC;
 '''
 
 # 27 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_INTERPRETATION_SQL = \
 '''
-  SELECT DISTINCT id, point AS "Балл", action AS "Действие"
+  SELECT DISTINCT point AS "Балл", action AS "Действие"
   FROM condition_assessment_protocol_interpretation
-  ORDER BY condition_assessment_protocol_interpretation.id ASC;
+  ORDER BY condition_assessment_protocol_interpretation.point ASC;
 '''
 
 # 28 - ХСН ШОКС (в модификации Мареева В.Ю.)
