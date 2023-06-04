@@ -8,11 +8,13 @@ from .views import (
     UserGetTokenAPI,
     UserCreateAPI,
     GetProfileAPI,
+    ShowAllProfilesAPI,
     CheckEmailAPI,
     SetNewPasswordAPI,
     ResetPasswordSendMail,
     ResetPasswordConfirmation,
     RetrySendMail,
+    ProfileDataUpdateAPI,
 )
 
 
@@ -24,6 +26,12 @@ urlpatterns = [
     path('user_create/', UserCreateAPI.as_view(), name='user_create'),
     path('resend_mail/', RetrySendMail.as_view(), name='resend_mail'),
     path('user_profile/', GetProfileAPI.as_view(), name='user_profile'),
+    path('update_user_profile/',
+         ProfileDataUpdateAPI.as_view(),
+         name='update_user_profile'),
+    path('show_all_user_profiles/',
+         ShowAllProfilesAPI.as_view(),
+         name='show_all_user_profiles'),
     path('email_confirm/<uuid:id>',
          CheckEmailAPI.as_view(),
          name='email_confirm'),

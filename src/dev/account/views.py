@@ -22,6 +22,7 @@ from rest_framework.authentication import (
 )
 from rest_framework.permissions import (
     IsAuthenticated,
+    IsAdminUser,
     AllowAny,
 )
 
@@ -30,16 +31,22 @@ from drf_yasg.utils import swagger_auto_schema
 from .forms import UserLoginForm, UserRegisterForm
 
 from .serializers import (
-    UserSerializerMinimum,
     UserSerializerCreate,
+    UserSerializerMaximum,
 )
 
-from .models import (
-    async_or_sync_sending_message,
-    User,
-)
+from .models import async_or_sync_sending_message, User
 
 from .utils import generate_msg_confirm_account_creation
+
+from config.loggers_conf import slog
+
+from .user_profile_funcs import (
+    user_profile_retrieve,
+    user_profile_update,
+    user_profile_create,
+    user_profile_show,
+)
 
 from .swagger import (
     SW_GET_TOKEN,
@@ -49,12 +56,14 @@ from .swagger import (
     SW_RESET_PASSWORD_CONFIRMATION,
     SW_RESET_PASSWORD_REQUEST,
     SW_RESEND_MAIL,
+    SW_SHOW_ALL_PROFILES,
+    SW_UPDATE_PROFILE,
 )
 
 
 class UserGetTokenAPI(APIView):
     '''
-    Api for getting token by user fields(email, password) in POST method or by session auth
+    Api for getting token by user fields in POST method or by session auth
     '''
     permission_classes = [AllowAny]
 
@@ -87,12 +96,26 @@ class UserCreateAPI(APIView):
     def post(self, request):
         user_ser = UserSerializerCreate(data=request.data)
         if user_ser.is_valid(raise_exception=True):
-            get_user_model().objects.create_user(
+            # Checker for user profile
+            if 'first_name' not in request.data or \
+                    'middle_name' not in request.data or \
+                    'last_name' not in request.data:
+                return Response(
+                    'Какой-то параметр ФИО отсутствует',
+                    status=status.HTTP_418_IM_A_TEAPOT
+                )
+
+            created_user = get_user_model().objects.create_user(
                 user_ser.validated_data['email'],
-                user_ser.validated_data['password'],
-                user_ser.validated_data['first_name'],
-                user_ser.validated_data['last_name'],
-                mail_denied=request.data.get('mail_denied', False))
+                user_ser.validated_data['password'])
+
+            slog('Создан профиль с id: ' + str(
+                    user_profile_create({
+                        'account_user_id': created_user.pk,
+                        **request.data.dict()
+                    })[0]['id']
+                )
+            )
             return Response({'success'}, status=status.HTTP_201_CREATED)
         return Response(user_ser.errors, status=status.HTTP_418_IM_A_TEAPOT)
 
@@ -105,8 +128,43 @@ class GetProfileAPI(APIView):
 
     @swagger_auto_schema(**SW_GET_PROFILE)
     def get(self, request):
+        user_profile = user_profile_retrieve({
+            'account_user_id': request.user.pk
+        })[0]
         return Response({
-            'user': UserSerializerMinimum(instance=request.user).data})
+                'user': UserSerializerMaximum(instance=request.user).data,
+                'profile': user_profile
+            }
+        )
+
+
+class ProfileDataUpdateAPI(APIView):
+    '''
+    Update user's profile data.
+    Required Token.
+    '''
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(**SW_UPDATE_PROFILE)
+    def get(self, request):
+        return Response(
+            user_profile_update({
+                'account_user_id': request.user.pk,
+                **request.GET.dict(),
+            })
+        )
+
+
+class ShowAllProfilesAPI(APIView):
+    '''
+    Show all profiles.
+    Required admin permission.
+    '''
+    permission_classes = [IsAdminUser]
+
+    @swagger_auto_schema(**SW_SHOW_ALL_PROFILES)
+    def get(self, request):
+        return Response(user_profile_show())
 
 
 class CheckEmailAPI(APIView):
@@ -152,7 +210,9 @@ class RetrySendMail(APIView):
             'onmp подтверждение аккаунта',
             [email],
             generate_msg_confirm_account_creation(user[0].email_id))
-        return Response('Повторное сообщение отправлено, придет в ближайшее время')
+        return Response(
+            'Повторное сообщение отправлено, придет в ближайшее время'
+        )
 
 
 class SetNewPasswordAPI(APIView):

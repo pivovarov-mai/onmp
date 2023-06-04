@@ -14,7 +14,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('email',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -42,8 +42,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name',
-                  'password', 'is_admin', 'is_active')
+        fields = ('email', 'password', 'is_admin', 'is_active')
 
 
 class UserLoginForm(forms.Form):
@@ -67,8 +66,6 @@ class UserLoginForm(forms.Form):
 class UserRegisterForm(forms.Form):
     '''A form for registration new users because of form above doesn't save'''
     email = forms.EmailField(label='Email почта')
-    first_name = forms.CharField(label='Имя')
-    last_name = forms.CharField(label='Фамилия')
     password1 = forms.CharField(label='Пароль',
                                 widget=forms.PasswordInput)
     password2 = forms.CharField(label='Подтверждение пароля',

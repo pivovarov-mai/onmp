@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.db.models.signals import pre_delete
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import (
     BaseUserManager,
@@ -8,12 +9,18 @@ from django.contrib.auth.base_user import (
 )
 from django.core.mail import send_mail
 from django.conf import settings
+from django.dispatch import receiver
+
 from celery import shared_task
 
 from .utils import (
     generate_msg_confirm_account_creation,
     generate_msg_reset_password,
     generate_msg_reseted_password,
+)
+
+from .user_profile_funcs import (
+    user_profile_delete,
 )
 
 
@@ -41,8 +48,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, email,
-                     password, first_name,
-                     last_name, **extra_fields):
+                     password, **extra_fields):
         '''
         Create and save a user with the given email, and password.
         '''
@@ -50,21 +56,10 @@ class UserManager(BaseUserManager):
             raise ValueError('Почта должна быть установлена')
         if not password:
             raise ValueError('Пароль должен быть установлен')
-        if not first_name:
-            raise ValueError('Имя должно быть установлено')
-        if not last_name:
-            raise ValueError('Фамилия должна быть установлена')
 
         extra_fields.setdefault('is_superuser', False)
 
-        if 'mail_denied' in extra_fields:
-            extra_fields['is_email_confirmed'] = extra_fields['mail_denied']
-            del extra_fields['mail_denied']
-
-        user = self.model(email=self.normalize_email(email),
-                          first_name=first_name,
-                          last_name=last_name,
-                          **extra_fields)
+        user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
@@ -72,20 +67,18 @@ class UserManager(BaseUserManager):
             async_or_sync_sending_message(
                 'onmp подтверждение аккаунта',
                 [user.email],
-                generate_msg_confirm_account_creation(user.email_id))
+                generate_msg_confirm_account_creation(user.email_id)
+            )
         else:
             user.email_confirmed = True
             user.save()
         return user
 
-    def create_user(self, email, password, first_name,
-                    last_name, **extra_fields):
+    def create_user(self, email, password, **extra_fields):
         extra_fields.setdefault('is_admin', False)
-        return self._create_user(email, password, first_name,
-                                 last_name, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, email, password, first_name='admin',
-                         last_name='admin', **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_email_confirmed', True)
 
@@ -94,8 +87,7 @@ class UserManager(BaseUserManager):
                 'Суперпользователь должен иметь is_admin=True.'
             )
 
-        return self._create_user(email, password, first_name,
-                                 last_name, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -119,16 +111,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_email_confirmed = models.BooleanField(
         'Подтвержден ли email',
         default=False,
-    )
-    first_name = models.CharField(
-        'Имя',
-        max_length=50,
-        blank=False,
-    )
-    last_name = models.CharField(
-        'Фамилия',
-        max_length=50,
-        blank=False,
     )
     is_admin = models.BooleanField(
         'Администратор',
@@ -180,3 +162,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+
+
+@receiver(pre_delete, sender=User)
+def delete_profiler(sender, instance, using, **kwargs):
+    user_profile_delete({'account_user_id': instance.pk})

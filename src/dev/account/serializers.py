@@ -8,7 +8,7 @@ from .models import User
 class UserSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'password', 'first_name', 'last_name')
+        fields = ('email', 'password')
 
     def validate(self, attrs):
         try:
@@ -21,14 +21,19 @@ class UserSerializerCreate(serializers.ModelSerializer):
 class UserSerializerMinimum(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'is_email_confirmed')
+        fields = ('email', 'is_email_confirmed')
 
     def save(self, **kwargs):
         User.objects.create_user(
             email=self.validated_data['email'],
-            password=self.validated_data['password'],
-            first_name=self.validated_data['first_name'],
-            last_name=self.validated_data['last_name'])
+            password=self.validated_data['password'])
+
+
+class UserSerializerMaximum(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'is_email_confirmed',
+                  'is_admin', 'is_active', 'date_joined')
 
 
 class UserSerializerDetail(serializers.ModelSerializer):

@@ -27,6 +27,8 @@ urlpatterns = [
     path('api/v1/medicines/', include('medicines.urls')),
     path('api/v1/differentials_tables/', include('differentials_diag.urls')),
     path('api/v1/cardiogram/', include('cardio.urls')),
+    path('api/v1/cards/', include('med_card.urls')),
     path('', StartPage.as_view(), name='home'),
+
     path('db_exec', DbPage.as_view(), name='db_exec'),
 ]

@@ -46,6 +46,19 @@ SW_CREATE_USER = {
                             in_=openapi.IN_QUERY,
                             type=openapi.TYPE_STRING,
                             required=True),
+        openapi.Parameter('middle_name',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING,
+                            required=True),
+        openapi.Parameter('phone_number',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('passport',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('date_of_birth',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
     ],
     'responses': {'201': 'Успешно создан новый аккаунт',
                 '4+': 'Ошибка, которая вернется в ответе'}
@@ -121,4 +134,50 @@ SW_RESEND_MAIL = {
     ],
     'responses': {'201': 'Отправлено сообщение',
                 '4+': 'Ошибка, которая вернется в ответе'}
+}
+
+
+SW_SHOW_ALL_PROFILES = {
+    'manual_parameters': [
+        openapi.Parameter('token',
+                            in_=openapi.IN_HEADER,
+                            type=openapi.TYPE_STRING,
+                            required=True),
+    ],
+    'responses': {
+        '200': 'Выведутся все профили пользователей',
+        '4+': 'Ошибка будет указана в ответе'
+    }
+}
+
+
+SW_UPDATE_PROFILE = {
+    'manual_parameters': [
+        openapi.Parameter('token',
+                            in_=openapi.IN_HEADER,
+                            type=openapi.TYPE_STRING,
+                            required=True),
+        openapi.Parameter('first_name',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('last_name',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('middle_name',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('phone_number',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('passport',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+        openapi.Parameter('date_of_birth',
+                            in_=openapi.IN_QUERY,
+                            type=openapi.TYPE_STRING),
+    ],
+    'responses': {
+        '200': 'Простое текстовое сообщение успеха',
+        '4+': 'Ошибка будет указана в ответе'
+    }
 }
