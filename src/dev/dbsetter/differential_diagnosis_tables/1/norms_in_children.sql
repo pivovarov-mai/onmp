@@ -15,7 +15,7 @@ COMMENT ON COLUMN public."norms_in_children".respiratory_rate IS 'ЧД - час�
 COMMENT ON COLUMN public."norms_in_children".heart_rate IS 'ЧСС - частота сердечных сокращений';
 COMMENT ON COLUMN public."norms_in_children".arterial_pressure IS 'АД - артериальное давление';
 
-INSERT INTO "norms_in_children" ('id', "age", "weight", "respiratory_rate", "heart_rate", "arterial_pressure") VALUES
+INSERT INTO "norms_in_children" ("id", "age", "weight", "respiratory_rate", "heart_rate", "arterial_pressure") VALUES
   ('1', 'Новорожденные', '3,5', '40-60', '130-140', '70/40'),
   ('2', '3 месяца', '5', '35-40', '120-130', '85/40'),
   ('3', '6 месяцев', '7', '33-35', '120-125', '90/55'),

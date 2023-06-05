@@ -49,7 +49,7 @@ SIZE_OF_LARYNGEAL_TUBE_SQL = \
 # 7 - ВАШ. НОШ. Шкалы оценки интенсивности боли
 PAIN_INTENSITY_SQL = \
 '''
-  SELECT DISTINCT id, pain_syndrome AS "Интенсивность болевого синдрома", vash_nosh AS "ВАШ НОШ", symptoms AS "Проявление боли, симптомы", therapy AS "Терапия догоспитального этапа"
+  SELECT DISTINCT id AS "В карте", pain_syndrome AS "Интенсивность болевого синдрома", vash_nosh AS "ВАШ НОШ", symptoms AS "Проявление боли, симптомы", therapy AS "Терапия догоспитального этапа"
   FROM pain_intensity
   ORDER BY pain_intensity.id ASC;
 '''
@@ -571,7 +571,7 @@ DATA = {
                 GLASGOW_COMA_SCALE_CHILDREN_SQL,
                 GLASGOW_COMA_SCALE_NEWBORNS_SQL,
                 GLASGOW_COMA_SCALE_INTERPRETATION_SQL],
-        'subtables_name': ['Взрослые и детей старше 4 лет',
+        'subtables_name': ['Взрослые и дети старше 4 лет',
                            'Дети от 1 до 4 лет',
                            'Грудные дети (до 1 года)',
                            'Интерпретация результата'],
