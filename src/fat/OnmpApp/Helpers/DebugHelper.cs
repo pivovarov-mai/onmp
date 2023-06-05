@@ -3,24 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using OnmpApp.Data;
-using OnmpApp.Helpers;
-using OnmpApp.Models;
 
-namespace OnmpApp.Services.Authorize;
+namespace OnmpApp.Helpers;
 
-public class LoginService
+
+public static class DebugHelper
 {
-
-    public LoginService() { }
-
-    public async Task<bool> AuthenticateUser(string email, string password)
+    public static async Task<T> TryCatch<T>(Func<Task<T>> func)
     {
         try
         {
-            return await Database.UserDataValid(email, password);
+            return await func();
         }
         catch (Exception ex)
         {
@@ -28,8 +22,7 @@ public class LoginService
             Debug.WriteLine(@"\tERROR {0}", ex.Message);
 #endif
             ToastHelper.Show(Properties.Resources.Error);
+            return default(T);
         }
-        
-        return false;
     }
 }

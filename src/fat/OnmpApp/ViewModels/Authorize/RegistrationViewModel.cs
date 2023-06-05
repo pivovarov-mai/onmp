@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OnmpApp.Helpers;
-using OnmpApp.Services.Authorize;
+using OnmpApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,23 +22,41 @@ namespace OnmpApp.ViewModels.Authorize
         string _secondPassword;
 
         [ObservableProperty]
+        string _firstName;
+
+        [ObservableProperty]
+        string _lastName;
+
+        [ObservableProperty]
+        string _middleName;
+
+        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
         bool _invalidEmailOccured = false;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
         bool _invalidPasswordOccured = false;
-  
-        public bool InvalidUserDataOccured => InvalidEmailOccured || InvalidPasswordOccured;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(InvalidUserDataOccured))]
+        bool _invalidNameOccured = false;
+
+        public bool InvalidUserDataOccured => InvalidEmailOccured || InvalidPasswordOccured || InvalidNameOccured;
 
         [ObservableProperty]
         string _errorText = Properties.Resources.InvalidUserData;
 
         public RegistrationViewModel() { }
 
+        [ObservableProperty]
+        bool _registering = false;
         [RelayCommand]
         async Task Register()
         {
+            if(Registering) return;
+
+            Registering = true;
             InvalidEmailOccured = false;
             InvalidPasswordOccured = false;
 
@@ -47,6 +65,7 @@ namespace OnmpApp.ViewModels.Authorize
             {
                 InvalidEmailOccured = true;
                 ErrorText = Properties.Resources.InvalidEmailFormat;
+                Registering = false;
                 return;
             }
 
@@ -55,20 +74,31 @@ namespace OnmpApp.ViewModels.Authorize
             {
                 InvalidPasswordOccured = true;
                 ErrorText = Properties.Resources.PasswordsDontMatch;
+                Registering = false;
                 return;
             }
 
-            RegistrationService service = new();
-            bool registered = await service.RegisterUser(Email, FirstPassword);
-            if (!registered)
+            // Проверка, что введены имена
+            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(MiddleName))
+            {
+                InvalidNameOccured = true;
+                ErrorText = Properties.Resources.InvalidNames;
+                Registering = false;
+                return;
+            }
+
+            if (!await UserService.Register(Email, FirstPassword, FirstName, LastName, MiddleName))
             {
                 InvalidEmailOccured = true;
-                ErrorText = Properties.Resources.EmailAlreadyExists;
+                ErrorText = Properties.Resources.Error;
+                Registering = false;
                 return;
             }
 
             ToastHelper.Show(Properties.Resources.SuccessRegistration);
             await Shell.Current.GoToAsync("..");
+
+            Registering = false;
         }
 
     }

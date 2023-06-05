@@ -11,18 +11,13 @@
 
     <ShellContent Route="LoginPage"
         ContentTemplate="{DataTemplate authorize:LoginPage}"/>
-    
-    <TabBar Route="TabPage">
-        <!-- Добавить вкладку справочника -->
 
-
-        <Tab Title="Поиск" Icon="black_home.png">
-            <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"
-                          Route="SearchTabPage"/>
+    <TabBar Route="TabPage" CurrentItem="{x:Reference searchItem}">
+        <Tab Title="Справочник" Icon="dark_catalog.png" Route="CatalogTabPage">
+            <ShellContent ContentTemplate="{DataTemplate tabs:CatalogTabPage}"/>
         </Tab>
-        <Tab Title="Карта" Icon="light_info.png">
-            <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"
-                          Route="SearchTabPage1"/>
+        <Tab x:Name="searchItem" Title="Карта" Icon="black_home.png" Route="SearchTabPage">
+            <ShellContent ContentTemplate="{DataTemplate tabs:SearchTabPage}"/>
         </Tab>
     </TabBar>
 

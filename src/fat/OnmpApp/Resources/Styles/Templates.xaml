@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:OnmpApp.Models"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+             xmlns:converters="clr-namespace:OnmpApp.Converters">
+    
+    <DataTemplate x:Key="RadioButtonQuestionTemplate" x:DataType="models:RadioButtonQuestion">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
+            <StackLayout>
+                <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0" />
+                <controls:RadioButtonGroup x:Name="OptionGroup"  SelectedIndex="{Binding SelectedOptionIndex, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
+            </StackLayout>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="RadioButtonWithTextQuestionTemplate"  x:DataType="models:RadioButtonWithTextQuestion">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
+            <StackLayout>
+                <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
+                <controls:RadioButtonGroup x:Name="OptionGroup"  SelectedIndex="{Binding SelectedOptionIndex, Mode=TwoWay}" ItemsSource="{Binding Options}" />
+                <Label Text="{Binding AdditionalLabelText}"  IsVisible="{Binding AdditionalLabelText.Length}"/>
+                <Entry Text="{Binding AdditionalText, Mode=TwoWay}" Keyboard="{Binding ResultType, Converter={StaticResource TypeToKeyboardConverter}}" />
+            </StackLayout>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CheckBoxQuestionTemplate" x:DataType="models:CheckBoxQuestion">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
+            <StackLayout>
+                <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
+                <controls:CheckBoxGroup  SelectedOptions="{Binding SelectedOptions, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
+            </StackLayout>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="CheckBoxWithTextQuestionTemplate" x:DataType="models:CheckBoxWithTextQuestion">
+        <Border HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10" Margin="5">
+            <StackLayout>
+                <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
+                <controls:CheckBoxGroup SelectedOptions="{Binding SelectedOptions, Mode=TwoWay}" ItemsSource="{Binding Options}"/>
+                <Label Text="{Binding AdditionalLabelText}" IsVisible="{Binding AdditionalLabelText.Length}" />
+
+                <Entry Text="{Binding AdditionalText, Mode=TwoWay}" />
+            </StackLayout>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="TextQuestionTemplate" x:DataType="models:TextQuestion">
+        <Border HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10" Margin="5">
+            <StackLayout>
+                <Label Text="{Binding QuestionText}" FontFamily="Arial" FontSize="20" Margin="0"/>
+                <Entry Text="{Binding AnswerText, Mode=TwoWay}" Keyboard="{Binding ResultType, Converter={StaticResource TypeToKeyboardConverter}}" />
+            </StackLayout>
+        </Border>
+    </DataTemplate>
+
+    <models:TestQuestionTemplateSelector x:Key="TestQuestionTemplateSelector"
+                                                RadioButtonQuestionTemplate="{StaticResource RadioButtonQuestionTemplate}"
+                                                RadioButtonWithTextQuestionTemplate="{StaticResource RadioButtonWithTextQuestionTemplate}"
+                                                CheckBoxQuestionTemplate="{StaticResource CheckBoxQuestionTemplate}"
+                                                CheckBoxWithTextQuestionTemplate="{StaticResource CheckBoxWithTextQuestionTemplate}"
+                                                TextQuestionTemplate="{StaticResource TextQuestionTemplate}"/>
+
+    <converters:TypeToKeyboardConverter x:Key="TypeToKeyboardConverter"/>
+
+</ResourceDictionary>

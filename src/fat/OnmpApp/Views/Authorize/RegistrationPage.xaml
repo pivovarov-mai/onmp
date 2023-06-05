@@ -13,6 +13,7 @@
              BackButtonVisible="True"
              HeaderText="{x:Static properties:Resources.Registration}">
     <ScrollView>
+        
         <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="10">
 
             <!-- Текст ошибки -->
@@ -32,10 +33,19 @@
             <controls:PasswordControl LabelText="{x:Static properties:Resources.RepeatPassword}" EntryText="{Binding SecondPassword}"
                                               InvalidTriger="{Binding InvalidPasswordOccured}"/>
 
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.FirstName}" EntryText="{Binding FirstName}"
+                                              InvalidTriger="{Binding InvalidNameOccured}"/>
+
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.LastName}" EntryText="{Binding LastName}"
+                                              InvalidTriger="{Binding InvalidNameOccured}"/>
+            <controls:TextEntryControl LabelText="{x:Static properties:Resources.MiddleName}" EntryText="{Binding MiddleName}"
+                                              InvalidTriger="{Binding InvalidNameOccured}"/>
+
             <!-- Кнопка регистрации -->
             <Border HorizontalOptions="Center">
                 <Button Text="{x:Static properties:Resources.Register}" Padding="15,0,15,0" HorizontalOptions="Center" Command="{Binding RegisterCommand}"/>
             </Border>
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding Registering}" IsVisible="{Binding Registering}"/>
         </VerticalStackLayout>
     </ScrollView>
 </controls:MasterContentPage>

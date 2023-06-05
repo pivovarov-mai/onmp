@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OnmpApp.Views.MainTabs.CatalogTabPage"
+    xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.MainTabs"
+    x:DataType="viewmodel:CatalogTabViewModel"
+    xmlns:controls="clr-namespace:OnmpApp.Controls"
+    xmlns:local="clr-namespace:OnmpApp"
+    xmlns:models="clr-namespace:OnmpApp.Models"
+    xmlns:converters="clr-namespace:OnmpApp.Converters"
+    xmlns:behaviors="clr-namespace:OnmpApp.Behaviors"                   
+	
+    xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:properties="clr-namespace:OnmpApp.Properties"
+    xmlns:database="clr-namespace:OnmpApp.Models.Database"
+    HeaderText="{x:Static properties:Resources.Catalog}">
+    <Grid Padding="30" VerticalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Поле для поиска -->
+        <Border Grid.Row="0">
+            <SearchBar HorizontalOptions="Fill" VerticalOptions="Center" Placeholder="{x:Static properties:Resources.Search}"
+							Text="{Binding SearchText}" SearchButtonPressed="SearchChanged"/>
+        </Border>
+
+        <Label Grid.Row="1" Text=" " IsVisible="True"/>
+        <!-- Карточки -->
+        <Border Grid.Row="2" StrokeShape="Rectangle">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="SearchChanged">
+                <CollectionView ItemsSource="{Binding CatalogElements}" x:Name="CatalogCollection"
+								RemainingItemsThreshold="10"
+								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}"
+                                EmptyView="Нет результатов, удовлетворяющих поиску">
+                    <CollectionView.Resources>
+                        <converters:CatalogStatusToStringConverter x:Key="CatalogStatusToStringConverter"/>
+                    </CollectionView.Resources>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="database:CatalogShort">
+                            <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
+											Source={x:Reference CatalogCollection}}"
+											CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                                </Border.GestureRecognizers>
+                                <StackLayout Padding="10" HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                                    <Grid ColumnDefinitions="*, Auto" HorizontalOptions="FillAndExpand">
+                                        <Label Grid.Column="0" Text="{Binding ElType, Converter={StaticResource CatalogStatusToStringConverter}}" FontAttributes="Italic" FontSize="Small" VerticalOptions="Center"/>
+                                        <Image Grid.Column="0" HeightRequest="16" Source="{AppThemeBinding Light=light_save.png, Dark=dark_save.png}" IsVisible="{Binding Loaded}" Aspect="AspectFit" VerticalOptions="Center" HorizontalOptions="End"/>
+                                    </Grid>
+                                </StackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Border>
+
+
+    </Grid>
+</controls:MasterContentPage>
+    
+    

@@ -117,8 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Archive" xml:space="preserve">
+    <value>Архив</value>
+  </data>
   <data name="Authorization" xml:space="preserve">
     <value>Авторизация</value>
+  </data>
+  <data name="Card" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Справочник</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="CreateCard" xml:space="preserve">
+    <value>Создание карты</value>
+  </data>
+  <data name="Diagnose" xml:space="preserve">
+    <value>Диагноз</value>
+  </data>
+  <data name="Disease" xml:space="preserve">
+    <value>Заболевание</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Черновик</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Почтовый адрес</value>
@@ -132,11 +159,26 @@
   <data name="ErrorServerConnection" xml:space="preserve">
     <value>Ошибка при подключении к серверу</value>
   </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Фильтры</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
   <data name="InvalidEmailFormat" xml:space="preserve">
     <value>Неверный формат почты</value>
   </data>
+  <data name="InvalidNames" xml:space="preserve">
+    <value>Неверное имя</value>
+  </data>
   <data name="InvalidUserData" xml:space="preserve">
     <value>Данные были введены неверно</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="LoadCatalog" xml:space="preserve">
+    <value>Загрузка справочника</value>
   </data>
   <data name="LogIn" xml:space="preserve">
     <value>Войти</value>
@@ -147,11 +189,20 @@
   <data name="LogOut" xml:space="preserve">
     <value>Выйти из аккаунта</value>
   </data>
+  <data name="Medicine" xml:space="preserve">
+    <value>Лекарство</value>
+  </data>
+  <data name="MiddleName" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
   <data name="PasswordsDontMatch" xml:space="preserve">
     <value>Пароли не совпадают</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Готовый</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Зарегистрироваться</value>
@@ -165,10 +216,25 @@
   <data name="Restore" xml:space="preserve">
     <value>Восстановить</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
   </data>
   <data name="SuccessRegistration" xml:space="preserve">
-    <value>Вы успешно зарегестрировались!</value>
+    <value>Для окончания регистрации подтвердите почту. Если Вы не видите письмо во входящих, то проверьте папку "Спам"</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="UnknownType" xml:space="preserve">
+    <value>Неизвестный тип</value>
   </data>
 </root>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OnmpApp.Views.CardFiller.TemplateFillerPage"
+             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.CardFiller"
+             x:DataType="viewmodel:TemplateFillerViewModel"
+                            
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:properties="clr-namespace:OnmpApp.Properties"
+             xmlns:models="clr-namespace:OnmpApp.Models"
+             xmlns:controls="clr-namespace:OnmpApp.Controls"
+             xmlns:converters="clr-namespace:OnmpApp.Converters"
+                            
+             HeaderText="{x:Static properties:Resources.Card}"
+             BackButtonVisible="True"
+                            
+             Appearing="MasterContentPage_Appearing">
+
+    <ContentPage.Content>
+        <StackLayout>
+            <CollectionView ItemsSource="{Binding Questions}" ItemTemplate="{StaticResource TestQuestionTemplateSelector}" VerticalScrollBarVisibility="Always"
+                            Margin="10" RemainingItemsThreshold="300" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="{OnIdiom Phone=1, Tablet=2}" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+
+            <Border>
+                <Button Text="{x:Static properties:Resources.Save}" Command="{Binding ButtonPressedCommand}"/>
+            </Border>
+        </StackLayout>
+    </ContentPage.Content>
+</controls:MasterContentPage>

@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OnmpApp.Database;
 using OnmpApp.Models;
 using OnmpApp.Helpers;
-using OnmpApp.Services.Authorize;
+using OnmpApp.Services;
 using OnmpApp.Views.Authorize;
+using OnmpApp.Properties;
+
 
 namespace OnmpApp.ViewModels.Authorize;
 
@@ -13,7 +16,7 @@ public partial class LoginViewModel : ObservableObject
     string _email = new(Settings.Email);
 
     [ObservableProperty]
-    string _password = Settings.Password;
+    string _password = new(Settings.Password);
 
     [ObservableProperty]
     bool _savePassword = true;
@@ -32,12 +35,17 @@ public partial class LoginViewModel : ObservableObject
     public LoginViewModel()
     {
         // Если ранее был успешный вход, попробовать войти со старыми данными
-        if (Settings.WasAuthorized)
+        if (!Settings.WasAuthorized) 
+            return;
+
+        if (Connectivity.NetworkAccess != NetworkAccess.Internet || (DateTime.Now - Settings.AuthorizedDate).TotalDays <= 1)
+            _ = NavigateToMainPage();
+        else
             _ = Login();
     }
 
     [RelayCommand]
-    async Task NavigateToInformationPage()
+    static void NavigateToInformationPage()
     {
         // TODO: Перейти на страницу информации приложения
     }
@@ -55,6 +63,11 @@ public partial class LoginViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(RegistrationPage));
     }
 
+    static async Task NavigateToMainPage()
+    {
+        await Shell.Current.GoToAsync("//TabPage");
+    }
+
     [RelayCommand]
     async Task Login()
     {
@@ -69,12 +82,7 @@ public partial class LoginViewModel : ObservableObject
 
         IsLoginingIn = true;
 
-        // TODO: Убрать задержку
-        await Task.Delay(1000);
-
-        LoginService loginService = new();
-        bool logined = await loginService.AuthenticateUser(Email, Password);
-        if (!logined)
+        if (!await UserService.Authenticate(Email, Password))
         {
             IsLoginingIn = false;
             InvalidUserDataOccured = true;
@@ -82,11 +90,22 @@ public partial class LoginViewModel : ObservableObject
         }
 
         Settings.Email = Email;
-        if (SavePassword)
-            Settings.Password = Password;
+        Settings.UserId = await UserService.GetId(Email);
+        Settings.AuthorizedDate = DateTime.Now;
 
-        Settings.WasAuthorized = true;
-        await Shell.Current.GoToAsync("//TabPage");
+        if (SavePassword)
+        {
+            Settings.WasAuthorized = true;
+            Settings.Password = Password;
+        }
+
+        _ = NavigateToMainPage();
+
+        if ((DateTime.Now - Settings.CatalogSyncDate).TotalSeconds < 3 || (DateTime.Now - Settings.CatalogSyncDate).TotalDays >= 7)
+        {
+            await InitService.LoadCatalogNames();
+            Settings.CatalogSyncDate = DateTime.Now;
+        }
         IsLoginingIn = false;
     }
 }

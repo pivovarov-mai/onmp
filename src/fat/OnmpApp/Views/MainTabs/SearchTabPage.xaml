@@ -1,22 +1,174 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <controls:MasterContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="OnmpApp.Views.MainTabs.SearchTabPage"
-             xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.MainTabs"
-             x:DataType="viewmodel:SearchTabViewModel"
-             xmlns:controls="clr-namespace:OnmpApp.Controls"
-             xmlns:local="clr-namespace:OnmpApp"
-                            
-             xmlns:triggers="clr-namespace:OnmpApp.Triggers"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:properties="clr-namespace:OnmpApp.Properties"
-                            
-             HeaderText="{x:Static local:Settings.Email}"
-             RightButtonVisible="True"
-             RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
-             RightButtonCommand="{Binding NavigateToSettingsPageCommand}"
-             >
-    <ScrollView>
-        <Label Text="123"/>
-    </ScrollView>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="OnmpApp.Views.MainTabs.SearchTabPage"
+			 xmlns:viewmodel="clr-namespace:OnmpApp.ViewModels.MainTabs"
+			 x:DataType="viewmodel:SearchTabViewModel"
+			 xmlns:controls="clr-namespace:OnmpApp.Controls"
+			 xmlns:local="clr-namespace:OnmpApp"
+			 xmlns:models="clr-namespace:OnmpApp.Models"
+			 xmlns:converters="clr-namespace:OnmpApp.Converters"
+			 xmlns:behaviors="clr-namespace:OnmpApp.Behaviors"                   
+							
+			 xmlns:triggers="clr-namespace:OnmpApp.Triggers"
+			 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+			 xmlns:properties="clr-namespace:OnmpApp.Properties"
+			 xmlns:database="clr-namespace:OnmpApp.Models.Database"
+
+			 HeaderText="{x:Static properties:Settings.Email}"
+			 RightButtonVisible="True"
+			 RightButtonSource="{AppThemeBinding Light=user.png, Dark=user.png}"
+			 RightButtonCommand="{Binding NavigateToSettingsPageCommand}"
+			 Appearing="SearchChanged"
+			 >
+
+	<Grid Padding="30" VerticalOptions="Center">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+
+		</Grid.RowDefinitions>
+		
+		<!-- Поле для поиска -->
+		<Border Grid.Row="0">
+            <SearchBar HorizontalOptions="Fill" VerticalOptions="Center" Placeholder="{x:Static properties:Resources.Search}"
+						 Text="{Binding SearchText}" SearchButtonPressed="SearchChanged"/>
+		</Border>
+
+		<!-- Текст для раскрытия фильтров -->
+		<HorizontalStackLayout Grid.Row="1" HorizontalOptions="EndAndExpand">
+			<HorizontalStackLayout.GestureRecognizers>
+				<TapGestureRecognizer Command="{Binding ToggleFiltersCommand}" NumberOfTapsRequired="1" />
+			</HorizontalStackLayout.GestureRecognizers>
+
+			<Label Text="{x:Static properties:Resources.Filters}"/>
+			<Label Text="&#x25BC;">
+				<Label.Triggers>
+					<DataTrigger TargetType="Label" Binding="{Binding FiltersShown}" Value="True">
+						<Setter Property="Text" Value="&#x25B2;"/>
+					</DataTrigger>
+				</Label.Triggers>
+			</Label>
+		</HorizontalStackLayout>
+
+		<!-- Фильтры -->
+		<Border Grid.Row="2" IsVisible="{Binding FiltersShown}" Padding="0" Margin="5">
+			<Border.Behaviors>
+				<behaviors:VisibilityAnimationBehavior />
+			</Border.Behaviors>
+			<VerticalStackLayout>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<HorizontalStackLayout Grid.Row="0" Grid.Column="0">
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding DraftChecked}" CheckedChanged="SearchChanged"/>
+						<Label Text="{x:Static properties:Resources.Draft}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding CheckDraftCommand}" NumberOfTapsRequired="1"/>
+							</Label.GestureRecognizers>
+						</Label>
+					</HorizontalStackLayout>
+					<HorizontalStackLayout Grid.Row="0" Grid.Column="1">
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding ReadyChecked}" CheckedChanged="SearchChanged"/>
+						<Label Text="{x:Static properties:Resources.Ready}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding CheckReadyCommand}" NumberOfTapsRequired="1"/>
+							</Label.GestureRecognizers>
+						</Label>
+					</HorizontalStackLayout>
+					<HorizontalStackLayout Grid.Row="1" Grid.Column="0">
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding ArchiveChecked}" CheckedChanged="SearchChanged"/>
+						<Label Text="{x:Static properties:Resources.Archive}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding CheckArchiveCommand}" NumberOfTapsRequired="1"/>
+							</Label.GestureRecognizers>
+						</Label>
+					</HorizontalStackLayout>
+					<HorizontalStackLayout Grid.Row="1" Grid.Column="1">
+                        <CheckBox VerticalOptions="Center" IsChecked="{Binding TemplateChecked}" CheckedChanged="SearchChanged"/>
+						<Label Text="{x:Static properties:Resources.Template}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding CheckTemplateCommand}" NumberOfTapsRequired="1"/>
+							</Label.GestureRecognizers>
+						</Label>
+					</HorizontalStackLayout>
+
+				</Grid>
+			</VerticalStackLayout>
+		</Border>
+		
+
+		<!-- Карточки -->
+        <Border Grid.Row="3" StrokeShape="Rectangle">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="SearchChanged">
+                    <CollectionView ItemsSource="{Binding SmallCards}" x:Name="CardsCollection"
+								RemainingItemsThreshold="10"
+								RemainingItemsThresholdReachedCommand="{Binding RemainingItemsThresholdReachedCommand}"
+                                    EmptyView="Нет результатов, удовлетворяющих поиску">
+                    <CollectionView.Resources>
+                        <converters:CardStatusToStringConverter x:Key="CardStatusToStringConverter"/>
+                    </CollectionView.Resources>
+                    <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="database:Card">
+                                <SwipeView Threshold="150">
+                                    <!-- Архивация элемента -->
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem IconImageSource="archive.png"
+											   Invoked="OnArchiveSwipeItemInvoked"
+											   BackgroundColor="LightBlue" />
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <!-- Удаление элемента -->
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem IconImageSource="trash.png"
+											   Invoked="OnDeleteSwipeItemInvoked"
+											   BackgroundColor="IndianRed" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <SwipeView.Content>
+                                        <Border Padding="0" Margin="5,5,5,5" StrokeShape="Rectangle">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ItemTappedCommand, 
+													Source={x:Reference CardsCollection}}"
+													CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                                            </Border.GestureRecognizers>
+                                            <StackLayout Padding="10">
+
+                                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                                <HorizontalStackLayout>
+                                                    <Label Text="{Binding Status, Converter={StaticResource CardStatusToStringConverter}}"/>
+                                                    <Label Text=" " FontAttributes="Italic"/>
+													<Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontAttributes="Italic"/>
+
+                                            </HorizontalStackLayout>
+
+                                            </StackLayout>
+                                        </Border>
+                                    </SwipeView.Content>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+        </Border>
+
+        <Border Grid.Row="4" Margin="10,10,10,-15" HorizontalOptions="Fill">
+		    <!-- Кнопка создания карты -->
+		    <Button Text="{x:Static properties:Resources.CreateCard}" Command="{Binding CreateCardCommand}"/>
+        </Border>
+
+	</Grid>
 </controls:MasterContentPage>

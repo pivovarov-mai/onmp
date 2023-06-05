@@ -14,6 +14,36 @@
              HeaderText="{x:Static properties:Resources.Settings}"
              >
     <ScrollView>
-        <Button Text="{x:Static properties:Resources.LogOut}" Command="{Binding LogOutCommand}"/>
+        <StackLayout Padding="10" Spacing="15">
+            <!-- Настройка темы -->
+
+            <!-- Загрузка справочника -->
+            <VerticalStackLayout>
+                <Button Text="{x:Static properties:Resources.LoadCatalog}" Command="{Binding LoadCatalogCommand}" 
+                        BorderWidth="1" BorderColor="Gray"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+
+                <VerticalStackLayout  IsVisible="{Binding CatalogLoading}">
+                    <Label Text="{Binding LoaderText}"/>
+                    <ProgressBar Progress="{Binding LoaderProgress}"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Смена пароля -->
+
+            <!-- Адрес сервера -->
+            
+            <!-- Кнопка выхода -->
+            <Button Text="{x:Static properties:Resources.LogOut}" Command="{Binding LogOutCommand}" 
+                    BorderWidth="1" BorderColor="Gray"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+            
+            <!-- Версия приложения -->
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Label Text="Версия приложения" HorizontalOptions="CenterAndExpand"/>
+                <Label Text="{Binding CurrentVersion}" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+        </StackLayout>
+        
     </ScrollView>
 </controls:MasterContentPage>

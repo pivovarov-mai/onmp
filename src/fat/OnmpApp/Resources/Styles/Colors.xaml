@@ -15,7 +15,7 @@
     <Color x:Key="DarkMainHeaderBackgroud">Black</Color>
 
     <!-- Цвета кнопок -->
-    <Color x:Key="LightMainButtonBackgroud">#75EE73</Color>
+    <Color x:Key="LightMainButtonBackgroud">#72EB70</Color>
     <Color x:Key="DarkMainButtonBackgroud">#077000</Color>
 
     <!-- Цвета границ -->
