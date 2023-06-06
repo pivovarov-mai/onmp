@@ -37,6 +37,5 @@
 \RequirePackage{20-listing}
 \RequirePackage{21-math}
 \RequirePackage{22-algorithms}
-% \RequirePackage{23-title-of-handout}
 
 \makeglossaries
