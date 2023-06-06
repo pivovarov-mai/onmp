@@ -4,6 +4,8 @@ from django.core.cache import cache
 
 from dbsetter.differential_diagnosis_tables.request_diff_diags import DATA
 
+from config.loggers_conf import debug_log
+
 
 # Saves all diags to cache for good performance
 def cache_diags():
@@ -18,6 +20,10 @@ def cache_diags():
             execution_result = execute_sql(current_check['sql'][0])
             execution_result_descr = [d.name for d in execution_result[1]]
 
+            # Crutch for deleting id
+            if execution_result_descr[0] == 'id':
+                execution_result_descr = execution_result_descr[1:]
+
             current_data = []
             for record in execution_result[0]:
                 current_data.append(
@@ -27,6 +33,10 @@ def cache_diags():
             for i, sql in enumerate(current_check['sql']):
                 execution_result = execute_sql(sql)
                 execution_result_descr = [d.name for d in execution_result[1]]
+
+                # Crutch for deleting id
+                if execution_result_descr[0] == 'id':
+                    execution_result_descr = execution_result_descr[1:]
 
                 sub_name = current_check['subtables_name'][i]
 
@@ -84,4 +94,34 @@ def get_all_diags_by_name(name):
     result = cache.get(f'diags_{ind}')
     if result is None:
         raise ValueError(f'Unknown name: {name} after cache')
+    return result
+
+
+def crunch_age(name, age):
+    age = float(age)
+    result = get_all_diags_by_name(name)
+    age_column = ""
+    if name == 'Определение площади ожогов у детей (по Lund и Browder)':
+        if age < 1:
+            age_column = "0 лет"
+        elif age < 5:
+            age_column = "1 год"
+        elif age < 10:
+            age_column = "5 лет"
+        elif age < 15:
+            age_column = "10 лет"
+        elif age < 18:
+            age_column = "15 лет"
+        else:
+            age_column = f"Возраст {age} не входит к диапазон 0-18"
+    elif name == "Шкала Глазго (Glasgow Coma Scale)":
+        if age < 1:
+            age_column = "Грудные дети (до 1 года)"
+        elif age < 4:
+            age_column = "Дети от 1 до 4 лет"
+        else:
+            age_column = "Взрослые и дети старше 4 лет"
+    else:
+        age_column = f"{name} таблица не поддерживает возраст"
+    result[name]['age_column'] = age_column
     return result

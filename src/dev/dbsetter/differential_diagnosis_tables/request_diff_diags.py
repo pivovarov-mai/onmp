@@ -1,31 +1,31 @@
 # 1 - Акушерство
 OBSTETRICS_SQL = \
 '''
-  SELECT DISTINCT term AS "Срок", wdm AS "ВДМ", oj AS "ОЖ"
+  SELECT DISTINCT id, term AS "Срок", wdm AS "ВДМ", oj AS "ОЖ"
   FROM obstetrics
-  ORDER BY obstetrics.term ASC;
+  ORDER BY obstetrics.id ASC;
 '''
 
 # 2 - Нормы ЧД, ЧСС, АД у детей (в покое)
 NORMS_IN_CHILDREN_SQL = \
 '''
-  SELECT DISTINCT age AS "Возраст", weight AS "Вес в кг", respiratory_rate AS "ЧД", heart_rate AS "ЧСС", arterial_pressure AS "АД"
+  SELECT DISTINCT id, age AS "Возраст", weight AS "Вес в кг", respiratory_rate AS "ЧД", heart_rate AS "ЧСС", arterial_pressure AS "АД"
   FROM norms_in_children
-  ORDER BY norms_in_children.respiratory_rate DESC;
+  ORDER BY norms_in_children.id ASC;
 '''
 
 # 3 - Параметры проведения базовой СЛР
 PARAMETRS_CLR_SQL = \
 '''
-  SELECT DISTINCT stage AS "Этап", adults_and_children AS "Взрослые и дети старше 14 лет", children AS "Дети", newborns AS "Новорожденные при рождении"
+  SELECT DISTINCT id, stage AS "Этап", adults_and_children AS "Взрослые и дети старше 14 лет", children AS "Дети", newborns AS "Новорожденные при рождении"
   FROM parameters_clr
-  ORDER BY parameters_clr.stage ASC;
+  ORDER BY parameters_clr.id ASC;
 '''
 
 # 4 - Промывание желудка у детей
 GASTRIC_LAVAGE_IN_CHILDREN_SQL = \
 '''
-  SELECT DISTINCT id AS "№", age AS "Возраст", one_time_volume AS "Разовый объем, мл", maximum_flushing_volume AS "Максимальный объём промывания, мл"
+  SELECT DISTINCT id, age AS "Возраст", one_time_volume AS "Разовый объем, мл", maximum_flushing_volume AS "Максимальный объём промывания, мл"
   FROM gastric_lavage_in_children
   ORDER BY gastric_lavage_in_children.id ASC;
 '''
@@ -33,17 +33,17 @@ GASTRIC_LAVAGE_IN_CHILDREN_SQL = \
 # 5 - Размеры эндотрахеальных трубок у детей
 SIZE_OF_ENDOTRACHEAL_TUBES_IN_CHILDREN_SQL = \
 '''
-  SELECT DISTINCT age AS "Возраст", weight AS "Вес в кг", inner_diameter AS "Внутренний диаметр, в мм", insertion_depth AS "Глубина введения, в см", suction_catheter AS "Катетер для аспирации FG"
+  SELECT DISTINCT id, age AS "Возраст", weight AS "Вес в кг", inner_diameter AS "Внутренний диаметр, в мм", insertion_depth AS "Глубина введения, в см", suction_catheter AS "Катетер для аспирации FG"
   FROM size_of_endotracheal_tubes_in_children
-  ORDER BY size_of_endotracheal_tubes_in_children.insertion_depth ASC;
+  ORDER BY size_of_endotracheal_tubes_in_children.id ASC;
 '''
 
 # 6 - Соответствие размеров ларннгеальных трубок параметрам пациента
 SIZE_OF_LARYNGEAL_TUBE_SQL = \
 '''
-  SELECT DISTINCT patient_parameters AS "Параметры пациента", tube_size AS "Размер трубки", tube_connector_color AS "Цвет коннектора трубки"
+  SELECT DISTINCT id, patient_parameters AS "Параметры пациента", tube_size AS "Размер трубки", tube_connector_color AS "Цвет коннектора трубки"
   FROM size_of_laryngeal_tube
-  ORDER BY size_of_laryngeal_tube.tube_size ASC;
+  ORDER BY size_of_laryngeal_tube.id ASC;
 '''
 
 # 7 - ВАШ. НОШ. Шкалы оценки интенсивности боли
@@ -57,15 +57,15 @@ PAIN_INTENSITY_SQL = \
 # 8 - Острая дыхательная недостаточность (Кассиль В.Л. 2004 г.)
 ACUTE_RESPIRATORY_FAILURE_SQL = \
 '''
-  SELECT DISTINCT state AS "Состояние", consciousness AS "Сознание", skin AS "Кожные покровы", arterial_pressure AS "АД", heart_rate AS "ЧСС", respiratory_rate AS "ЧД", spo2 AS "SpO2 при O2 терапии"
+  SELECT DISTINCT id, state AS "Состояние", consciousness AS "Сознание", skin AS "Кожные покровы", arterial_pressure AS "АД", heart_rate AS "ЧСС", respiratory_rate AS "ЧД", spo2 AS "SpO2 при O2 терапии"
   FROM acute_respiratory_failure
-  ORDER BY acute_respiratory_failure.state ASC;
+  ORDER BY acute_respiratory_failure.id ASC;
 '''
 
 # 9 - Оценка мышечной силы по баллам
 MUSCLE_STRENGTH_ASSESSMENT_SQL = \
 '''
-  SELECT DISTINCT id AS "Балл", note AS "Описание"
+  SELECT DISTINCT id, point AS "Балл", note AS "Описание"
   FROM muscle_strength_assessment
   ORDER BY muscle_strength_assessment.id ASC;
 '''
@@ -73,7 +73,7 @@ MUSCLE_STRENGTH_ASSESSMENT_SQL = \
 # 10 - Шкала возбуждения-седации Ричмонда (шкала RASS)
 RICHMOND_AROUSALSWDATION_SCALE_SQL = \
 '''
-  SELECT DISTINCT id AS "№", points AS "Баллы", term AS "Термин", description AS "Описание"
+  SELECT DISTINCT id, points AS "Баллы", term AS "Термин", description AS "Описание"
   FROM richmond_arousal_sedation_scale
   ORDER BY richmond_arousal_sedation_scale.id ASC;
 '''
@@ -81,128 +81,129 @@ RICHMOND_AROUSALSWDATION_SCALE_SQL = \
 # 11 - Определение площади ожогов у детей (по Lund и Browder)
 AREA_BURNS_CHILDREN_SQL = \
 '''
-  SELECT DISTINCT area_affected AS "Область поражения", zero_years AS "0 лет", one_year AS "1 год", five_years AS "5 лет", ten_years AS "10 лет", fifteen_years AS "15 лет"
+  SELECT DISTINCT id, area_affected AS "Область поражения", zero_years AS "0 лет", one_year AS "1 год", five_years AS "5 лет", ten_years AS "10 лет", fifteen_years AS "15 лет"
   FROM area_burns_children
-  ORDER BY area_burns_children.area_affected ASC;
+  ORDER BY area_burns_children.id ASC;
 '''
 
 # 12 - Шкала оценки вероятности ТЭЛА (Revised Geneva Score)
 PROBABILITY_SCALE_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM probability_scale
-  ORDER BY probability_scale.points ASC;
+  ORDER BY probability_scale.id ASC;
 '''
 
 # 13 - Шкала оценки вероятности ТЭЛА (Revised Geneva Score)
 PROBABILITY_SCALE_INTERPRETATION_SQL = \
 '''
-  SELECT DISTINCT probability AS "Клиническая вероятность", sum AS "Сумма баллов"
+  SELECT DISTINCT id, probability AS "Клиническая вероятность", sum AS "Сумма баллов"
   FROM probability_scale_interpretation
-  ORDER BY probability_scale_interpretation.sum ASC;
+  ORDER BY probability_scale_interpretation.id ASC;
 '''
 
 # 14 - Критерии оценки новорождённого по шкале Апгар
 NEWBORN_APGAR_CRITERIA_HEART_RATE_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM newborn_apgar_criteria_heart_rate
-  ORDER BY newborn_apgar_criteria_heart_rate.point ASC;
+  ORDER BY newborn_apgar_criteria_heart_rate.id ASC;
 '''
 
 # 15 - Критерии оценки новорождённого по шкале Апгар
 NEWBORN_APGAR_CRITERIA_BREATH_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM newborn_apgar_criteria_breath
-  ORDER BY newborn_apgar_criteria_breath.point ASC;
+  ORDER BY newborn_apgar_criteria_breath.id ASC;
 '''
 
 # 16 - Критерии оценки новорождённого по шкале Апгар
 NEWBORN_APGAR_CRITERIA_MUSCLE_TONE_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM newborn_apgar_criteria_muscle_tone
-  ORDER BY newborn_apgar_criteria_muscle_tone.point ASC;
+  ORDER BY newborn_apgar_criteria_muscle_tone.id ASC;
 '''
 
 # 17 - Критерии оценки новорождённого по шкале Апгар
 NEWBORN_APGAR_CRITERIA_REACTION_TO_IRRITATION_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM newborn_apgar_criteria_reaction_to_irritation
-  ORDER BY newborn_apgar_criteria_reaction_to_irritation.point ASC;
+  ORDER BY newborn_apgar_criteria_reaction_to_irritation.id ASC;
 '''
 
 # 18 - Критерии оценки новорождённого по шкале Апгар
 NEWBORN_APGAR_CRITERIA_COLOR_SKIN_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM newborn_apgar_criteria_color_skin
-  ORDER BY newborn_apgar_criteria_color_skin.point ASC;
+  ORDER BY newborn_apgar_criteria_color_skin.id ASC;
 '''
 
 # 19 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_BREATHING_RATE_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_breathing_rate
-  ORDER BY condition_assessment_protocol_breathing_rate.points ASC;
+  ORDER BY condition_assessment_protocol_breathing_rate.id ASC;
 '''
 
 # 20 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_BLOOD_OXYGEN_SATURATION_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_blood_oxygen_saturation
-  ORDER BY condition_assessment_protocol_blood_oxygen_saturation.points DESC;
+  ORDER BY condition_assessment_protocol_blood_oxygen_saturation.id ASC;
 '''
 
 # 21 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_OXYGEN_INSUFFLATION_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_oxygen_insufflation
-  ORDER BY condition_assessment_protocol_oxygen_insufflation.points DESC;
+  ORDER BY condition_assessment_protocol_oxygen_insufflation.id ASC;
 '''
 
 # 22 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_BODY_TEMPERATURE_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_body_temperature
-  ORDER BY condition_assessment_protocol_body_temperature.points ASC;
+  ORDER BY condition_assessment_protocol_body_temperature.id ASC;
 '''
 
 # 23 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_SYSTOLIC_BLOOD_PRESSURE_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_systolic_blood_pressure
-  ORDER BY condition_assessment_protocol_systolic_blood_pressure.points ASC;
+  ORDER BY condition_assessment_protocol_systolic_blood_pressure.id ASC;
 '''
 
 # 24 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_HEART_RATE_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_heart_rate
-  ORDER BY condition_assessment_protocol_heart_rate.points ASC;
+  ORDER BY condition_assessment_protocol_heart_rate.id ASC;
 '''
 
 # 25 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_LEVEL_CONSCIOUSNESS_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
   FROM condition_assessment_protocol_level_of_consciousness
-  ORDER BY condition_assessment_protocol_level_of_consciousness.points ASC;
+  ORDER BY condition_assessment_protocol_level_of_consciousness.id ASC;
 '''
 
 # 26 - Проктокол оценки тяжести состояния пациента (NEWS)
 CONDITION_ASSESSMENT_PROTOCOL_COVID_SQL = \
 '''
-  SELECT DISTINCT parameter AS "Параметр", points AS "Расшифровка баллов"
-  FROM condition_assessment_protocol_covid;
+  SELECT DISTINCT id, parameter AS "Параметр", points AS "Расшифровка баллов"
+  FROM condition_assessment_protocol_covid
+  ORDER BY condition_assessment_protocol_covid.id ASC;
 '''
 
 # 27 - Проктокол оценки тяжести состояния пациента (NEWS)
@@ -216,185 +217,185 @@ CONDITION_ASSESSMENT_PROTOCOL_INTERPRETATION_SQL = \
 # 28 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_DYSPNEA_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_dyspnea
-  ORDER BY status_rating_scale_dyspnea.point ASC;
+  ORDER BY status_rating_scale_dyspnea.id ASC;
 '''
 
 # 29 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_WEIGHT_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_weight
-  ORDER BY status_rating_scale_weight.point ASC;
+  ORDER BY status_rating_scale_weight.id ASC;
 '''
 
 # 30 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_HEART_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_heart
-  ORDER BY status_rating_scale_heart.point ASC;
+  ORDER BY status_rating_scale_heart.id ASC;
 '''
 
 # 31 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_POSITION_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_position
-  ORDER BY status_rating_scale_position.point ASC;
+  ORDER BY status_rating_scale_position.id ASC;
 '''
 
 # 32 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_NECK_VEINS_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_neck_veins
-  ORDER BY status_rating_scale_neck_veins.point ASC;
+  ORDER BY status_rating_scale_neck_veins.id ASC;
 '''
 
 # 33 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_WHEEZING_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_wheezing
-  ORDER BY status_rating_scale_wheezing.point ASC;
+  ORDER BY status_rating_scale_wheezing.id ASC;
 '''
 
 # 34 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_GALLOP_RHYTHM_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_gallop_rhythm
-  ORDER BY status_rating_scale_gallop_rhythm.point ASC;
+  ORDER BY status_rating_scale_gallop_rhythm.id ASC;
 '''
 
 # 35 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_LIVER_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_liver
-  ORDER BY status_rating_scale_liver.point ASC;
+  ORDER BY status_rating_scale_liver.id ASC;
 '''
 
 # 36 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_EDEMA_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_edema
-  ORDER BY status_rating_scale_edema.point ASC;
+  ORDER BY status_rating_scale_edema.id ASC;
 '''
 
 # 37 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_LEVEL_SAD_SQL = \
 '''
-  SELECT DISTINCT description AS "Описание", point AS "Балл"
+  SELECT DISTINCT id, description AS "Описание", point AS "Балл"
   FROM status_rating_scale_level_sad
-  ORDER BY status_rating_scale_level_sad.point ASC;
+  ORDER BY status_rating_scale_level_sad.id ASC;
 '''
 
 # 38 - ХСН ШОКС (в модификации Мареева В.Ю.)
 STATUS_RATING_SCALE_INTERPRETATION_SQL = \
 '''
-  SELECT DISTINCT point AS "Балл", sign AS "Признак"
+  SELECT DISTINCT id, point AS "Балл", sign AS "Признак"
   FROM status_rating_scale_interpretation
-  ORDER BY status_rating_scale_interpretation.point ASC;
+  ORDER BY status_rating_scale_interpretation.id ASC;
 '''
 
 # 39 - Шкала Глазго (Glasgow Coma Scale)
 GLASGOW_COMA_SCALE_ADULTS_SQL = \
 '''
-  SELECT DISTINCT type AS "Действие", action AS "Ответ на действие", point AS "Балл"
+  SELECT DISTINCT id, type AS "Действие", action AS "Ответ на действие", point AS "Балл"
   FROM glasgow_coma_scale_adults
-  ORDER BY glasgow_coma_scale_adults.type ASC, glasgow_coma_scale_adults.point DESC;
+  ORDER BY glasgow_coma_scale_adults.id ASC;
 '''
 
 # 40 - Шкала Глазго (Glasgow Coma Scale)
 GLASGOW_COMA_SCALE_CHILDREN_SQL = \
 '''
-  SELECT DISTINCT type AS "Действие", action AS "Ответ на действие", point AS "Балл"
+  SELECT DISTINCT id, type AS "Действие", action AS "Ответ на действие", point AS "Балл"
   FROM glasgow_coma_scale_children
-  ORDER BY glasgow_coma_scale_children.type ASC, glasgow_coma_scale_children.point DESC;
+  ORDER BY glasgow_coma_scale_children.id ASC;
 '''
 
 # 41 - Шкала Глазго (Glasgow Coma Scale)
 GLASGOW_COMA_SCALE_NEWBORNS_SQL = \
 '''
-  SELECT DISTINCT type AS "Действие", action AS "Ответ на действие", point AS "Балл"
+  SELECT DISTINCT id, type AS "Действие", action AS "Ответ на действие", point AS "Балл"
   FROM glasgow_coma_scale_newborns
-  ORDER BY glasgow_coma_scale_newborns.type ASC, glasgow_coma_scale_newborns.point DESC;
+  ORDER BY glasgow_coma_scale_newborns.id ASC;
 '''
 
 # 42 - Шкала Глазго (Glasgow Coma Scale)
 GLASGOW_COMA_SCALE_INTERPRETATION_SQL = \
 '''
-  SELECT DISTINCT point AS "Балл", sign AS "Признак"
+  SELECT DISTINCT id, point AS "Балл", sign AS "Признак"
   FROM glasgow_coma_scale_interpretation
-  ORDER BY glasgow_coma_scale_interpretation.point DESC;
+  ORDER BY glasgow_coma_scale_interpretation.id ASC;
 '''
 
 # 43 - Шкала комы FOUR
 COMA_SCALE_EYE_REACTIONS_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM coma_scale_eye_reactions
-  ORDER BY coma_scale_eye_reactions.points DESC;
+  ORDER BY coma_scale_eye_reactions.id ASC;
 '''
 
 # 44 - Шкала комы FOUR
 COMA_SCALE_MOTOR_REACTIONS_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM coma_scale_motor_reactions
-  ORDER BY coma_scale_motor_reactions.points DESC;
+  ORDER BY coma_scale_motor_reactions.id ASC;
 '''
 
 # 45 - Шкала комы FOUR
 COMA_SCALE_STEM_REFLEXES_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM coma_scale_stem_reflexes
-  ORDER BY coma_scale_stem_reflexes.points DESC;
+  ORDER BY coma_scale_stem_reflexes.id ASC;
 '''
 
 # 46 - Шкала комы FOUR
 COMA_SCALE_BREATHING_PATTERN_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM coma_scale_breathing_pattern
-  ORDER BY coma_scale_breathing_pattern.points DESC;
+  ORDER BY coma_scale_breathing_pattern.id ASC;
 '''
 
 # 47 - Шкала комы FOUR
 COMA_SCALE_INTERPRETATION_SQL = \
 '''
-  SELECT DISTINCT point AS "Балл", sign AS "Признак"
+  SELECT DISTINCT id, point AS "Балл", sign AS "Признак"
   FROM coma_scale_interpretation
-  ORDER BY coma_scale_interpretation.point DESC;
+  ORDER BY coma_scale_interpretation.id ASC;
 '''
 
 # 48 - Шкала моторного дефицита LAMS (Los Angeles Motor Scale)
 MOTOR_DEFICIT_SCALE_FACIAL_ASYMMETRY_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM motor_deficit_scale_facial_asymmetry
-  ORDER BY motor_deficit_scale_facial_asymmetry.points ASC;
+  ORDER BY motor_deficit_scale_facial_asymmetry.id ASC;
 '''
 
 # 49 - Шкала моторного дефицита LAMS (Los Angeles Motor Scale)
 MOTOR_DEFICIT_SCALE_HOLDING_HANDS_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM motor_deficit_scale_holding_hands
-  ORDER BY motor_deficit_scale_holding_hands.points ASC;
+  ORDER BY motor_deficit_scale_holding_hands.id ASC;
 '''
 
 # 50 - Шкала моторного дефицита LAMS (Los Angeles Motor Scale)
 MOTOR_DEFICIT_SCALE_SQUEEZING_BRUSH_SQL = \
 '''
-  SELECT DISTINCT sign AS "Признак", points AS "Баллы"
+  SELECT DISTINCT id, sign AS "Признак", points AS "Баллы"
   FROM motor_deficit_scale_squeezing_brush
-  ORDER BY motor_deficit_scale_squeezing_brush.points ASC;
+  ORDER BY motor_deficit_scale_squeezing_brush.id ASC;
 '''
 
 # Словарь
@@ -570,7 +571,7 @@ DATA = {
                 GLASGOW_COMA_SCALE_CHILDREN_SQL,
                 GLASGOW_COMA_SCALE_NEWBORNS_SQL,
                 GLASGOW_COMA_SCALE_INTERPRETATION_SQL],
-        'subtables_name': ['Взрослые и детей старше 4 лет',
+        'subtables_name': ['Взрослые и дети старше 4 лет',
                            'Дети от 1 до 4 лет',
                            'Грудные дети (до 1 года)',
                            'Интерпретация результата'],

@@ -41,7 +41,7 @@ class CreateListCardAPI(APIView):
         '''
         return Response(card_create({
             'account_user_id': request.user.pk,
-            **request.data.dict()})
+            **request.data})
         )
 
 

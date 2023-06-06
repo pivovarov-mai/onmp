@@ -8,6 +8,11 @@ SW_GET_DIAGS = {
             in_=openapi.IN_QUERY,
             type=openapi.TYPE_STRING,
         ),
+        openapi.Parameter(
+            'age',
+            in_=openapi.IN_QUERY,
+            type=openapi.TYPE_STRING,
+        ),
     ],
     'responses': {
         '200': openapi.Response(
