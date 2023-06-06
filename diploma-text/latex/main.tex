@@ -1,0 +1,70 @@
+\documentclass{diploma}
+
+\student{Круглова Мария Сергеевна}
+\group{М8О-408Б-19}
+\theme{Разработка калькулятора дозировок и совместимости медицинских препаратов в web-приложении ОНМП}
+
+\supervisor{Пивоваров Дмитрий Евгеньевич}
+\firstConsultant{---}
+\secondConsultant{---}
+\reviewer{---}
+
+\faculty{№ 8 <<Компьютерные науки и прикладная математика>>}
+\department{806}
+\speciality{01.03.02 <<Прикладная математика и информатика>>}
+\profile{Информатика}
+
+\departmentFullName{№ 806}
+\headOfDepartment{Крылов Сергей Сергеевич}
+
+% Дата. Оставляем пустое место для дня
+\date{\uline{\hspace{24pt}} мая \the\year\ года}
+
+\input{contents/glossary}
+\input{contents/terms}
+
+\addbibresource{main.bib}
+
+% Иллюстрации всегда по центру
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
+
+\begin{document}
+    \maketitle
+
+    % \includepdf[pages=-]{extra/task} % Задание
+    \setcounter{page}{2} % Устанавливает счётчик страниц
+
+    \include{contents/0-abstract} % Реферат
+
+    \tableofcontents % Содержание 
+    \termsanddefenitions % Термины и определения
+    \listofabbreviations % Перечень сокращений и обозначений
+ 
+    \include{contents/1-introduction} % Введение
+
+    \include{contents/2-00-compilation} % Основная часть
+    \include{contents/2-01-titlepage}
+    \include{contents/2-02-techtask}
+    \include{contents/2-03-abstract}
+    \include{contents/2-04-glossary}
+    \include{contents/2-05-figures}
+    \include{contents/2-06-citations}
+    \include{contents/2-07-tables}
+    \include{contents/2-08-enums}
+    \include{contents/2-09-formulas}
+    \include{contents/2-10-math}
+    \include{contents/2-11-algorithms}
+    \include{contents/2-12-listings}
+    
+    \include{contents/3-conclusion} % Заключение
+
+    \printbibliography % Список литературы
+
+    \appendix % Приложения
+    \include{contents/4-appendix-a}
+    \include{contents/4-appendix-b}
+    \include{contents/4-appendix-c}
+    \include{contents/4-appendix-d}
+\end{document}

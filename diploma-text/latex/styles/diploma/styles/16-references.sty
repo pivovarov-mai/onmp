@@ -1,0 +1,44 @@
+% Author: CatInCosmicSpace
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{16-references}[2021/03/21 v1.2 Список использованных источников]
+
+% Сведения об источниках следует располагать в порядке появления ссылок на 
+% источники в тексте отчета и нумеровать арабскими цифрами с точкой и печатать 
+% с абзацного отступа.
+
+\RequirePackage{csquotes}
+\RequirePackage{xpatch}
+
+\RequirePackage[
+    backend=biber,
+    bibstyle=gost-numeric,
+    citestyle=numeric,
+    sorting=none,
+]{biblatex}
+
+\defbibheading{bibliography}[СПИСОК~ИСПОЛЬЗОВАННЫХ~ИСТОЧНИКОВ]{\structure{#1}}
+\addto{\captionsrussian}{%
+    \renewcommand{\contentsname}{СОДЕРЖАНИЕ}
+}
+
+% Каждый пункт должен начинаться с абзацного отступа, продолжения на новых строках -- без
+\setlength{\bibhang}{0pt}
+\defbibenvironment{bibliography}
+    {\list
+        {}
+        {\setlength{\leftmargin}{\bibhang}%
+        \setlength{\itemindent}{\parindent}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}}}
+    {\endlist}
+    {\item
+        \printtext[labelnumberwidth]{%
+        \printfield{labelprefix}%
+        \printfield{labelnumber}}%
+        \addspace}
+
+% Формат даты обращения -- (дата обращения dd.mm.yyyy)
+\DeclareFieldFormat{urldate}{(дата обращения #1)}
+
+% При цитировании нескольких источников одновременно, номера разделяются точкой с запятой
+\renewcommand\multicitedelim{\addsemicolon\space}
