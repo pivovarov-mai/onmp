@@ -21,11 +21,17 @@ def cache_diags():
             execution_result_descr = [d.name for d in execution_result[1]]
 
             # Crutch for deleting id
+            id_flag = False
             if execution_result_descr[0] == 'id':
                 execution_result_descr = execution_result_descr[1:]
+                id_flag = True
 
             current_data = []
             for record in execution_result[0]:
+
+                # Crutch for deleting id in data
+                record = record[id_flag:]
+
                 current_data.append(
                     dict(zip(execution_result_descr, record))
                 )
@@ -35,8 +41,10 @@ def cache_diags():
                 execution_result_descr = [d.name for d in execution_result[1]]
 
                 # Crutch for deleting id
+                id_flag = False
                 if execution_result_descr[0] == 'id':
                     execution_result_descr = execution_result_descr[1:]
+                    id_flag = True
 
                 sub_name = current_check['subtables_name'][i]
 
@@ -45,6 +53,10 @@ def cache_diags():
                         sub_name != 'Интерпретация результата':
                     current_data[sub_name] = {}
                     for record in execution_result[0]:
+
+                        # Crutch for deleting id in data
+                        record = record[id_flag:]
+
                         action = record[0]
                         if action not in current_data[sub_name]:
                             current_data[sub_name][action] = []
@@ -55,6 +67,10 @@ def cache_diags():
                 else:
                     current_data[sub_name] = []
                     for record in execution_result[0]:
+                        
+                        # Crutch for deleting id in data
+                        record = record[id_flag:]
+
                         current_data[sub_name].append(
                             dict(zip(execution_result_descr, record)))
 
