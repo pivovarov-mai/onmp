@@ -1,0 +1,50 @@
+\newcommand\fillTitleHandleOut{
+    \vfill
+
+    \noindent\begin{center}
+        \centering\bfseries\fontsize{16pt}{18pt}\selectfont 
+        РАЗДАТОЧНЫЙ МАТЕРИАЛ К ВЫПУСКНОЙ КВАЛИФИКАЦИОННОЙ РАБОТЕ БАКАЛАВРА
+    \end{center}
+
+    \vfill
+
+    \makeTheme{\@theme}
+
+    \vspace{28pt}
+    
+    {
+        \fontsize{12pt}{14pt}\selectfont
+        \setlength{\tabcolsep}{0pt}
+        \renewcommand{\arraystretch}{1.2}
+        \noindent \begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}Xr}
+            \noindent Автор ВКРБ:   & \hspace{2cm} \@student          & \signature{3.5cm} \\
+            \noindent Руководитель: & \hspace{2cm} \@supervisor       & \signature{3.5cm} \\
+            \noindent Консультант:  & \hspace{2cm} \@firstConsultant  & \signature{3.5cm} \\
+            \noindent Консультант:  & \hspace{2cm} \@secondConsultant & \signature{3.5cm} \\
+            \noindent Рецензент:    & \hspace{2cm} \@reviewer         & \signature{3.5cm} \\
+        \end{tabularx}
+
+        \vspace{28pt}
+
+        \noindent \textbf{К защите допустить}
+
+        \noindent Заведующий кафедрой \@departmentFullName \hfill \@headOfDepartment \hfill \signature{3.5cm}
+        
+        \noindent \@date
+    }
+
+    \vfill 
+
+    \clearpage
+}
+
+\newcommand{\makerm}{
+    \begin{titlepage}        
+    \thispagestyle{year}
+    \makeHeader
+
+    \fillTitleHandleOut
+
+    \clearpage
+    \end{titlepage}
+}
